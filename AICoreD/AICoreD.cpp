@@ -187,35 +187,35 @@ Node* getRoot(Node* node)
 
 void pruneAllAbove(Node* saveThisNode)
 {
-	//find the root
-	Node* root = getRoot(saveThisNode);
 	
 
 	//create a queue of nodes to delete, starting with the root
-	std::vector<Node*> nodes;
-	nodes.push_back(root);
+	std::queue<Node*> nodes;
+	nodes.push(getRoot(saveThisNode));
 
 	//until we are out of nodes to delete
 	while (!nodes.empty())
 	{
 		//get the first node from the queue
-		Node* node = nodes.back();
-		nodes.pop_back();
+		Node* node = nodes.front();
+		nodes.pop();
 
 		//delete only if node if not the avoid node
 		if (node != saveThisNode)
 		{
 			{
-				CriticalSectionLock lock(node->cs);
+				//CriticalSectionLock lock(node->cs);
 
-				//Set all the children to point to NULL
+				/*//Set all the children to point to NULL
 				for (int i = 0; i < node->children.size(); i++)
 				{
 					node->children[i]->parent = NULL;
-				}
+				}*/
 
 				//add all the children to the queue
-				nodes.insert(nodes.end(), node->children.begin(), node->children.end());
+				for (Node* entry : node->children)
+					nodes.push(entry);
+				//nodes.(nodes.end(), node->children.begin(), node->children.end());
 			}
 
 			//actually delete the node - but let the lock go out of scope first
@@ -223,7 +223,7 @@ void pruneAllAbove(Node* saveThisNode)
 		}
 		else
 		{
-			CriticalSectionLock lock(node->cs);
+			//CriticalSectionLock lock(node->cs);
 
 			//if the node is the avoid node, pop it and set its parent to null
 			node->parent = NULL;
@@ -231,6 +231,7 @@ void pruneAllAbove(Node* saveThisNode)
 	}
 	
 }
+
 
 
 

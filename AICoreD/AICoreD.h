@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include <random>
 #include <vector>
+#include <queue>
 #include <algorithm>
 #include <float.h>
 #include <ctime>
@@ -30,6 +31,7 @@ void processNode(Node* node, bool isWhitesTurn);
 Node* getChildNode(Node* node, int i);
 int getNodeChildren(Node* node);
 void pruneAllAbove(Node* saveThisNode);
+
 void incrementTarget(short int& target, bool validMoveExists);
 bool compareMove(const Move& a, const Move& b);
 void backTrackValues(Node* node, bool whiteDidWin);
