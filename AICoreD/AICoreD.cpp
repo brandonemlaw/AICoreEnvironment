@@ -205,18 +205,20 @@ void pruneAllAbove(Node* saveThisNode)
 		//delete only if node if not the avoid node
 		if (node != saveThisNode)
 		{
-			CriticalSectionLock lock(node->cs);
-
-			//Set all the children to point to NULL
-			for (int i = 0; i < node->children.size(); i++)
 			{
-				node->children[i]->parent = NULL;
+				CriticalSectionLock lock(node->cs);
+
+				//Set all the children to point to NULL
+				for (int i = 0; i < node->children.size(); i++)
+				{
+					node->children[i]->parent = NULL;
+				}
+
+				//add all the children to the queue
+				nodes.insert(nodes.end(), node->children.begin(), node->children.end());
 			}
 
-			//add all the children to the queue
-			nodes.insert(nodes.end(), node->children.begin(), node->children.end());
-
-			//actually delete the node
+			//actually delete the node - but let the lock go out of scope first
 			delete node;
 		}
 		else
