@@ -1,0 +1,31 @@
+c:/users/softdev.si-203-01/documents/visual studio 2015/Projects/GameCore/GameCore/bin/Debug/GameCore.exe.config
+/Users/jakeblack_14/GitHub/GameCore/GameCore/bin/Debug/GameCore.exe.config
+/Users/jakeblack_14/GitHub/GameCore/GameCore/bin/Debug/GameCore.exe
+/Users/jakeblack_14/GitHub/GameCore/GameCore/bin/Debug/GameCore.pdb
+/Users/jakeblack_14/GitHub/GameCore/GameCore/obj/Debug/GameCore.csproj.CoreCompileInputs.cache
+/Users/jakeblack_14/GitHub/GameCore/GameCore/obj/Debug/GameCore.exe
+/Users/jakeblack_14/GitHub/GameCore/GameCore/obj/Debug/GameCore.pdb
+C:\Users\softdev.SI-203-01\Documents\GitHub\GameCore\GameCore\bin\Debug\GameCore.exe.config
+C:\Users\softdev.SI-203-01\Documents\GitHub\GameCore\GameCore\obj\Debug\GameCore.exe
+C:\Users\softdev.SI-203-01\Documents\GitHub\GameCore\GameCore\obj\Debug\GameCore.pdb
+C:\Users\softdev.SI-203-01\Documents\GitHub\GameCore\GameCore\bin\Debug\GameCore.exe
+C:\Users\softdev.SI-203-01\Documents\GitHub\GameCore\GameCore\bin\Debug\GameCore.pdb
+C:\Users\softdev.SI-203-01\Documents\GitHub\GameCore\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\GameCore\GameCore\GameCore\GameCore\bin\Debug\GameCore.exe.config
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\GameCore\GameCore\GameCore\GameCore\obj\Debug\GameCore.exe
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\GameCore\GameCore\GameCore\GameCore\obj\Debug\GameCore.pdb
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\GameCore\GameCore\GameCore\GameCore\bin\Debug\GameCore.exe
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\GameCore\GameCore\GameCore\GameCore\bin\Debug\GameCore.pdb
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\GameCore\GameCore\GameCore\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\BreakthroughBuildA\GameCore\bin\Debug\GameCore.exe.config
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\BreakthroughBuildA\GameCore\obj\Debug\GameCore.exe
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\BreakthroughBuildA\GameCore\obj\Debug\GameCore.pdb
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\BreakthroughBuildA\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\BreakthroughBuildA\GameCore\bin\Debug\GameCore.exe
+C:\Users\softdev.SI-203-01\Documents\Visual Studio 2015\Projects\BreakthroughBuildA\GameCore\bin\Debug\GameCore.pdb
+C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\BreakthroughBuildA2\GameCore\bin\Debug\GameCore.exe.config
+C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\BreakthroughBuildA2\GameCore\bin\Debug\GameCore.exe
+C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\BreakthroughBuildA2\GameCore\bin\Debug\GameCore.pdb
+C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\BreakthroughBuildA2\GameCore\obj\Debug\GameCore.exe
+C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\BreakthroughBuildA2\GameCore\obj\Debug\GameCore.pdb
+C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\BreakthroughBuildA2\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache
