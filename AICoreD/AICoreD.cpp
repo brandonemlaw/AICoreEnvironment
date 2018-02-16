@@ -33,6 +33,7 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 	std::thread mc5(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 
+
 	//Join all the threads
 	mc.join();
 	mc2.join();
@@ -45,13 +46,21 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 	//Find the first level child with the max value as the result
 	double maxValue = 0;
 	Node* result = NULL;
+
+	//For each of the first level children (every move we could choose)....
 	for (unsigned int i = 0; i < root->children.size(); i++)
 	{
+		//give it a value from the evaluate function
 		double value = evaluate(root->children[i]);
+
+		//If the value is the best value, then choose it
 		if (value > maxValue)
 		{
+			//To choose the move, save the new value and set the move Node as the result
 			maxValue = value;
 			result = root->children[i];
+
+			//this will be overriden if a new best move is found later
 		}
 	}
 
@@ -61,7 +70,7 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 	//set the result as the new root
 	root = result;
 
-	//return the sourceMove from the new root
+	//return the sourceMove from the result
 	return result->state.sourceMove;
 }
 
@@ -104,26 +113,32 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 }
 
 
-double evaluate(Node* node)
+//Evaluate how good a move is
+double evaluate(Node* move)
 {
-	//check for victory
-	if (node->state.board.isGameOver())
+	//Check for if the move leads to an immediate victory 
+	if (move->state.board.isGameOver())
 	{
+		//If we win with this move, Return the maximum possible score
 		return DBL_MAX;
 	}
 
-	//check that no children lead to immediate death!!!!
-	unsigned short size = node->children.size();
+	//Check for if the move allows the enemy any moves that make us lose
+	//For each of the enemy's moves
+	unsigned short size = move->children.size();
 	for (unsigned short i = 0; i < size; i++)
 	{
-		if (node->children[i]->state.board.isGameOver())
+		//If their move leads to the game ending (meaning they won)
+		if (move->children[i]->state.board.isGameOver())
 		{
+			//We would lose. Since the move we're looking at allows them a move that will let them win, it is an awful move.
+			//Return the minimum score possible.
 			return DBL_MIN;
 		}
 	}
 
-	//return the approximate number of wins
-	return node->state.wins;
+	//Return the approximate wining score from the MC randomish tree search
+	return move->state.wins;
 }
 
 void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
@@ -347,25 +362,32 @@ void expandNode(Node* node)
 
 void backTrackValues(Node* node, bool whiteDidWin)
 {
-	CriticalSectionLock lock(node->cs);
 
+	//Did we, the AI, win?
 	//If whitewillwin and whitejustmoved (!isWhitesTurn)
 	//or !whitewillwin and blackjustmove (isWhitesturn)
-	//White Just Won? !
 	if (whiteDidWin != node->state.isWhitesTurn)
 	{
+		//Increase visits and wins by 1 all the way to the top of the tree
 		while (node != NULL)
 		{
+			//Increase visits and wins
 			node->state.visits++;
 			node->state.wins++;
+
+			//Move up the tree a step
 			node = node->parent;
 		}
 	}
 	else
 	{
+		//Increase visits ONLY (not wins) by 1 all the way to the top of the tree
 		while (node != NULL)
 		{
+			//Increase visits
 			node->state.visits++;
+
+			//Move up the tree a step
 			node = node->parent;
 		}
 	}
@@ -387,12 +409,8 @@ double getUCTRating(Node* node, bool isWhitesTurnMaster)
 		return DBL_MAX;
 	}
 
-	//NEED TO INVERT STATE WINS? NO. A win is a win for us? But we want to investigate THEIR wins?
+	//NEED TO INVERT STATE WINS? NO. A win is a win for us.
 	double wins = node->state.wins;
-	/*if (node->state.isWhitesTurn == isWhitesTurnMaster)
-	{
-		wins = node->state.visits - node->state.wins;
-	}*/
 
 	//See formula on Wikipedia and other sources
 	return  (wins / (double)node->state.visits)
