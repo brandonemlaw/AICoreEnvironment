@@ -13,8 +13,20 @@
 
 
 
+//Weights
+double TAKE_PIECE_WEIGHT = 0;
+double LOSE_PIECE_WEIGHT = 0;
+double DOUBLE_DEFENDED_WEIGHT = 0;
+double DEFENDED_WEIGHT = 0;
+double BLOCKED_WEIGHT = 0;
+
+
+
+//Constants
 const unsigned int COLUMNS[8] = { 2, 3, 5, 7, 11, 13, 17, 19 };	//A-H
 const int SECONDS_TO_WORK = 4;
+
+
 
 
 Node* root = NULL;
@@ -24,7 +36,12 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 
 bool executeRandomGame(Board& rawBoard, bool isWhitesTurn);
 
-double evaluate(Node* node);
+double evaluate(Node* move, Board boardBeforeMove, bool playingForWhite);
+
+bool defendedLeft(Board board, int row, int col, bool playingForWhite);
+bool defendedRight(Board board, int row, int col, bool playingForWhite);
+bool blocked(Board board, int row, int col, bool playingForWhite);
+
 void setRoot(Node*& r, Board board, bool isWhitesTurn);
 void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn);
 void processNode(Node* node, bool isWhitesTurn);

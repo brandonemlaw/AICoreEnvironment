@@ -18,4 +18,7 @@ public:
 	void generateAllMoves();
 	State::State();
 
+	int aiPieceCount(bool AIIsWhite);
+	int enemyPieceCount(bool AIIsWhite);
+
 };

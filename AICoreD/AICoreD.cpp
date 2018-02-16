@@ -51,7 +51,7 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 	for (unsigned int i = 0; i < root->children.size(); i++)
 	{
 		//give it a value from the evaluate function
-		double value = evaluate(root->children[i]);
+		double value = evaluate(root->children[i], board, isWhitesTurn);
 
 		//If the value is the best value, then choose it
 		if (value > maxValue)
@@ -113,9 +113,20 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 }
 
 
+//*******EVALUATION AND SUB FUNCTIONS*******//
+
+
 //Evaluate how good a move is
-double evaluate(Node* move)
+double evaluate(Node* move, Board boardBeforeMove, bool playingForWhite)
 {
+	//Start with the win score from the tree search process
+	double score = move->state.wins;
+
+	//***SETUP PARAMETER***///
+
+
+
+
 	//Check for if the move leads to an immediate victory 
 	if (move->state.board.isGameOver())
 	{
@@ -137,9 +148,156 @@ double evaluate(Node* move)
 		}
 	}
 
-	//Return the approximate wining score from the MC randomish tree search
-	return move->state.wins;
+
+
+
+
+	//If we can take a piece
+	bool areTakingAPiece = false;
+	if (move->parent->state.enemyPieceCount(playingForWhite) < move->state.enemyPieceCount(playingForWhite))
+	{
+		areTakingAPiece = true;
+	}
+	
+	if (areTakingAPiece)
+	{
+		score += TAKE_PIECE_WEIGHT;
+	}
+
+
+	//Calculate how many ways they have to take us with this move
+	int waysToTakeUs = 0;
+
+	//For each move they can make
+	for (auto &theirMove : move->children)
+	{
+		//If they can take us (our piece count after their move is < our piece count after our move)
+		if (theirMove->state.aiPieceCount(playingForWhite) < move->state.aiPieceCount(playingForWhite))
+		{
+			//Add one way to take us
+			waysToTakeUs += 1;
+		}
+	}
+
+
+	//If they can take us at least one way...
+	if (waysToTakeUs > 0)
+	{
+		score += LOSE_PIECE_WEIGHT;
+	}
+
+
+	//Check for move formations
+	int rowChangeForUs = 1;
+	int rowChangeForThem = -1;
+	//if we're not white, we're moving down a row instead
+	if (!playingForWhite)
+	{
+		rowChangeForUs = -1;
+		rowChangeForThem = 1;
+	}
+
+
+	int startRow = move->state.sourceMove.row;
+	int startCol = move->state.sourceMove.col;
+	int endRow = startRow + rowChangeForUs;
+	int endCol = startCol + move->state.sourceMove.target - 1;
+
+	//Is position defended and/or blocked
+	bool right = defendedRight(move->state.board, endRow, endCol, playingForWhite);
+	bool left = defendedLeft(move->state.board, endRow, endCol, playingForWhite);
+	bool block = blocked(move->state.board, endRow, endCol, playingForWhite);
+
+	
+	if (right && left)
+	{
+		score += DOUBLE_DEFENDED_WEIGHT;
+	}
+	else if (right || left)
+	{
+		score += DEFENDED_WEIGHT;
+	}
+
+	if (blocked)
+	{
+		score += BLOCKED_WEIGHT;
+	}
+
+	//move->state.board.getPieceAt(5, 7);
+
+
+
+	//Return the current score
+	return score;
 }
+
+
+bool defendedLeft(Board board, int row, int col, bool playingForWhite)
+{
+	if (playingForWhite)
+	{
+		//Find the row the enemy is defending from
+		int rowEnemyDefendingFrom = row + 1;
+
+		//Return whether or not their is a piece there
+		return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+	}
+	else
+	{
+		//Find the row the enemy is defending from
+		int rowEnemyDefendingFrom = row - 1;
+
+		//Return whether or not their is a piece there
+		return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+	}
+}
+
+bool defendedRight(Board board, int row, int col, bool playingForWhite)
+{
+	if (playingForWhite)
+	{
+		//Find the row the enemy is defending from
+		int rowEnemyDefendingFrom = row + 1;
+
+		//Return whether or not their is a piece there
+		return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+	}
+	else
+	{
+		//Find the row the enemy is defending from
+		int rowEnemyDefendingFrom = row - 1;
+
+		//Return whether or not their is a piece there
+		return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+	}
+}
+
+//Return true if the piece is going to be blocked
+bool blocked(Board board, int row, int col, bool playingForWhite)
+{
+	if (playingForWhite)
+	{
+		//Find the row the enemy is defending from
+		int rowEnemyDefendingFrom = row + 1;
+
+		//Return whether or not their is a piece there
+		return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col] == 0;
+	}
+	else
+	{
+		//Find the row the enemy is defending from
+		int rowEnemyDefendingFrom = row - 1;
+
+		//Return whether or not their is a piece there
+		return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col] == 0;
+	}
+}
+
+
+
+
+//*******END EVALUATION SUB FUNCTIONS *******//
+
 
 void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
 {
