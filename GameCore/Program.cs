@@ -9,6 +9,8 @@ namespace GameCore
 {
     class Program
     {
+        private static Board savedBoard;
+        private static Player savedPlayer;
         private static GameBoard game;
 
         static void Main(string[] args)
@@ -75,26 +77,88 @@ namespace GameCore
 
             while (!Game.gameOver())
             {
-               // Console.Write("AI Favors at " + global::AI.AICore.evaluate1(true, game.getBoard()) + "\n");
+                // Console.Write("AI Favors at " + global::AI.AICore.evaluate1(true, game.getBoard()) + "\n");
                 //Console.Write(currentPlayer.getIdentity() + " to move...\n");
-                move = currentPlayer.getMove();
+                char keyCode = ' ';
+                while (keyCode != 'm' && keyCode != 'a' && keyCode != 's' && keyCode != 'l' && keyCode != 'i')
+                {
+                    Console.Write((char)currentPlayer.getIdentity() + ":");
+                    keyCode = Console.ReadKey().KeyChar;
+                    Console.Write("\n");
+                }
 
-                Game.movePiece(currentPlayer.getIdentity(), move);
+                if (keyCode == 'm')
+                {
+                    move = new Move();
+                    String line = "        ";
+                    while (line.Length != 4 || !(Char.IsDigit(line[1]) && Char.IsDigit(line[3]) && (line[0] - 64) >= 0 && (line[0] - 64) <= 7 && (line[2] - 64) >= 0 && (line[2] - 64) <= 7 ))
+                    {
+                        line = Console.ReadLine();
+                    }
+
+                    move.Begin.Y = line[0] - 64 - 1;
+                    move.Begin.X = line[1] - 48 - 1;
+                    move.End.Y = line[2] - 64 - 1;
+                    move.End.X = line[3] - 48 - 1;
+
+                }
+                else if (keyCode == 'a')
+                {
+                    if (currentPlayer.getIdentity() == identity.O)
+                    {
+                        move = AIPlayer.getAMove((currentPlayer.getIdentity() == firstID));
+                    }
+                }
+                else if (keyCode == 's')
+                {
+                    savedBoard = new Board(game.board);
+                    savedPlayer = currentPlayer;
+                    move = null;
+                }
+                else if (keyCode == 'l')
+                {
+                    Game.board = new Board(savedBoard);
+                    currentPlayer = savedPlayer;
+                    move = null;
+                }
+                else if (keyCode == 'i')
+                {
+                    move = null;
+                    if (currentPlayer.getIdentity() == identity.X)
+                    {
+                        currentPlayer = oPlayer;
+                    }
+                    else
+                    {
+                        currentPlayer = xPlayer;
+                    }
+                }
+
+                bool moved = false;
+                if (move != null)
+                {
+                    moved = Game.movePiece(currentPlayer.getIdentity(), move);
+                }
                 Console.Clear();
                 Game.printGameBoard();
 
-                if (currentPlayer.getIdentity() == identity.X)
+                if (moved)
                 {
-                    currentPlayer = oPlayer;
-                }
-                else
-                {
-                    currentPlayer = xPlayer;
+                    if (currentPlayer.getIdentity() == identity.X)
+                    {
+                        currentPlayer = oPlayer;
+                    }
+                    else
+                    {
+                        currentPlayer = xPlayer;
+                    }
                 }
             }
 
 
         }
+
+
 
         public static Board getBoard()
         {
@@ -143,5 +207,7 @@ namespace GameCore
             return game.firstPlayer;
         }
     }
+
+
 
 }

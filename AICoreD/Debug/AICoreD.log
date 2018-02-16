@@ -1,6 +1,6 @@
 ﻿  AICoreD.cpp
-c:\users\bemlaw\documents\visual studio 2017\projects\breakthrough\aicored\aicored.cpp(74): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned short', possible loss of data
-c:\users\bemlaw\documents\visual studio 2017\projects\breakthrough\aicored\aicored.cpp(106): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned short', possible loss of data
-c:\users\bemlaw\documents\visual studio 2017\projects\breakthrough\aicored\aicored.cpp(211): warning C4018: '<': signed/unsigned mismatch
-  AICoreD.vcxproj -> C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\Breakthrough\GameCore\bin\Debug\AICoreD.dll
-  AICoreD.vcxproj -> C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\Breakthrough\GameCore\bin\Debug\AICoreD.pdb (Partial PDB)
+c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(90): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned short', possible loss of data
+c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(139): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned short', possible loss of data
+c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(246): warning C4551: function call missing argument list
+  AICoreD.vcxproj -> C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\AICoreD.dll
+  AICoreD.vcxproj -> C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\AICoreD.pdb (Partial PDB)

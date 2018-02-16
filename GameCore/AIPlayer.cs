@@ -24,7 +24,7 @@ namespace GameCore
         private static extern AIMove AIGetMove(int blackCount, int whiteCount, uint[] blackRows, uint[] whiteRows, bool isWhitesTurn);
 
 
-        public override Move getMove()
+        public static  Move getAMove(bool isWhitesTurn)
         {
             //Create the resulting move
             Move result = new Move();
@@ -32,9 +32,6 @@ namespace GameCore
             //Get first player identity and board
             identity first = Program.getFirstPlayer();
             Board board = Program.getBoard();
-
-            //Decide if this is whites turn or not
-            bool isWhitesTurn = (first == this.getIdentity());
 
 
             //Get the move from the AI DLL

@@ -18,6 +18,17 @@ namespace GameCore
         public readonly uint[] COLUMNS = new uint[] { 2, 3, 5, 7, 11, 13, 17, 19 };	//A-H
 
 
+        public Board(Board orig)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                whiteRows[i] = orig.whiteRows[i];
+                blackRows[i] = orig.blackRows[i];
+            }
+            whiteCount = whiteCount;
+            blackCount = blackCount;
+        }
+
         public Board()
         {
 

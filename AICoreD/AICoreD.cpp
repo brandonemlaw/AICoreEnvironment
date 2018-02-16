@@ -44,7 +44,7 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 
 
 	//Find the first level child with the max value as the result
-	double maxValue = 0;
+	double maxValue = -1;
 	Node* result = NULL;
 
 	//For each of the first level children (every move we could choose)....
@@ -120,7 +120,7 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 double evaluate(Node* move, Board boardBeforeMove, bool playingForWhite)
 {
 	//Start with the win score from the tree search process
-	double score = move->state.wins;
+	double score = (move->state.wins/move->state.visits) * MASTER_WEIGHT;
 
 	//***SETUP PARAMETER***///
 
@@ -149,19 +149,16 @@ double evaluate(Node* move, Board boardBeforeMove, bool playingForWhite)
 	}
 
 
-
-
-
 	//If we can take a piece
 	bool areTakingAPiece = false;
-	if (move->parent->state.enemyPieceCount(playingForWhite) < move->state.enemyPieceCount(playingForWhite))
+	if (move->parent->state.enemyPieceCount(playingForWhite) > move->state.enemyPieceCount(playingForWhite))
 	{
 		areTakingAPiece = true;
 	}
 	
 	if (areTakingAPiece)
 	{
-		score += TAKE_PIECE_WEIGHT;
+		score *= TAKE_PIECE_WEIGHT;
 	}
 
 
@@ -183,7 +180,7 @@ double evaluate(Node* move, Board boardBeforeMove, bool playingForWhite)
 	//If they can take us at least one way...
 	if (waysToTakeUs > 0)
 	{
-		score += LOSE_PIECE_WEIGHT;
+		score *= LOSE_PIECE_WEIGHT;
 	}
 
 
@@ -203,25 +200,55 @@ double evaluate(Node* move, Board boardBeforeMove, bool playingForWhite)
 	int endRow = startRow + rowChangeForUs;
 	int endCol = startCol + move->state.sourceMove.target - 1;
 
-	//Is position defended and/or blocked
-	bool right = defendedRight(move->state.board, endRow, endCol, playingForWhite);
-	bool left = defendedLeft(move->state.board, endRow, endCol, playingForWhite);
+	//****Position analysis****//
+	bool onLeft = (endCol == 0);
+	bool onRight = (endCol == 7);
+	bool bLeft = backupLeft(move->state.board, endRow, endCol, playingForWhite);
+	bool bRight = backupRight(move->state.board, endRow, endCol, playingForWhite);
+	bool dRight = defendedRight(move->state.board, endRow, endCol, playingForWhite);
+	bool dLeft = defendedLeft(move->state.board, endRow, endCol, playingForWhite);
 	bool block = blocked(move->state.board, endRow, endCol, playingForWhite);
-
 	
-	if (right && left)
+
+	//Only increase for backup when determining whether to make an offsensive move
+	if (areTakingAPiece && waysToTakeUs > 0)
 	{
-		score += DOUBLE_DEFENDED_WEIGHT;
+		//If double backed-up...
+		if (bLeft && bRight)
+		{
+			score *= DOUBLE_BACKUP_WEIGHT;
+		}
+		//If single backed-up
+		else if (bLeft || bRight)
+		{
+			score *= BACKUP_WEIGHT;
+		}
+
+		//If on the left or right side of the board
+		if (onLeft || onRight)
+		{
+			score *= SIDE_WEIGHT;
+		}
 	}
-	else if (right || left)
+
+
+	//If double defended....
+	if (dRight && dLeft)
 	{
-		score += DEFENDED_WEIGHT;
+		score *= DOUBLE_DEFENDED_WEIGHT;
+	}
+	//If single defended....
+	else if (dRight || dLeft)
+	{
+		score *= DEFENDED_WEIGHT;
 	}
 
 	if (blocked)
 	{
-		score += BLOCKED_WEIGHT;
+		score *= BLOCKED_WEIGHT;
 	}
+
+
 
 	//move->state.board.getPieceAt(5, 7);
 
@@ -232,43 +259,116 @@ double evaluate(Node* move, Board boardBeforeMove, bool playingForWhite)
 }
 
 
-bool defendedLeft(Board board, int row, int col, bool playingForWhite)
+bool backupLeft(Board board, int row, int col, bool playingForWhite)
 {
-	if (playingForWhite)
+	//Prevent out of bounds errors - only check if the column to the left is on the board
+	if (col > 0)
 	{
-		//Find the row the enemy is defending from
-		int rowEnemyDefendingFrom = row + 1;
+		if (playingForWhite)
+		{
+			//Find the row the enemy is defending from
+			int rowEnemyDefendingFrom = row - 1;
 
-		//Return whether or not their is a piece there
-		return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+			//Return whether or not their is a piece there
+			return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+		}
+		else
+		{
+			//Find the row the enemy is defending from
+			int rowEnemyDefendingFrom = row + 1;
+
+			//Return whether or not their is a piece there
+			return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+		}
 	}
 	else
 	{
-		//Find the row the enemy is defending from
-		int rowEnemyDefendingFrom = row - 1;
+		return false;
+	}
+}
 
-		//Return whether or not their is a piece there
-		return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+
+bool backupRight(Board board, int row, int col, bool playingForWhite)
+{
+	//Prevent out of bounds errors - only check if the column to the left is on the board
+	if (col > 0)
+	{
+		if (playingForWhite)
+		{
+			//Find the row the enemy is defending from
+			int rowEnemyDefendingFrom = row - 1;
+
+			//Return whether or not their is a piece there
+			return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col + 1] == 0;
+		}
+		else
+		{
+			//Find the row the enemy is defending from
+			int rowEnemyDefendingFrom = row + 1;
+
+			//Return whether or not their is a piece there
+			return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col + 1] == 0;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool defendedLeft(Board board, int row, int col, bool playingForWhite)
+{
+	//Prevent out of bounds errors - only check if the column to the left is on the board
+	if (col > 0)
+	{
+		if (playingForWhite)
+		{
+			//Find the row the enemy is defending from
+			int rowEnemyDefendingFrom = row + 1;
+
+			//Return whether or not their is a piece there
+			return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+		}
+		else
+		{
+			//Find the row the enemy is defending from
+			int rowEnemyDefendingFrom = row - 1;
+
+			//Return whether or not their is a piece there
+			return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+		}
+	}
+	else
+	{
+		return false;
 	}
 }
 
 bool defendedRight(Board board, int row, int col, bool playingForWhite)
 {
-	if (playingForWhite)
+	//Prevent out of bounds errors - only check if the column to the right is on the board
+	if (col < 7)
 	{
-		//Find the row the enemy is defending from
-		int rowEnemyDefendingFrom = row + 1;
+		if (playingForWhite)
+		{
+			//Find the row the enemy is defending from
+			int rowEnemyDefendingFrom = row + 1;
 
-		//Return whether or not their is a piece there
-		return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+			//Return whether or not their is a piece there
+			return board.blackRows[rowEnemyDefendingFrom] % COLUMNS[col + 1] == 0;
+		}
+		else
+		{
+			//Find the row the enemy is defending from
+			int rowEnemyDefendingFrom = row - 1;
+
+			//Return whether or not their is a piece there
+			return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col + 1] == 0;
+		}
 	}
 	else
 	{
-		//Find the row the enemy is defending from
-		int rowEnemyDefendingFrom = row - 1;
-
-		//Return whether or not their is a piece there
-		return board.whiteRows[rowEnemyDefendingFrom] % COLUMNS[col - 1] == 0;
+		return false;
 	}
 }
 
