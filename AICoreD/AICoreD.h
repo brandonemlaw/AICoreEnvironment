@@ -2,7 +2,6 @@
 #include "stdafx.h"
 #include <random>
 #include <vector>
-#include <queue>
 #include <algorithm>
 #include <float.h>
 #include <ctime>
@@ -10,6 +9,7 @@
 
 #include "Node.h"
 #include "CriticalSectionLock.h"
+#include "ThreadPruner.h"
 
 
 
@@ -30,7 +30,6 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn);
 void processNode(Node* node, bool isWhitesTurn);
 Node* getChildNode(Node* node, int i);
 int getNodeChildren(Node* node);
-void pruneAllAbove(Node* saveThisNode);
 
 void incrementTarget(short int& target, bool validMoveExists);
 bool compareMove(const Move& a, const Move& b);

@@ -19,23 +19,27 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 	Board board;
 	board.setParameters(blackCount, whiteCount, blackRows, whiteRows);
 
+	//Save the original root for pruning
+	Node* originalRoot = root;
+
 	//Setup the roots
 	setRoot(root, board, isWhitesTurn);
 
-	//prune the old root and its descendants
-	std::thread pruneThread(pruneAllAbove, root);
-	pruneThread.join();
-
+	//Start four monte carlo evaluation threads
 	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	std::thread mc5(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 
 	//Join all the threads
 	mc.join();
 	mc2.join();
 	mc3.join();
 	mc4.join();
+	mc5.join();
+	mc6.join();
 
 
 	//Find the first level child with the max value as the result
@@ -50,6 +54,9 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 			result = root->children[i];
 		}
 	}
+
+	//set the result to prune above
+	ThreadPruner prune(result, originalRoot);
 
 	//set the result as the new root
 	root = result;
@@ -79,6 +86,9 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 			{
 				//set the new root
 				r = r->children[i];
+
+				//set the root's parent to null
+				r->parent = NULL;
 
 				//set the found flag
 				foundNewRoot = true;
@@ -170,69 +180,6 @@ int getNodeChildren(Node* node)
 	CriticalSectionLock lock(node->cs);
 	return node->children.size();
 }
-
-
-Node* getRoot(Node* node)
-{
-	CriticalSectionLock lock(node->cs);
-	if (node->parent != NULL)
-	{
-		return getRoot(node->parent);
-	}
-	else
-	{
-		return node;
-	}
-}
-
-void pruneAllAbove(Node* saveThisNode)
-{
-	
-
-	//create a queue of nodes to delete, starting with the root
-	std::queue<Node*> nodes;
-	nodes.push(getRoot(saveThisNode));
-
-	//until we are out of nodes to delete
-	while (!nodes.empty())
-	{
-		//get the first node from the queue
-		Node* node = nodes.front();
-		nodes.pop();
-
-		//delete only if node if not the avoid node
-		if (node != saveThisNode)
-		{
-			{
-				//CriticalSectionLock lock(node->cs);
-
-				/*//Set all the children to point to NULL
-				for (int i = 0; i < node->children.size(); i++)
-				{
-					node->children[i]->parent = NULL;
-				}*/
-
-				//add all the children to the queue
-				for (Node* entry : node->children)
-					nodes.push(entry);
-				//nodes.(nodes.end(), node->children.begin(), node->children.end());
-			}
-
-			//actually delete the node - but let the lock go out of scope first
-			delete node;
-		}
-		else
-		{
-			//CriticalSectionLock lock(node->cs);
-
-			//if the node is the avoid node, pop it and set its parent to null
-			node->parent = NULL;
-		}
-	}
-	
-}
-
-
 
 
 bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
