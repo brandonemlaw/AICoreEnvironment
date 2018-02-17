@@ -147,6 +147,7 @@
     <ClInclude Include="AICoreD.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="CriticalSectionLock.h" />
+    <ClInclude Include="Evaluator.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="State.h" />
@@ -171,6 +172,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Evaluator.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp" />

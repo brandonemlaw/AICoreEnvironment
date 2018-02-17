@@ -75,62 +75,86 @@ namespace GameCore
                 currentPlayer = oPlayer;
             }
 
+            bool AIAutoMove = false;
+
             while (!Game.gameOver())
             {
                 // Console.Write("AI Favors at " + global::AI.AICore.evaluate1(true, game.getBoard()) + "\n");
                 //Console.Write(currentPlayer.getIdentity() + " to move...\n");
                 char keyCode = ' ';
-                while (keyCode != 'm' && keyCode != 'a' && keyCode != 's' && keyCode != 'l' && keyCode != 'i')
+                if (AIAutoMove && currentPlayer.getIdentity() == identity.O)
                 {
-                    Console.Write((char)currentPlayer.getIdentity() + ":");
-                    keyCode = Console.ReadKey().KeyChar;
-                    Console.Write("\n");
+                    Console.Write("\nRequesting Move From AI");
+                    move = AIPlayer.getAMove((currentPlayer.getIdentity() == firstID));
                 }
-
-                if (keyCode == 'm')
+                else
                 {
-                    move = new Move();
-                    String line = "        ";
-                    while (line.Length != 4 || !(Char.IsDigit(line[1]) && Char.IsDigit(line[3]) && (line[0] - 64) >= 0 && (line[0] - 64) <= 7 && (line[2] - 64) >= 0 && (line[2] - 64) <= 7 ))
+                    while (keyCode != 'm' && keyCode != 'a' && keyCode != 's' && keyCode != 'l' && keyCode != 'q' &&  keyCode != 'f' && keyCode != 'i')
                     {
-                        line = Console.ReadLine();
+                        Console.Write((char)currentPlayer.getIdentity() + ":");
+                        keyCode = Console.ReadKey().KeyChar;
+                        Console.Write("\n");
                     }
 
-                    move.Begin.Y = line[0] - 64 - 1;
-                    move.Begin.X = line[1] - 48 - 1;
-                    move.End.Y = line[2] - 64 - 1;
-                    move.End.X = line[3] - 48 - 1;
-
-                }
-                else if (keyCode == 'a')
-                {
-                    if (currentPlayer.getIdentity() == identity.O)
+                    if (keyCode == 'm')
                     {
+                        move = new Move();
+                        String line = "        ";
+                        while (line.Length != 4 || !(Char.IsDigit(line[1]) && Char.IsDigit(line[3]) && (line[0] - 97) >= 0 && (line[0] - 97) <= 7 && (line[2] - 97) >= 0 && (line[2] - 97) <= 7))
+                        {
+                            line = Console.ReadLine();
+                        }
+
+                        move.Begin.Y = line[0] - 97;
+                        move.Begin.X = line[1] - 48 - 1;
+                        move.End.Y = line[2] - 97;
+                        move.End.X = line[3] - 48 - 1;
+
+                    }
+                    if (keyCode == 'f')
+                    {
+
+                    }
+                    else if (keyCode == 'q')
+                    {
+                        if (AIAutoMove)
+                        {
+                            AIAutoMove = false;
+                        }
+                        else
+                        {
+                            AIAutoMove = true;
+                        }
+                        move = null;
+                    }
+                    else if (keyCode == 'a')
+                    {
+                        Console.Write("\nRequesting Move From AI");
                         move = AIPlayer.getAMove((currentPlayer.getIdentity() == firstID));
                     }
-                }
-                else if (keyCode == 's')
-                {
-                    savedBoard = new Board(game.board);
-                    savedPlayer = currentPlayer;
-                    move = null;
-                }
-                else if (keyCode == 'l')
-                {
-                    Game.board = new Board(savedBoard);
-                    currentPlayer = savedPlayer;
-                    move = null;
-                }
-                else if (keyCode == 'i')
-                {
-                    move = null;
-                    if (currentPlayer.getIdentity() == identity.X)
+                    else if (keyCode == 's')
                     {
-                        currentPlayer = oPlayer;
+                        savedBoard = new Board(game.board);
+                        savedPlayer = currentPlayer;
+                        move = null;
                     }
-                    else
+                    else if (keyCode == 'l')
                     {
-                        currentPlayer = xPlayer;
+                        Game.board = new Board(savedBoard);
+                        currentPlayer = savedPlayer;
+                        move = null;
+                    }
+                    else if (keyCode == 'i')
+                    {
+                        move = null;
+                        if (currentPlayer.getIdentity() == identity.X)
+                        {
+                            currentPlayer = oPlayer;
+                        }
+                        else
+                        {
+                            currentPlayer = xPlayer;
+                        }
                     }
                 }
 
