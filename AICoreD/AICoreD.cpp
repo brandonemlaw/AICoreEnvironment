@@ -176,30 +176,52 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 	//Make a copy of the board
 	Board board = Board(rawBoard);
 
-	/*if (isWhitesTurn)
-	{
-		//choose a row randomly and then loop until a valid row (with a piece to move) is found
-		unsigned int row = rand() % 8;
-		while (board.whiteRows[row] == 1)
-		{
-			if (row >= 7)
-			{
-				row = 0;
-			}
-			else
-			{
-				row++;
-			}
-		}
-		
-		
 
-	}
-	*/
+	
 
 
 	while (!board.gameOver)
 	{
+		/*if (isWhitesTurn)
+		{
+			//choose a row randomly and then loop until a valid row (with a piece to move) is found
+			unsigned int row = rand() % 8;
+			while (board.whiteRows[row] == 1)
+			{
+				if (row >= 7)
+				{
+					row = 0;
+				}
+				else
+				{
+					row++;
+				}
+			}
+
+
+			unsigned int rowValue = board.whiteRows[row];
+
+			//choose a col randomly and then loop until a valid row (with a piece to move) is found
+			unsigned int col = rand() % 8;
+			while (rowValue & board.COLUMNS[col] == 0)
+			{
+				if (col >= 7)
+				{
+					col = 0;
+				}
+				else
+				{
+					col++;
+				}
+			}
+
+
+
+		}
+		*/
+		
+		
+		
 		//set the reference for the current pieces set
 		unsigned int* currentPieces = NULL;
 		int moveChange;
@@ -216,7 +238,7 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 
 		//choose a row randomly and then loop until a valid row (with a piece to move) is found
 		unsigned int row = rand() % 8;
-		while (currentPieces[row] == 1)
+		while (currentPieces[row] == 0)
 		{
 			if (row >= 7)
 			{
@@ -230,7 +252,7 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 
 		//choose a col randomly and then loop until a valid row (with a piece to move) is found
 		unsigned int col = rand() % 8;
-		while (currentPieces[row] % board.COLUMNS[col] != 0)
+		while (currentPieces[row] & board.COLUMNS[col] == 0)
 		{
 			if (col >= 7)
 			{

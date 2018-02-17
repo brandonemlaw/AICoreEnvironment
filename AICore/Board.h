@@ -8,7 +8,7 @@ public:
 	bool gameOver = false;
 	unsigned int blackRows[8];
 	unsigned int whiteRows[8];
-	const unsigned int COLUMNS[8] = { 2, 3, 5, 7, 11, 13, 17, 19 };	//A-H
+	const unsigned int COLUMNS[8] = { 2, 4, 8, 16, 32, 64, 128, 512 };	//A-H
 
 	Board();
 	Board(int newBlackCount, int newWhiteCount, unsigned int newBlackRows[], unsigned int newWhiteRows[]);

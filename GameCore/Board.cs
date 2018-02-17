@@ -15,7 +15,7 @@ namespace GameCore
         public bool gameOver = false;
         public uint[] blackRows = new uint[8];
         public uint[] whiteRows = new uint[8];
-        public readonly uint[] COLUMNS = new uint[] { 2, 3, 5, 7, 11, 13, 17, 19 };	//A-H
+        public readonly uint[] COLUMNS = new uint[] { 2, 3, 5, 7, 11, 13, 17, 19 }; //A-H
 
 
         public Board(Board orig)
@@ -25,8 +25,8 @@ namespace GameCore
                 whiteRows[i] = orig.whiteRows[i];
                 blackRows[i] = orig.blackRows[i];
             }
-            whiteCount = whiteCount;
-            blackCount = blackCount;
+            whiteCount = orig.whiteCount;
+            blackCount = orig.blackCount;
         }
 
         public Board()

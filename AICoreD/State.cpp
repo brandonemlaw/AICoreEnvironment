@@ -27,7 +27,7 @@ void State::generateAllMoves()
 			pieceCount = 0;
 		}
 		//If there are no pieces on the row, proceed
-		else if (currentPieces[row] == 1)
+		else if (currentPieces[row] == 0)
 		{
 			//increment or decrement the row count
 			if (rowUp)
@@ -41,7 +41,7 @@ void State::generateAllMoves()
 			for (unsigned int col = 0; col < 8; col++)
 			{
 				//For each piece in the row
-				if (currentPieces[row] % board.COLUMNS[col] == 0)
+				if ((currentPieces[row] & board.COLUMNS[col]) > 0)
 				{
 					//get new row number for checking
 					unsigned int newRow = row - 1;
@@ -58,7 +58,7 @@ void State::generateAllMoves()
 						}
 
 						//if the move is directly ahead but not into an opponent or my piece,
-						else if (target == 1 && otherPieces[newRow] % board.COLUMNS[col] != 0 && currentPieces[newRow] % board.COLUMNS[col] != 0)
+						else if (target == 1 && (otherPieces[newRow] & board.COLUMNS[col]) == 0 && (currentPieces[newRow] & board.COLUMNS[col]) == 0)
 						{
 							//add it to the moves list
 							Move myMove;
@@ -70,7 +70,7 @@ void State::generateAllMoves()
 						}
 						//if the move to the side but not into my own piece,
 						//TODO - check for divide by less than zero
-						else if (target != 1 && currentPieces[newRow] % board.COLUMNS[col + target - 1] != 0)
+						else if (target != 1 && (currentPieces[newRow] & board.COLUMNS[col + target - 1]) == 0)
 						{
 							//add the move
 							Move myMove;

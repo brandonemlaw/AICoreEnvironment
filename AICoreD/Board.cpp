@@ -12,10 +12,10 @@ Board::Board()
 	}
 	for (int i = 0; i < 8; i++)
 	{
-		whiteRows[0] *= COLUMNS[i];
-		whiteRows[1] *= COLUMNS[i];
-		blackRows[6] *= COLUMNS[i];
-		blackRows[7] *= COLUMNS[i];
+		whiteRows[0] += COLUMNS[i];
+		whiteRows[1] += COLUMNS[i];
+		blackRows[6] += COLUMNS[i];
+		blackRows[7] += COLUMNS[i];
 	}
 }
 
@@ -93,24 +93,24 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			return false;
 		}*/
 
-		/*if (whiteRows[oldRow] % COLUMNS[oldColumn] != 0)
+		/*if (whiteRows[oldRow] | COLUMNS[oldColumn] != 0)
 		{
 			return false;
 		}*/
 
-		if (whiteRows[row] % COLUMNS[column] == 0)
+		if ((whiteRows[row] & COLUMNS[column]) != 0)
 		{
 			return false;
 		}
 
-		if (column == oldColumn && blackRows[row] % COLUMNS[column] == 0)
+		if (column == oldColumn && (blackRows[row] & COLUMNS[column]) != 0)
 		{
 			return false;
 		}
 
-		if (blackRows[row] % COLUMNS[column] == 0)
+		if (blackRows[row] & COLUMNS[column] != 0)
 		{
-			blackRows[row] /= COLUMNS[column];
+			blackRows[row] -= COLUMNS[column];
 			blackCount--;
 		}
 
@@ -119,8 +119,8 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 				gameOver = true;
 		}
 
-		whiteRows[oldRow] /= COLUMNS[oldColumn];
-		whiteRows[row] *= COLUMNS[column];
+		whiteRows[oldRow] -= COLUMNS[oldColumn];
+		whiteRows[row] += COLUMNS[column];
 	}
 
 	if (!playerWhite)
@@ -131,24 +131,24 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			return false;
 		}*/
 		//is there a black piece already at new position
-		if (blackRows[row] % COLUMNS[column] == 0)
+		if (blackRows[row] & COLUMNS[column] != 0)
 		{
 			return false;
 		}
 		/*//is there a black piece to be moved from old position
-		if (blackRows[oldRow] % COLUMNS[oldColumn] != 0)
+		if (blackRows[oldRow] | COLUMNS[oldColumn] != 0)
 		{
 			return false;
 		}*/
 		//prevent piece from moving forward if white piece is in way
-		if (column == oldColumn && whiteRows[row] % COLUMNS[column] == 0)
+		if (column == oldColumn && (whiteRows[row] & COLUMNS[column]) != 0)
 		{
 			return false;
 		}
 		//if piece of white was taken
-		if (whiteRows[row] % COLUMNS[column] == 0)
+		if (whiteRows[row] | COLUMNS[column] == 0)
 		{
-			whiteRows[row] /= COLUMNS[column];
+			whiteRows[row] -= COLUMNS[column];
 			whiteCount--;
 		}
 
@@ -157,8 +157,8 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			gameOver = true;
 		}
 
-		blackRows[oldRow] /= COLUMNS[oldColumn]; //remove piece at old position
-		blackRows[row] *= COLUMNS[column]; //add piece at new position
+		blackRows[oldRow] -= COLUMNS[oldColumn]; //remove piece at old position
+		blackRows[row] += COLUMNS[column]; //add piece at new position
 	}
 
 	return true;
@@ -178,11 +178,11 @@ bool Board::isGameOver()
 
 char Board::getPieceAt(int row, int column)
 {
-	if (whiteRows[row] % COLUMNS[column] == 0)
+	if (whiteRows[row] & COLUMNS[column] != 0)
 	{
 		return 'W';
 	}
-	else if (blackRows[row] % COLUMNS[column] == 0)
+	else if (blackRows[row] & COLUMNS[column] != 0)
 	{
 		return 'B';
 	}

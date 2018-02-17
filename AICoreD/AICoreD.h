@@ -22,7 +22,8 @@
 
 
 //Constants
-const unsigned int COLUMNS[8] = { 2, 3, 5, 7, 11, 13, 17, 19 };	//A-H
+//const unsigned int COLUMNS[8] = { 2, 3, 5, 7, 11, 13, 17, 19 };	//A-H
+const unsigned int COLUMNS[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };	//A-H
 const double SECONDS_TO_WORK = 4.5;
 
 

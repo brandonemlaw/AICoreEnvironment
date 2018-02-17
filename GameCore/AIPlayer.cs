@@ -33,9 +33,37 @@ namespace GameCore
             identity first = Program.getFirstPlayer();
             Board board = Program.getBoard();
 
+            //Convert to AISpace
+            uint[] AICOLUMNS = new uint[] { 1, 2, 4, 8, 16, 32, 64, 128 }; //A-H
+
+            uint[] blackRows = new uint[8];
+            uint[] whiteRows = new uint[8];
+
+
+            for (int i = 0; i < 8; i++)
+            {
+                blackRows[i] = 0;
+                whiteRows[i] = 0;
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board.blackRows[i] % board.COLUMNS[j] == 0)
+                    {
+                        blackRows[i] += AICOLUMNS[j];
+                    }
+                    if (board.whiteRows[i] % board.COLUMNS[j] == 0)
+                    {
+                        whiteRows[i] += AICOLUMNS[j];
+                    }
+                }
+            }
+
 
             //Get the move from the AI DLL
-            AIMove nextMove = AIGetMove(board.blackCount, board.whiteCount, board.blackRows, board.whiteRows, isWhitesTurn);
+            AIMove nextMove = AIGetMove(board.blackCount, board.whiteCount, blackRows, whiteRows, isWhitesTurn);
 
             //Convert the AIMove to a Move class
             result.Begin.X = checked((int)nextMove.row);
