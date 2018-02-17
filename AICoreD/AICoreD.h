@@ -42,7 +42,7 @@ void processNode(Node* node, bool isWhitesTurn);
 Node* getChildNode(Node* node, int i);
 int getNodeChildren(Node* node);
 
-void incrementTarget(short int& target, bool validMoveExists);
+void incrementTarget(int& target, bool validMoveExists);
 bool compareMove(const Move& a, const Move& b);
 void backTrackValues(Node* node, bool whiteDidWin);
 

@@ -87,8 +87,8 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 	else
 	{
 		bool foundNewRoot = false;
-		unsigned short int size = root->children.size();
-		for (unsigned short int i = 0; (!foundNewRoot && i < size); i++)
+		unsigned int size = root->children.size();
+		for (unsigned int i = 0; (!foundNewRoot && i < size); i++)
 		{
 			//if the current boardstate is found
 			if (r->children[i]->state.board == board)
@@ -176,11 +176,33 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 	//Make a copy of the board
 	Board board = Board(rawBoard);
 
+	/*if (isWhitesTurn)
+	{
+		//choose a row randomly and then loop until a valid row (with a piece to move) is found
+		unsigned int row = rand() % 8;
+		while (board.whiteRows[row] == 1)
+		{
+			if (row >= 7)
+			{
+				row = 0;
+			}
+			else
+			{
+				row++;
+			}
+		}
+		
+		
+
+	}
+	*/
+
+
 	while (!board.gameOver)
 	{
 		//set the reference for the current pieces set
 		unsigned int* currentPieces = NULL;
-		short int moveChange;
+		int moveChange;
 		if (isWhitesTurn)
 		{
 			currentPieces = board.whiteRows;
@@ -193,7 +215,7 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 		}
 
 		//choose a row randomly and then loop until a valid row (with a piece to move) is found
-		short unsigned int row = rand() % 8;
+		unsigned int row = rand() % 8;
 		while (currentPieces[row] == 1)
 		{
 			if (row >= 7)
@@ -207,7 +229,7 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 		}
 
 		//choose a col randomly and then loop until a valid row (with a piece to move) is found
-		short unsigned int col = rand() % 8;
+		unsigned int col = rand() % 8;
 		while (currentPieces[row] % board.COLUMNS[col] != 0)
 		{
 			if (col >= 7)
@@ -221,7 +243,7 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 		}
 
 		//choose a target position (-1 to 1) and loop until valid
-		short int target = (rand() % 3) - 1;
+		int target = (rand() % 3) - 1;
 		bool validMoveExists = false;
 		bool successfulMove = false;
 
@@ -247,7 +269,7 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 	return !isWhitesTurn;
 }
 
-void incrementTarget(short int& target, bool validMoveExists)
+void incrementTarget(int& target, bool validMoveExists)
 {
 	if (target == 1 && validMoveExists)
 	{

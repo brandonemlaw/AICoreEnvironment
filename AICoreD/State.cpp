@@ -38,19 +38,19 @@ void State::generateAllMoves()
 		//If pieces are found, extract them into the moves list
 		else
 		{
-			for (unsigned short int col = 0; col < 8; col++)
+			for (unsigned int col = 0; col < 8; col++)
 			{
 				//For each piece in the row
 				if (currentPieces[row] % board.COLUMNS[col] == 0)
 				{
 					//get new row number for checking
-					unsigned short int newRow = row - 1;
+					unsigned int newRow = row - 1;
 					if (rowUp)
 					{
 						newRow = row + 1;
 					}
 
-					for (unsigned short int target = 0; target < 3; target++)
+					for (unsigned int target = 0; target < 3; target++)
 					{
 						//if the move is out of bounds
 						if ((col + target - 1) < 0 || (col + target - 1) > 7)

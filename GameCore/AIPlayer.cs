@@ -14,9 +14,9 @@ namespace GameCore
         public struct AIMove
         {
             public int value;
-            public ushort row;
-            public ushort col;
-            public ushort target;
+            public uint row;
+            public uint col;
+            public uint target;
         };
 
         //Imports C++ AI DLL
@@ -38,17 +38,17 @@ namespace GameCore
             AIMove nextMove = AIGetMove(board.blackCount, board.whiteCount, board.blackRows, board.whiteRows, isWhitesTurn);
 
             //Convert the AIMove to a Move class
-            result.Begin.X = nextMove.row;
-            result.Begin.Y = nextMove.col;
+            result.Begin.X = checked((int)nextMove.row);
+            result.Begin.Y = checked((int)nextMove.col);
             if (isWhitesTurn)
             {
-                result.End.X = nextMove.row + 1;
+                result.End.X = checked((int)nextMove.row + 1);
             }
             else
             {
-                result.End.X = nextMove.row - 1;
+                result.End.X = checked((int)nextMove.row - 1);
             }
-            result.End.Y = nextMove.col + nextMove.target - 1;
+            result.End.Y = checked((int)(nextMove.col + nextMove.target - 1));
 
             //Return the result
             return result;

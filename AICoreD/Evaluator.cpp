@@ -20,8 +20,8 @@ double Evaluator::evaluate(Node* move, Board boardBeforeMove, bool playingForWhi
 
 	//Check for if the move allows the enemy any moves that make us lose
 	//For each of the enemy's moves
-	unsigned short size = move->children.size();
-	for (unsigned short i = 0; i < size; i++)
+	unsigned size = move->children.size();
+	for (unsigned i = 0; i < size; i++)
 	{
 		//If their move leads to the game ending (meaning they won)
 		if (move->children[i]->state.board.isGameOver())
