@@ -76,6 +76,7 @@ namespace GameCore
             }
 
             bool AIAutoMove = false;
+            bool playerAlwaysMove = false;
 
             while (!Game.gameOver())
             {
@@ -89,7 +90,11 @@ namespace GameCore
                 }
                 else
                 {
-                    while (keyCode != 'm' && keyCode != 'a' && keyCode != 's' && keyCode != 'l' && keyCode != 'q' &&  keyCode != 'f' && keyCode != 'i')
+                    if (playerAlwaysMove && currentPlayer.getIdentity() == identity.X)
+                    {
+                        keyCode = 'm';
+                    }
+                    while (keyCode != 'm' && keyCode != 'a' && keyCode != 's' && keyCode != 'l' && keyCode != 'q' &&  keyCode != 'f' && keyCode != 'i' && keyCode != 'n')
                     {
                         Console.Write((char)currentPlayer.getIdentity() + ":");
                         keyCode = Console.ReadKey().KeyChar;
@@ -111,9 +116,21 @@ namespace GameCore
                         move.End.X = line[3] - 48 - 1;
 
                     }
-                    if (keyCode == 'f')
+                    else if (keyCode == 'f')
                     {
 
+                    }
+                    else if (keyCode == 'n')
+                    {
+                        if (playerAlwaysMove)
+                        {
+                            playerAlwaysMove = false;
+                        }
+                        else
+                        {
+                            playerAlwaysMove = true;
+                        }
+                        move = null;
                     }
                     else if (keyCode == 'q')
                     {

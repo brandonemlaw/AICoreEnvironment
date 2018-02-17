@@ -16,8 +16,7 @@
 //TODO
 // -abort if memory pressure
 // -counteract their L formation when advancing
-
-
+// -look into dumping potential moves with faster algorithm directly into new nodes
 
 
 
@@ -32,7 +31,7 @@ const double SECONDS_TO_WORK = 4.5;
 Node* root = NULL;
 
 
-extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn);
+extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn);
 
 bool executeRandomGame(Board& rawBoard, bool isWhitesTurn);
 

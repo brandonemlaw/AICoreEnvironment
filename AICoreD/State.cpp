@@ -2,6 +2,9 @@
 
 void State::generateAllMoves()
 {
+	allMoves.reserve(35);
+
+
 	//Define the parameters, assuming it is black's turn
 	bool rowUp = false;
 	unsigned int row = 7;
@@ -61,24 +64,13 @@ void State::generateAllMoves()
 						else if (target == 1 && (otherPieces[newRow] & board.COLUMNS[col]) == 0 && (currentPieces[newRow] & board.COLUMNS[col]) == 0)
 						{
 							//add it to the moves list
-							Move myMove;
-							myMove.row = row;
-							myMove.col = col;
-							myMove.target = target;
-							myMove.value = 0;
-							allMoves.push_back(myMove);
+							allMoves.emplace_back(row, col, target);
 						}
 						//if the move to the side but not into my own piece,
-						//TODO - check for divide by less than zero
 						else if (target != 1 && (currentPieces[newRow] & board.COLUMNS[col + target - 1]) == 0)
 						{
-							//add the move
-							Move myMove;
-							myMove.row = row;
-							myMove.col = col;
-							myMove.target = target;
-							myMove.value = 0;
-							allMoves.push_back(myMove);
+							//add it to the moves list
+							allMoves.emplace_back(row, col, target);
 						}
 					}
 

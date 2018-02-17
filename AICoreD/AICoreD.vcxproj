@@ -149,6 +149,7 @@
     <ClInclude Include="CriticalSectionLock.h" />
     <ClInclude Include="Evaluator.h" />
     <ClInclude Include="Move.h" />
+    <ClInclude Include="SubmitMove.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />

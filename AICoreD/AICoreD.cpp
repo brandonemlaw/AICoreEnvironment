@@ -13,8 +13,11 @@
 #include "AICoreD.h"
 
 
-extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn)
+extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn)
 {
+	//Init the random number generator
+	srand(time(NULL));
+
 	//Init the current board from the parameters
 	Board board;
 	board.setParameters(blackCount, whiteCount, blackRows, whiteRows);
@@ -25,13 +28,14 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 	//Setup the roots
 	setRoot(root, board, isWhitesTurn);
 
+
 	//Start four monte carlo evaluation threads
 	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc5(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	//std::thread mc5(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	//std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 
 
 	//Join all the threads
@@ -39,8 +43,8 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 	mc2.join();
 	mc3.join();
 	mc4.join();
-	mc5.join();
-	mc6.join();
+	//mc5.join();
+	//mc6.join();
 
 
 	//Find the first level child with the max value as the result
@@ -64,14 +68,20 @@ extern "C" __declspec(dllexport) Move __stdcall  AIGetMove(int blackCount, int w
 		}
 	}
 
-	//set the result to prune above
-	ThreadPruner prune(result, originalRoot);
+	//Prune above the root
+	std::thread pruner(ThreadPruner::pruneAllAbove, originalRoot, root);
+	pruner.detach();
+
+	//Prune above the result
+	result->parent = NULL;
+	std::thread pruner2(ThreadPruner::pruneAllAbove, root, result);
+	pruner2.detach();
 
 	//set the result as the new root
 	root = result;
 
 	//return the sourceMove from the result
-	return result->state.sourceMove;
+	return result->state.sourceMove.toSubmitMove();
 }
 
 
@@ -175,10 +185,6 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 {
 	//Make a copy of the board
 	Board board = Board(rawBoard);
-
-
-	
-
 
 	while (!board.gameOver)
 	{
@@ -491,8 +497,7 @@ void expandNode(Node* node)
 	//for each resulting state, create a node and add it to the children
 	for (unsigned int i = 0; i < node->state.allMoves.size(); i++)
 	{
-		Node* noob = new Node(node, node->state.board, node->state.allMoves[i], node->state.isWhitesTurn);
-		node->children.emplace_back(noob);
+		node->children.emplace_back(new Node(node, node->state.board, node->state.allMoves[i], node->state.isWhitesTurn));
 	}
 }
 

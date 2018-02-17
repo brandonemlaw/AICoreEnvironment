@@ -13,8 +13,8 @@ const double BACKUP_WEIGHT = 1.05;
 
 const double SIDE_WEIGHT = 1.05;
 
-const double DOUBLE_DEFENDED_WEIGHT = 0.8;
-const double DEFENDED_WEIGHT = 0.9;
+const double DOUBLE_DEFENDED_WEIGHT = 0.6;
+const double DEFENDED_WEIGHT = 0.7;
 const double BLOCKED_WEIGHT = 1;
 
 

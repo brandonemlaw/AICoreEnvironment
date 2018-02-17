@@ -1,10 +1,5 @@
-﻿cl : Command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
-  Evaluator.cpp
-c:\users\bemlaw\desktop\aicoreenvironment\aicored\evaluator.cpp(23): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned short', possible loss of data
-c:\users\bemlaw\desktop\aicoreenvironment\aicored\evaluator.cpp(130): warning C4551: function call missing argument list
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  AICoreD.cpp
-     Creating library C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\AICoreD.lib and object C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\AICoreD.exp
+﻿  AICoreD.cpp
+c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(19): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(132): warning C4244: 'initializing': conversion from 'double' to 'time_t', possible loss of data
   AICoreD.vcxproj -> C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\AICoreD.dll
   AICoreD.vcxproj -> C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\AICoreD.pdb (Partial PDB)

@@ -10,12 +10,12 @@ class ThreadPruner
 public:
 	ThreadPruner(Node* save, Node* newRoot);
 	~ThreadPruner();
+	static void pruneAllAbove(Node* root, Node* nodeToSave);
 
 private:
 	Node* nodeToSave;
 	Node* root;
 	
-	static void pruneAllAbove(Node* root, Node* nodeToSave);
 	Node* getRoot(Node* node);
 
 };
