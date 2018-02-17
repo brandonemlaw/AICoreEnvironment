@@ -182,109 +182,227 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 
 	while (!board.gameOver)
 	{
-		/*if (isWhitesTurn)
-		{
-			//choose a row randomly and then loop until a valid row (with a piece to move) is found
-			unsigned int row = rand() % 8;
-			while (board.whiteRows[row] == 1)
-			{
-				if (row >= 7)
-				{
-					row = 0;
-				}
-				else
-				{
-					row++;
-				}
-			}
-
-
-			unsigned int rowValue = board.whiteRows[row];
-
-			//choose a col randomly and then loop until a valid row (with a piece to move) is found
-			unsigned int col = rand() % 8;
-			while (rowValue & board.COLUMNS[col] == 0)
-			{
-				if (col >= 7)
-				{
-					col = 0;
-				}
-				else
-				{
-					col++;
-				}
-			}
-
-
-
-		}
-		*/
-		
-		
-		
-		//set the reference for the current pieces set
-		unsigned int* currentPieces = NULL;
-		int moveChange;
 		if (isWhitesTurn)
 		{
-			currentPieces = board.whiteRows;
-			moveChange = 1;
+			//constants
+			const int ROW_CHANGE = 1;
+
+			//variables
+			unsigned int row;
+			unsigned int col;
+			unsigned int rowValue = 0;
+			unsigned int myNextRowValue = 0;
+			unsigned int theirNextRowValue = 0;
+			unsigned int colRep = 0;
+
+			int validFound = 0;
+
+			//choose a row randomly  
+			row = rand() % 8;
+
+			//loop until a valid row (with a valid piece to move) is found
+			while (!validFound)
+			{
+
+				//if we we found a row with a piece, check for the valid column
+				if (!board.whiteRows[row] == 0)
+				{
+					//set the parameters for quick checking of each column
+					rowValue = board.whiteRows[row];
+					myNextRowValue = board.whiteRows[row + ROW_CHANGE];
+					theirNextRowValue = board.blackRows[row + ROW_CHANGE];
+
+					//choose a col randomly (guarenteed to find one) and then loop until a valid row (with a piece to move) is found
+					col = rand() % 8;
+
+					//copy the initial column so we know when we've finished the row
+					unsigned int initialCol = col;
+
+
+					//check every column until we've looped around or found one
+					do
+					{
+						//if there's at least something in the col
+						if (!( (rowValue & board.COLUMNS[col]) == 0) )
+						{
+							//check if we found a valid solution
+							if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
+								validFound += 1;
+							if (/*centerClear*/ (myNextRowValue & colRep) == 0 && (theirNextRowValue & colRep) == 0)
+								validFound += 2;
+							if (/*rightClear*/ (myNextRowValue & (colRep >> 1)) == 0)
+								validFound += 4;
+						}
+
+						//advance to the next col if not found yet
+						if (!validFound)
+						{
+							if (col >= 7)
+							{
+								col = 0;
+							}
+							else
+							{
+								col++;
+							}
+						}
+
+					} while (!validFound && col != initialCol);
+
+				}
+
+
+				//advance to the next row if not found yet
+				if (!validFound)
+				{
+					if (row >= 7)
+					{
+						row = 0;
+					}
+					else
+					{
+						row++;
+					}
+				}
+			}
+
+			//now that we have a valid solution, execute it
+			unsigned int target;
+			switch (validFound)
+			{
+			case 1:	// l--
+				target = 0;
+			case 2:	// -c-
+				target = 1;
+			case 3: // lc-
+				target = rand() % 2;
+			case 4: // --r
+				target = 2;
+			case 5: // l-r
+				target = rand() % 2;
+				if (target == 1)
+					target++;
+			case 6: // -cr
+				target = rand() % 2 + 1;
+			case 7: // lcr
+				target = rand() % 3;
+			}
+
+			if (board.makeMove(isWhitesTurn, row, col, row + ROW_CHANGE, col + target - 1))
+				isWhitesTurn = !isWhitesTurn;
+
 		}
 		else
 		{
-			currentPieces = board.blackRows;
-			moveChange = -1;
-		}
+			//constants
+			const int ROW_CHANGE = -1;
 
-		//choose a row randomly and then loop until a valid row (with a piece to move) is found
-		unsigned int row = rand() % 8;
-		while (currentPieces[row] == 0)
-		{
-			if (row >= 7)
+			//variables
+			unsigned int row;
+			unsigned int col;
+			unsigned int rowValue = 0;
+			unsigned int myNextRowValue = 0;
+			unsigned int theirNextRowValue = 0;
+			unsigned int colRep = 0;
+
+			int validFound = 0;
+
+			//choose a row randomly  
+			row = rand() % 8;
+
+			//loop until a valid row (with a valid piece to move) is found
+			while (!validFound)
 			{
-				row = 0;
+
+				//if we we found a row with a piece, check for the valid column
+				if (!board.blackRows[row] == 0)
+				{
+					//set the parameters for quick checking of each column
+					rowValue = board.blackRows[row];
+					myNextRowValue = board.blackRows[row + ROW_CHANGE];
+					theirNextRowValue = board.whiteRows[row + ROW_CHANGE];
+
+					//choose a col randomly (guarenteed to find one) and then loop until a valid row (with a piece to move) is found
+					col = rand() % 8;
+
+					//copy the initial column so we know when we've finished the row
+					unsigned int initialCol = col;
+
+
+					//check every column until we've looped around or found one
+					do
+					{
+						//if there's at least something in the col
+						if (!(rowValue & board.COLUMNS[col]) == 0)
+						{
+							//check if we found a valid solution
+							if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
+								validFound += 1;
+							if (/*centerClear*/ (myNextRowValue & colRep) == 0 && (theirNextRowValue & colRep) == 0)
+								validFound += 2;
+							if (/*rightClear*/ (myNextRowValue & (colRep >> 1)) == 0)
+								validFound += 4;
+						}
+
+						//advance to the next col if not found yet
+						if (!validFound)
+						{
+							if (col >= 7)
+							{
+								col = 0;
+							}
+							else
+							{
+								col++;
+							}
+						}
+
+					} while (!validFound && col != initialCol);
+
+				}
+
+
+				//advance to the next row if not found yet
+				if (!validFound)
+				{
+					if (row >= 7)
+					{
+						row = 0;
+					}
+					else
+					{
+						row++;
+					}
+				}
 			}
-			else
+
+			//now that we have a valid solution, execute it
+			unsigned int target;
+			switch (validFound)
 			{
-				row++;
+			case 1:	// l--
+				target = 0;
+			case 2:	// -c-
+				target = 1;
+			case 3: // lc-
+				target = rand() % 2;
+			case 4: // --r
+				target = 2;
+			case 5: // l-r
+				target = rand() % 2;
+				if (target == 1)
+					target++;
+			case 6: // -cr
+				target = rand() % 2 + 1;
+			case 7: // lcr
+				target = rand() % 3;
 			}
+
+			if (board.makeMove(isWhitesTurn, row, col, row + ROW_CHANGE, col + target - 1))
+				isWhitesTurn = !isWhitesTurn;
+
 		}
 
-		//choose a col randomly and then loop until a valid row (with a piece to move) is found
-		unsigned int col = rand() % 8;
-		while (currentPieces[row] & board.COLUMNS[col] == 0)
-		{
-			if (col >= 7)
-			{
-				col = 0;
-			}
-			else
-			{
-				col++;
-			}
-		}
-
-		//choose a target position (-1 to 1) and loop until valid
-		int target = (rand() % 3) - 1;
-		bool validMoveExists = false;
-		bool successfulMove = false;
-
-		//Run the move and see if it is valid
-		//bool successfulMove = board.makeMove(isWhitesTurn, row, col, row + moveChange, col + target);
-
-		//Loops until valid move is found or target == 2. If target == 2, means validMove became false and we've gone around again at least once.
-		//At this point, we will just choose a new random move all over again.
-		while (!successfulMove && target != 2)
-		{
-			successfulMove = board.makeMove(isWhitesTurn, row, col, row + moveChange, col + target);
-			incrementTarget(target, validMoveExists);
-		}
-
-		//Switch whose turn it is if the move was successful in the end
-		if (successfulMove)
-		{
-			isWhitesTurn = !isWhitesTurn;
-		}
 	}
 
 	//Return whoever just played and therefore won the game
