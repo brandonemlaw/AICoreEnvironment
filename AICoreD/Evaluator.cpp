@@ -95,7 +95,7 @@ double Evaluator::evaluate(Node* move, Board boardBeforeMove, bool playingForWhi
 
 
 	//Only increase for backup when determining whether to make an offsensive move
-	if (areTakingAPiece && waysToTakeUs > 0)
+	if (areTakingAPiece || waysToTakeUs > 0)
 	{
 		//If double backed-up...
 		if (bLeft && bRight)

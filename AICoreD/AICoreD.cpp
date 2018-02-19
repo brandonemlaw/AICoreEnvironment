@@ -43,8 +43,8 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	//std::thread mc5(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	//std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	std::thread mc5(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 
 
 	//Join all the threads
@@ -52,8 +52,8 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	mc2.join();
 	mc3.join();
 	mc4.join();
-	//mc5.join();
-	//mc6.join();
+	mc5.join();
+	mc6.join();
 
 
 	//Find the first level child with the max value as the result
@@ -77,6 +77,12 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 		}
 	}
 
+	//write to the log file
+	auto t = std::time(nullptr);
+	auto tm = *std::localtime(&t);
+	std::ofstream log_file("AILog.txt", std::ios_base::out | std::ios_base::app);
+	log_file << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << "\t" << root->state.visits << "\t" << maxValue << "\t" << originalRoot << std::endl;
+
 	//Prune above the root
 	std::thread pruner(ThreadPruner::pruneAllAbove, originalRoot, root);
 	pruner.detach();
@@ -86,8 +92,10 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	std::thread pruner2(ThreadPruner::pruneAllAbove, root, result);
 	pruner2.detach();
 
+
 	//set the result as the new root
 	root = result;
+	
 
 	//return the sourceMove from the result
 	return result->state.sourceMove.toSubmitMove();
