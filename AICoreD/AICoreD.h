@@ -30,8 +30,8 @@ const double SECONDS_TO_WORK = 4.5;
 
 Node* root = NULL;
 
-
-extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn);
+extern "C" __declspec(dllexport) void __stdcall  EmptyMemory();
+extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn, unsigned int mode);
 
 bool executeRandomGame(Board& rawBoard, bool isWhitesTurn);
 

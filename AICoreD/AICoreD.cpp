@@ -13,7 +13,16 @@
 #include "AICoreD.h"
 
 
-extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn)
+extern "C" __declspec(dllexport) void __stdcall  EmptyMemory()
+{
+	//Prune the whole tree
+	Node** test = new Node*;
+	std::thread pruner(ThreadPruner::pruneAllAbove, root, *test);
+	pruner.join();
+	delete test;
+}
+
+extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn, unsigned int mode)
 {
 	//Init the random number generator
 	srand(time(NULL));
@@ -278,20 +287,27 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 			{
 			case 1:	// l--
 				target = 0;
+				break;
 			case 2:	// -c-
 				target = 1;
+				break;
 			case 3: // lc-
 				target = rand() % 2;
+				break;
 			case 4: // --r
 				target = 2;
+				break;
 			case 5: // l-r
 				target = rand() % 2;
 				if (target == 1)
 					target++;
+				break;
 			case 6: // -cr
 				target = rand() % 2 + 1;
+				break;
 			case 7: // lcr
 				target = rand() % 3;
+				break;
 			}
 
 			if (board.makeMove(isWhitesTurn, row, col, row + ROW_CHANGE, col + target - 1))
@@ -388,20 +404,27 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 			{
 			case 1:	// l--
 				target = 0;
+				break;
 			case 2:	// -c-
 				target = 1;
+				break;
 			case 3: // lc-
 				target = rand() % 2;
+				break;
 			case 4: // --r
 				target = 2;
+				break;
 			case 5: // l-r
 				target = rand() % 2;
 				if (target == 1)
 					target++;
+				break;
 			case 6: // -cr
 				target = rand() % 2 + 1;
+				break;
 			case 7: // lcr
 				target = rand() % 3;
+				break;
 			}
 
 			if (board.makeMove(isWhitesTurn, row, col, row + ROW_CHANGE, col + target - 1))

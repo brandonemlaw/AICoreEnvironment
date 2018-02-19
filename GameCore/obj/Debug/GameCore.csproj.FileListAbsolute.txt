@@ -32,6 +32,9 @@ C:\Users\bemlaw\Documents\Visual Studio 2017\Projects\BreakthroughBuildA2\GameCo
 C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\GameCore.exe.config
 C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\GameCore.exe
 C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\GameCore.pdb
-C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache
 C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\obj\Debug\GameCore.exe
 C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\obj\Debug\GameCore.pdb
+C:\Users\bemlaw\Desktop\AICoreEnvironment\Debuger\GameCore.exe.config
+C:\Users\bemlaw\Desktop\AICoreEnvironment\Debuger\GameCore.exe
+C:\Users\bemlaw\Desktop\AICoreEnvironment\Debuger\GameCore.pdb
+C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache

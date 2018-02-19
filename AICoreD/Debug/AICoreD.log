@@ -1,5 +1,6 @@
-﻿  AICoreD.cpp
-c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(19): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(132): warning C4244: 'initializing': conversion from 'double' to 'time_t', possible loss of data
-  AICoreD.vcxproj -> C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\AICoreD.dll
-  AICoreD.vcxproj -> C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Debug\AICoreD.pdb (Partial PDB)
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(373,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  AICoreD.cpp
+c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(28): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\bemlaw\desktop\aicoreenvironment\aicored\aicored.cpp(141): warning C4244: 'initializing': conversion from 'double' to 'time_t', possible loss of data
+  AICoreD.vcxproj -> C:\Users\bemlaw\Desktop\AICoreEnvironment\AICoreD\..\Debuger\AICoreD.dll
+  AICoreD.vcxproj -> ..\Debuger\AICoreD.pdb (Partial PDB)

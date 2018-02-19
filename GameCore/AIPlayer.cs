@@ -21,7 +21,7 @@ namespace GameCore
 
         //Imports C++ AI DLL
         [DllImport(@"AICoreD.dll")]
-        private static extern AIMove AIGetMove(int blackCount, int whiteCount, uint[] blackRows, uint[] whiteRows, bool isWhitesTurn);
+        private static extern AIMove AIGetMove(int blackCount, int whiteCount, uint[] blackRows, uint[] whiteRows, bool isWhitesTurn, uint mode);
 
 
         public static  Move getAMove(bool isWhitesTurn)
@@ -63,7 +63,7 @@ namespace GameCore
 
 
             //Get the move from the AI DLL
-            AIMove nextMove = AIGetMove(board.blackCount, board.whiteCount, blackRows, whiteRows, isWhitesTurn);
+            AIMove nextMove = AIGetMove(board.blackCount, board.whiteCount, blackRows, whiteRows, isWhitesTurn, 0);
 
             //Convert the AIMove to a Move class
             result.Begin.X = checked((int)nextMove.row);
