@@ -6,7 +6,7 @@
 //Weights
 const double MASTER_WEIGHT = 1;
 const double TAKE_PIECE_WEIGHT = 1.1; //1.05
-const double LOSE_PIECE_WEIGHT = 1;
+const double LOSE_PIECE_WEIGHT = 0.8;
 
 const double DOUBLE_BACKUP_WEIGHT = 1.1;
 const double BACKUP_WEIGHT = 1.05;

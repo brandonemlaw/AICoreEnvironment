@@ -48,6 +48,10 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 {
 	//to do:the array values should be put into temp variable so they dont have to be accessed again
 
+
+	//load squares filter
+	unsigned long long targetSquareCheckFilter = SQUARES[row][column];
+
 	//bound checking
 	/*if (oldRow < 0 || oldRow > 7 || oldColumn < 0 || oldColumn > 7)
 	{
@@ -76,19 +80,19 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			return false;
 		}*/
 
-		if ((white & SQUARES[row][column]))
+		if (white & targetSquareCheckFilter)
 		{
 			return false;
 		}
 
-		if (column == oldColumn && (black & SQUARES[row][column]))
+		if (column == oldColumn && (black & targetSquareCheckFilter))
 		{
 			return false;
 		}
 
-		if (black & SQUARES[row][column])
+		if (black & targetSquareCheckFilter)
 		{
-			black -= SQUARES[row][column];
+			black -= targetSquareCheckFilter;
 			blackCount--;
 		}
 
@@ -98,18 +102,21 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 		}
 
 		white -= SQUARES[oldRow][oldColumn];
-		white += SQUARES[row][column];
+		white += targetSquareCheckFilter;
 	}
 
 	if (!playerWhite)
 	{
+		//load squares filter
+
+
 		/*//allows only move down one row at time
 		if (row != oldRow - 1)
 		{
 			return false;
 		}*/
 		//is there a black piece already at new position
-		if ((black & SQUARES[row][column]))
+		if ((black & targetSquareCheckFilter))
 		{
 			return false;
 		}
@@ -119,12 +126,12 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			return false;
 		}*/
 		//prevent piece from moving forward if white piece is in way
-		if (column == oldColumn && (white & SQUARES[row][column]))
+		if (column == oldColumn && (white & targetSquareCheckFilter))
 		{
 			return false;
 		}
 		//if piece of white was taken
-		if (white & SQUARES[row][column])
+		if (white & targetSquareCheckFilter)
 		{
 			white -= SQUARES[row][column];
 			whiteCount--;
@@ -136,7 +143,7 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 		}
 
 		black -= SQUARES[oldRow][oldColumn]; //remove piece at old position
-		black += SQUARES[row][column]; //add piece at new position
+		black += targetSquareCheckFilter; //add piece at new position
 	}
 
 	return true;

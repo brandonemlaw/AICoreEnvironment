@@ -11,6 +11,11 @@
 //For tree deletion: https://www.geeksforgeeks.org/non-recursive-program-to-delete-an-entire-binary-tree/
 
 
+//TODO
+//	-Directly prune or bias against awful children
+//	-track number of pieces on the 2nd to last row, for example, avoid the scenario leading to it
+//  -summary: prune by evalution
+
 #include "AICoreD.h"
 
 
@@ -42,16 +47,16 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 
 	//Start four monte carlo evaluation threads
 	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	/*std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);*/
+	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 
 
 	//Join all the threads
 	mc.join();
-	/*mc2.join();
+	mc2.join();
 	mc3.join();
-	mc4.join();*/
+	mc4.join();
 
 
 	//Find the first level child with the max value as the result
@@ -164,14 +169,6 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
 	//While we are not out of time
 	for (int b = 1; !stop; b++)
 	{
-		if (root->state.visits < 0)
-		{
-			int b = 1;
-		}
-		else
-		{
-			previousVisits = root->state.visits;
-		}
 
 		//Select a promising node
 		Node* node = selectPromisingNode(root);
@@ -592,12 +589,13 @@ void expandNode(Node* node)
 	int row = 0;
 	int col = 0;
 	unsigned long long pieces = myPieces;
-	Node* temp = NULL;
+	Node* temp = node;
 	while (pieces != 0)
 	{
 		//if we've found a piece
 		if (pieces & 1)
 		{
+			CriticalSectionLock lock(temp->cs);
 			//check what is moves are and add a node for each
 
 			////*check for target = 0*/////
@@ -626,6 +624,9 @@ void expandNode(Node* node)
 			////*check for target = 1*/////
 			if (col < 7)
 			{
+				CriticalSectionLock lock(temp->cs);
+
+
 				//if there is not one of our pieces there
 				if (!((myPieces >> ((row + rowChange) * 8 + col)) & 1))
 				{
@@ -653,6 +654,7 @@ void expandNode(Node* node)
 			////*check for target = 2*/////
 			if (col < 7)
 			{
+				CriticalSectionLock lock(temp->cs);
 
 				//if there is not one of our pieces there
 				if (!((myPieces >> ((row + rowChange) * 8 + col + 1)) & 1))
@@ -740,9 +742,8 @@ double getUCTRating(Node* node, bool isWhitesTurnMaster)
 	double wins = node->state.wins;
 
 	//See formula on Wikipedia and other sources
-	double result =  (wins / (double)node->state.visits)
-		+ sqrt(2 * log((double)node->parent->state.visits / (double)node->state.visits));
-	return result;
+	return (wins / (double)node->state.visits)
+		+ TREE_BALANCE_CONSTANT * sqrt(2 * log((double)node->parent->state.visits / (double)node->state.visits));
 }
 
 
