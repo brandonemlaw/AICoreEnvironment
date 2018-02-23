@@ -42,16 +42,16 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 
 	//Start four monte carlo evaluation threads
 	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	/*std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);*/
 
 
 	//Join all the threads
 	mc.join();
-	mc2.join();
+	/*mc2.join();
 	mc3.join();
-	mc4.join();
+	mc4.join();*/
 
 
 	//Find the first level child with the max value as the result
@@ -59,20 +59,24 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	Node* result = NULL;
 
 	//For each of the first level children (every move we could choose)....
-	for (unsigned int i = 0; i < root->childCount; i++)
+	Node* temp = root->child;
+	while (temp != NULL)
 	{
 		//give it a value from the evaluate function
-		double value = Evaluator::evaluate(root->child[i], board, isWhitesTurn);
+		double value = Evaluator::evaluate(temp, board, isWhitesTurn);
 
 		//If the value is the best value, then choose it
 		if (value > maxValue)
 		{
 			//To choose the move, save the new value and set the move Node as the result
 			maxValue = value;
-			result = root->child[i];
+			result = temp;
 
 			//this will be overriden if a new best move is found later
 		}
+
+		//advance to the next child
+		temp = temp->next;
 	}
 
 	//write to the log file
@@ -112,14 +116,16 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 	else
 	{
 		bool foundNewRoot = false;
-		unsigned int size = root->childCount;
-		for (unsigned int i = 0; (!foundNewRoot && i < size); i++)
+
+		//For each move 
+		Node* temp = r->child;
+		while (temp != NULL && !foundNewRoot)
 		{
 			//if the current boardstate is found
-			if (r->child[i]->state.board == board)
+			if (temp->state.board == board)
 			{
 				//set the new root
-				r = r->child[i];
+				r = temp;
 
 				//set the root's parent to null
 				r->parent = NULL;
@@ -127,7 +133,12 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 				//set the found flag
 				foundNewRoot = true;
 			}
+
+			//advance to the next child
+			temp = temp->next;
 		}
+
+			
 
 		//if we didn't find one, set the root over again to empty
 		if (!foundNewRoot)
@@ -148,9 +159,20 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
 	bool stop = false;
 
 
+	int previousVisits = 0;
+
 	//While we are not out of time
-	for (int b = 0; !stop; b++)
+	for (int b = 1; !stop; b++)
 	{
+		if (root->state.visits < 0)
+		{
+			int b = 1;
+		}
+		else
+		{
+			previousVisits = root->state.visits;
+		}
+
 		//Select a promising node
 		Node* node = selectPromisingNode(root);
 
@@ -185,8 +207,17 @@ void processNode(Node* node, bool isWhitesTurn)
 
 Node* getChildNode(Node* node, int i)
 {
-	CriticalSectionLock lock(node->cs);
-	return node->child[i];
+	//CriticalSectionLock lock(node->cs);
+
+	Node* temp = node->child;
+	int c = 1;
+	while (temp != NULL && c <= i)
+	{
+		temp = temp->next;
+		c++;
+	}
+
+	return temp;
 }
 
 int getNodeChildren(Node* node)
@@ -244,7 +275,8 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 					do
 					{
 						//if there's at least something in the col
-						if (!( (rowValue & COLUMNS[col]) == 0) )
+						colRep = COLUMNS[col];
+						if (!( (rowValue & colRep) == 0) )
 						{
 							//check if we found a valid solution
 							if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
@@ -361,7 +393,8 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 					do
 					{
 						//if there's at least something in the col
-						if (!(rowValue & COLUMNS[col]) == 0)
+						colRep = COLUMNS[col];
+						if (!(rowValue & colRep) == 0)
 						{
 							//check if we found a valid solution
 							if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
@@ -489,9 +522,30 @@ Node* selectPromisingNode(Node* root)
 			CriticalSectionLock lockNodeWhile(node->cs);
 			//Find the node with the best UTC rating
 			double bestRating = -DBL_MAX;
-			int bestRatingLocation = 0;
+			Node* bestRatingLocation = NULL;
 
-			for (unsigned int i = 0; i < node->childCount; i++)
+			//For each of the first level children (every move we could choose)....
+			Node* temp = node->child;
+			while (temp != NULL)
+			{
+				CriticalSectionLock lock2(temp->cs);
+
+				double rating = getUCTRating(temp, root->state.isWhitesTurn);
+				if (rating > bestRating)
+				{
+					bestRating = rating;
+					bestRatingLocation = temp;
+				}
+
+
+				//advance to the next child
+				temp = temp->next;
+				
+			}
+
+			
+
+			/*for (unsigned int i = 0; i < node->childCount; i++)
 			{
 				Node* currentNode = node->child[i];
 				CriticalSectionLock lock2(currentNode->cs);
@@ -502,16 +556,19 @@ Node* selectPromisingNode(Node* root)
 					bestRating = rating;
 					bestRatingLocation = i;
 				}
-			}
+			}*/
 
-			node = node->child[bestRatingLocation];
-			CriticalSectionLock lockNodeWhile2(node->cs);
+			node = bestRatingLocation;
+			//CriticalSectionLock lockNodeWhile2(node->cs);
+
 
 		} while (node->childCount > 0);
 	}
 
 	return node;
 }
+
+
 
 
 
@@ -535,6 +592,7 @@ void expandNode(Node* node)
 	int row = 0;
 	int col = 0;
 	unsigned long long pieces = myPieces;
+	Node* temp = NULL;
 	while (pieces != 0)
 	{
 		//if we've found a piece
@@ -550,7 +608,17 @@ void expandNode(Node* node)
 				if (!((myPieces >> ((row + rowChange) * 8 + col - 1)) & 1))
 				{
 					//add the node
-					node->child[node->childCount] = new Node(node, node->state.board, Move(row, col, 0), node->state.isWhitesTurn);
+					if (node->childCount == 0)
+					{
+						//if there are no children, add it as the first child
+						node->child = new Node(node, node->state.board, Move(row, col, 0), node->state.isWhitesTurn);
+						temp = node->child;
+					}
+					else
+					{
+						temp->next = new Node(node, node->state.board, Move(row, col, 0), node->state.isWhitesTurn);
+						temp = temp->next;
+					}
 					node->childCount++;
 				}
 			}
@@ -565,7 +633,18 @@ void expandNode(Node* node)
 					if (!((theirPieces >> ((row + rowChange) * 8 + col)) & 1))
 					{
 						//add the node
-						node->child[node->childCount] = new Node(node, node->state.board, Move(row, col, 1), node->state.isWhitesTurn);
+						if (node->childCount == 0)
+						{
+							//if there are no children, add it as the first child
+							node->child = new Node(node, node->state.board, Move(row, col, 1), node->state.isWhitesTurn);
+							temp = node->child;
+
+						}
+						else
+						{
+							temp->next = new Node(node, node->state.board, Move(row, col, 1), node->state.isWhitesTurn);
+							temp = temp->next;
+						}
 						node->childCount++;
 					}
 				}
@@ -579,7 +658,17 @@ void expandNode(Node* node)
 				if (!((myPieces >> ((row + rowChange) * 8 + col + 1)) & 1))
 				{
 					//add the node
-					node->child[node->childCount] = new Node(node, node->state.board, Move(row, col, 2), node->state.isWhitesTurn);
+					if (node->childCount == 0)
+					{
+						//if there are no children, add it as the first child
+						node->child = new Node(node, node->state.board, Move(row, col, 2), node->state.isWhitesTurn);
+						temp = node->child;
+					}
+					else
+					{
+						temp->next = new Node(node, node->state.board, Move(row, col, 2), node->state.isWhitesTurn);
+						temp = temp->next;
+					}
 					node->childCount++;
 				}
 			}
@@ -651,8 +740,9 @@ double getUCTRating(Node* node, bool isWhitesTurnMaster)
 	double wins = node->state.wins;
 
 	//See formula on Wikipedia and other sources
-	return  (wins / (double)node->state.visits)
+	double result =  (wins / (double)node->state.visits)
 		+ sqrt(2 * log((double)node->parent->state.visits / (double)node->state.visits));
+	return result;
 }
 
 

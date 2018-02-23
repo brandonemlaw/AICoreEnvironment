@@ -10,7 +10,8 @@ class Node
 public:
 	State state;
 	Node* parent;
-	Node* child[48];
+	Node* next;
+	Node* child;
 	int childCount;
 
 

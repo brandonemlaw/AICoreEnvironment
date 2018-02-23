@@ -20,17 +20,20 @@ double Evaluator::evaluate(Node* move, Board boardBeforeMove, bool playingForWhi
 
 	//Check for if the move allows the enemy any moves that make us lose
 	//For each of the enemy's moves
-	unsigned size = move->childCount;
-	for (unsigned i = 0; i < size; i++)
+	Node* temp = move->child;
+	while (temp != NULL)
 	{
-		//If their move leads to the game ending (meaning they won)
-		if (move->child[i]->state.board.isGameOver())
+		if (temp->state.board.isGameOver())
 		{
 			//We would lose. Since the move we're looking at allows them a move that will let them win, it is an awful move.
 			//Return the minimum score possible.
 			return DBL_MIN;
 		}
+
+		//advance to the next child
+		temp = temp->next;
 	}
+
 
 
 	//If we can take a piece
@@ -50,16 +53,19 @@ double Evaluator::evaluate(Node* move, Board boardBeforeMove, bool playingForWhi
 	int waysToTakeUs = 0;
 
 	//For each move they can make
-	for (int i = 0; i < move->childCount; i++)
+	temp = move->child;
+	while (temp != NULL)
 	{
 		//If they can take us (our piece count after their move is < our piece count after our move)
-		if (move->child[i]->state.aiPieceCount(playingForWhite) < move->state.aiPieceCount(playingForWhite))
+		if (temp->state.aiPieceCount(playingForWhite) < move->state.aiPieceCount(playingForWhite))
 		{
 			//Add one way to take us
 			waysToTakeUs += 1;
 		}
-	}
 
+		//advance to the next child
+		temp = temp->next;
+	}
 
 	//If they can take us at least one way...
 	if (waysToTakeUs > 0)

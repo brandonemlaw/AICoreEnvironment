@@ -31,6 +31,9 @@ Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
 	//set the childCount
 	childCount = 0;
 
+	next = NULL;
+	child = NULL;
+
 	//set the source move 
 	state.sourceMove = myMove;
 }
@@ -47,6 +50,8 @@ Node::Node()
 
 	//set the childCount
 	childCount = 0;
+	child = NULL;
+	next = NULL;
 }
 
 

@@ -8,8 +8,8 @@ class State
 {
 public:
 	Board board;
-	short visits;
-	short wins;
+	int visits;
+	int wins;
 	Move sourceMove;
 	bool isWhitesTurn;  //White will move from this state
 

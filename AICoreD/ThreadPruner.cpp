@@ -55,12 +55,17 @@ void ThreadPruner::pruneAllAbove(Node* root, Node* nodeToSave)
 			//delete only if node if not the avoid node
 			if (node != nodeToSave /*&& node != NULL*/)
 			{
-
-				//add all the children to the queue
-				for (int i = 0; i < node->childCount; i++)
+				//For each of the  children 
+				Node* temp = node->child;
+				while (temp != NULL)
 				{
-					nodes.push(node->child[i]);
+					//add to the queue
+					nodes.push(temp);
+
+					//advance to the next child
+					temp = temp->next;
 				}
+
 
 				//actually delete the node - but let the lock go out of scope first
 				delete node;
