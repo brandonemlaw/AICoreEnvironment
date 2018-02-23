@@ -20,11 +20,11 @@ double Evaluator::evaluate(Node* move, Board boardBeforeMove, bool playingForWhi
 
 	//Check for if the move allows the enemy any moves that make us lose
 	//For each of the enemy's moves
-	unsigned size = move->children.size();
+	unsigned size = move->childCount;
 	for (unsigned i = 0; i < size; i++)
 	{
 		//If their move leads to the game ending (meaning they won)
-		if (move->children[i]->state.board.isGameOver())
+		if (move->child[i]->state.board.isGameOver())
 		{
 			//We would lose. Since the move we're looking at allows them a move that will let them win, it is an awful move.
 			//Return the minimum score possible.
@@ -50,10 +50,10 @@ double Evaluator::evaluate(Node* move, Board boardBeforeMove, bool playingForWhi
 	int waysToTakeUs = 0;
 
 	//For each move they can make
-	for (auto &theirMove : move->children)
+	for (unsigned int i = 0; i < move->childCount; i++)
 	{
 		//If they can take us (our piece count after their move is < our piece count after our move)
-		if (theirMove->state.aiPieceCount(playingForWhite) < move->state.aiPieceCount(playingForWhite))
+		if (move->child[i]->state.aiPieceCount(playingForWhite) < move->state.aiPieceCount(playingForWhite))
 		{
 			//Add one way to take us
 			waysToTakeUs += 1;
@@ -154,7 +154,7 @@ bool Evaluator::backupLeft(Board board, int row, int col, bool playingForWhite)
 			int rowEnemyDefendingFrom = row - 1;
 
 			//Return whether or not their is a piece there
-			return (board.whiteRows[rowEnemyDefendingFrom] & board.COLUMNS[col - 1]) != 0;
+			return ((board.white >> rowEnemyDefendingFrom * 8) & board.COLUMNS[col - 1]) != 0;
 		}
 		else
 		{
@@ -162,7 +162,7 @@ bool Evaluator::backupLeft(Board board, int row, int col, bool playingForWhite)
 			int rowEnemyDefendingFrom = row + 1;
 
 			//Return whether or not their is a piece there
-			return (board.blackRows[rowEnemyDefendingFrom] & board.COLUMNS[col - 1]) != 0;
+			return ((board.black >> rowEnemyDefendingFrom * 8) & board.COLUMNS[col - 1]) != 0;
 		}
 	}
 	else
@@ -183,7 +183,7 @@ bool Evaluator::backupRight(Board board, int row, int col, bool playingForWhite)
 			int rowEnemyDefendingFrom = row - 1;
 
 			//Return whether or not their is a piece there
-			return (board.whiteRows[rowEnemyDefendingFrom] & board.COLUMNS[col + 1]) != 0;
+			return (board.white >> rowEnemyDefendingFrom * 8 & board.COLUMNS[col + 1]) != 0;
 		}
 		else
 		{
@@ -191,7 +191,7 @@ bool Evaluator::backupRight(Board board, int row, int col, bool playingForWhite)
 			int rowEnemyDefendingFrom = row + 1;
 
 			//Return whether or not their is a piece there
-			return (board.blackRows[rowEnemyDefendingFrom] & board.COLUMNS[col + 1]) != 0;
+			return (board.black >> rowEnemyDefendingFrom * 8 & board.COLUMNS[col + 1]) != 0;
 		}
 	}
 	else
@@ -211,7 +211,7 @@ bool Evaluator::defendedLeft(Board board, int row, int col, bool playingForWhite
 			int rowEnemyDefendingFrom = row + 1;
 
 			//Return whether or not their is a piece there
-			return (board.blackRows[rowEnemyDefendingFrom] & board.COLUMNS[col - 1]) != 0;
+			return (board.black >> rowEnemyDefendingFrom * 8 & board.COLUMNS[col - 1]) != 0;
 		}
 		else
 		{
@@ -219,7 +219,7 @@ bool Evaluator::defendedLeft(Board board, int row, int col, bool playingForWhite
 			int rowEnemyDefendingFrom = row - 1;
 
 			//Return whether or not their is a piece there
-			return (board.whiteRows[rowEnemyDefendingFrom] & board.COLUMNS[col - 1]) != 0;
+			return (board.white >> rowEnemyDefendingFrom * 8 & board.COLUMNS[col - 1]) != 0;
 		}
 	}
 	else
@@ -239,7 +239,7 @@ bool Evaluator::defendedRight(Board board, int row, int col, bool playingForWhit
 			int rowEnemyDefendingFrom = row + 1;
 
 			//Return whether or not their is a piece there
-			return (board.blackRows[rowEnemyDefendingFrom] & board.COLUMNS[col + 1]) != 0;
+			return (board.black >> rowEnemyDefendingFrom * 8 & board.COLUMNS[col + 1]) != 0;
 		}
 		else
 		{
@@ -247,7 +247,7 @@ bool Evaluator::defendedRight(Board board, int row, int col, bool playingForWhit
 			int rowEnemyDefendingFrom = row - 1;
 
 			//Return whether or not their is a piece there
-			return (board.whiteRows[rowEnemyDefendingFrom] & board.COLUMNS[col + 1]) != 0;
+			return (board.white >> rowEnemyDefendingFrom * 8 & board.COLUMNS[col + 1]) != 0;
 		}
 	}
 	else
@@ -265,7 +265,7 @@ bool Evaluator::blocked(Board board, int row, int col, bool playingForWhite)
 		int rowEnemyDefendingFrom = row + 1;
 
 		//Return whether or not their is a piece there
-		return (board.blackRows[rowEnemyDefendingFrom] & board.COLUMNS[col]) != 0;
+		return (board.black >> rowEnemyDefendingFrom * 8 & board.COLUMNS[col]) != 0;
 	}
 	else
 	{
@@ -273,7 +273,7 @@ bool Evaluator::blocked(Board board, int row, int col, bool playingForWhite)
 		int rowEnemyDefendingFrom = row - 1;
 
 		//Return whether or not their is a piece there
-		return (board.whiteRows[rowEnemyDefendingFrom] & board.COLUMNS[col]) != 0;
+		return (board.white >> rowEnemyDefendingFrom * 8 & board.COLUMNS[col]) != 0;
 	}
 }
 

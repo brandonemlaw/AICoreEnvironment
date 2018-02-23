@@ -10,7 +10,10 @@ class Node
 public:
 	State state;
 	Node* parent;
-	std::vector<Node*> children;
+
+	Node* child[48];
+	int childCount;
+	//std::vector<Node*> children;
 
 	Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn);
 	~Node();
