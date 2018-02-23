@@ -8,7 +8,7 @@ Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
 	InitializeCriticalSection(&cs);
 
 	//Get the board and turn
-	state.board.setParameters(myBoard.blackCount, myBoard.whiteCount, myBoard.black, myBoard.white);
+	state.board.setParameters(myBoard.blackCount, myBoard.whiteCount, myBoard.blackRows, myBoard.whiteRows);
 	state.isWhitesTurn = !myIsWhitesTurn;
 
 	//set the new row by the direction of travel
@@ -28,9 +28,6 @@ Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
 	//set the parent
 	parent = myParent;
 
-	//set the child count
-	childCount = 0;
-
 	//set the source move 
 	state.sourceMove = myMove;
 }
@@ -44,7 +41,6 @@ Node::Node()
 {
 	//Init the critical section for multithread locking
 	InitializeCriticalSection(&cs);
-	childCount = 0;
 }
 
 
@@ -53,7 +49,7 @@ Node* Node::rootNode(Board newBoard, bool isWhitesTurn)
 {
 	Node* result = new Node();
 	result->parent = NULL;
-	result->state.board.setParameters(newBoard.blackCount, newBoard.whiteCount, newBoard.black, newBoard.white);
+	result->state.board.setParameters(newBoard.blackCount, newBoard.whiteCount, newBoard.blackRows, newBoard.whiteRows);
 	result->state.isWhitesTurn = isWhitesTurn;
 	result->state.visits = 0;
 	result->state.wins = 0;

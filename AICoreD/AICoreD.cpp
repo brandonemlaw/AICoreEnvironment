@@ -22,14 +22,14 @@ extern "C" __declspec(dllexport) void __stdcall  EmptyMemory()
 	delete test;
 }
 
-extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned long black, unsigned long white, bool isWhitesTurn, unsigned int mode)
+extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn, unsigned int mode)
 {
 	//Init the random number generator
 	srand(time(NULL));
 
 	//Init the current board from the parameters
 	Board board;
-	board.setParameters(blackCount, whiteCount, black, white);
+	board.setParameters(blackCount, whiteCount, blackRows, whiteRows);
 
 	//Save the original root for pruning
 	Node* originalRoot = root;
@@ -40,20 +40,20 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 
 	//Start four monte carlo evaluation threads
 	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	/*std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc5(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);*/
+	std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 
 
 	//Join all the threads
 	mc.join();
-	/*mc2.join();
+	mc2.join();
 	mc3.join();
 	mc4.join();
 	mc5.join();
-	mc6.join();*/
+	mc6.join();
 
 
 	//Find the first level child with the max value as the result
@@ -61,17 +61,17 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	Node* result = NULL;
 
 	//For each of the first level children (every move we could choose)....
-	for (unsigned int i = 0; i < root->childCount; i++)
+	for (unsigned int i = 0; i < root->children.size(); i++)
 	{
 		//give it a value from the evaluate function
-		double value = Evaluator::evaluate(root->child[i], board, isWhitesTurn);
+		double value = Evaluator::evaluate(root->children[i], board, isWhitesTurn);
 
 		//If the value is the best value, then choose it
 		if (value > maxValue)
 		{
 			//To choose the move, save the new value and set the move Node as the result
 			maxValue = value;
-			result = root->child[i];
+			result = root->children[i];
 
 			//this will be overriden if a new best move is found later
 		}
@@ -114,14 +114,14 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 	else
 	{
 		bool foundNewRoot = false;
-		unsigned int size = root->childCount;
+		unsigned int size = root->children.size();
 		for (unsigned int i = 0; (!foundNewRoot && i < size); i++)
 		{
 			//if the current boardstate is found
-			if (r->child[i]->state.board == board)
+			if (r->children[i]->state.board == board)
 			{
 				//set the new root
-				r = r->child[i];
+				r = r->children[i];
 
 				//set the root's parent to null
 				r->parent = NULL;
@@ -188,13 +188,13 @@ void processNode(Node* node, bool isWhitesTurn)
 Node* getChildNode(Node* node, int i)
 {
 	CriticalSectionLock lock(node->cs);
-	return node->child[i];
+	return node->children[i];
 }
 
 int getNodeChildren(Node* node)
 {
 	CriticalSectionLock lock(node->cs);
-	return node->childCount;
+	return node->children.size();
 }
 
 
@@ -228,12 +228,12 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 			{
 
 				//if we we found a row with a piece, check for the valid column
-				if (!board.white >> row * 8 == 0)
+				if (!board.whiteRows[row] == 0)
 				{
 					//set the parameters for quick checking of each column
-					rowValue = board.white >> row * 8;
-					myNextRowValue = board.white >> (row + ROW_CHANGE) * 8;
-					theirNextRowValue = board.black >> (row + ROW_CHANGE) * 8;
+					rowValue = board.whiteRows[row];
+					myNextRowValue = board.whiteRows[row + ROW_CHANGE];
+					theirNextRowValue = board.blackRows[row + ROW_CHANGE];
 
 					//choose a col randomly (guarenteed to find one) and then loop until a valid row (with a piece to move) is found
 					col = rand() % 8;
@@ -345,12 +345,12 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 			{
 
 				//if we we found a row with a piece, check for the valid column
-				if (!board.black >> row * 8 == 0)
+				if (!board.blackRows[row] == 0)
 				{
 					//set the parameters for quick checking of each column
-					rowValue = board.black >> row * 8;
-					myNextRowValue = board.black >> (row + ROW_CHANGE) * 8;
-					theirNextRowValue = board.white >> (row + ROW_CHANGE) * 8;
+					rowValue = board.blackRows[row];
+					myNextRowValue = board.blackRows[row + ROW_CHANGE];
+					theirNextRowValue = board.whiteRows[row + ROW_CHANGE];
 
 					//choose a col randomly (guarenteed to find one) and then loop until a valid row (with a piece to move) is found
 					col = rand() % 8;
@@ -493,9 +493,9 @@ Node* selectPromisingNode(Node* root)
 			double bestRating = -DBL_MAX;
 			int bestRatingLocation = 0;
 
-			for (unsigned int i = 0; i < node->childCount; i++)
+			for (unsigned int i = 0; i < node->children.size(); i++)
 			{
-				Node* currentNode = node->child[i];
+				Node* currentNode = node->children[i];
 				CriticalSectionLock lock2(currentNode->cs);
 
 				double rating = getUCTRating(currentNode, root->state.isWhitesTurn);
@@ -506,9 +506,9 @@ Node* selectPromisingNode(Node* root)
 				}
 			}
 
-			node = node->child[bestRatingLocation];
+			node = node->children[bestRatingLocation];
 			CriticalSectionLock lockNodeWhile2(node->cs);
-			numberOfChildren = node->childCount;
+			numberOfChildren = node->children.size();
 
 		} while (numberOfChildren > 0);
 	}
@@ -522,90 +522,14 @@ void expandNode(Node* node)
 {	
 	CriticalSectionLock lock(node->cs);
 
-	//generate all the possible resulting states, create a node and add it to the children
+	//generate all the possible resulting states
+	node->state.generateAllMoves();
 
-	//set the terms
-	int myPieces = node->state.board.black;
-	int theirPieces = node->state.board.white;
-	int rowChange = -1;
-	if (node->state.isWhitesTurn)
-	{
-		rowChange = 1;
-		myPieces = node->state.board.white;
-		theirPieces = node->state.board.black;
-	}
-
-	//until we've looked at all the pieces
-	int row = 0;
-	int col = 0;
-	int pieces = 0;
-	while (pieces != 0)
-	{
-		//if we've found a piece
-		if (pieces & 1)
-		{
-			//check what is moves are and add a node for each
-
-			////*check for target = 0*/////
-			if (col > 0)
-			{
-
-				//if there is not one of our pieces there
-				if (!(myPieces >> ((row + rowChange) * 8 + col - 1)) & 1)
-				{
-					//add the node
-					node->child[node->childCount] = new Node(node, node->state.board, Move(row, col, 0), node->state.isWhitesTurn);
-					node->childCount++;
-				}
-			}
-
-			////*check for target = 1*/////
-			if (col < 7)
-			{
-				//if there is not one of our pieces there
-				if (!(myPieces >> ((row + rowChange) * 8 + col)) & 1)
-				{
-					//and there is not one of their pieces there
-					if (!(theirPieces >> ((row + rowChange) * 8 + col)) & 1)
-					{
-						//add the node
-						node->child[node->childCount] = new Node(node, node->state.board, Move(row, col, 1), node->state.isWhitesTurn);
-						node->childCount++;
-					}
-				}
-			}
-
-			////*check for target = 2*/////
-			if (col < 7)
-			{
-
-				//if there is not one of our pieces there
-				if (!(myPieces >> ((row + rowChange) * 8 + col + 1)) & 1)
-				{
-					//add the node
-					node->child[node->childCount] = new Node(node, node->state.board, Move(row, col, 2), node->state.isWhitesTurn);
-					node->childCount++;
-				}
-			}
-
-		}
-
-		//advance the bits by 1
-		pieces >>= 1;
-		col++;
-		if (col > 7)
-		{
-			row++;
-			col = 0;
-		}
-	}
-
-
-	/*//for each resulting state, create a node and add it to the children
+	//for each resulting state, create a node and add it to the children
 	for (unsigned int i = 0; i < node->state.allMoves.size(); i++)
 	{
 		node->children.emplace_back(new Node(node, node->state.board, node->state.allMoves[i], node->state.isWhitesTurn));
-	}*/
+	}
 }
 
 void backTrackValues(Node* node, bool whiteDidWin)

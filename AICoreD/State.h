@@ -15,7 +15,7 @@ public:
 
 	std::vector<Move> allMoves;
 	
-	//void generateAllMoves();
+	void generateAllMoves();
 	State::State();
 
 	int aiPieceCount(bool AIIsWhite);

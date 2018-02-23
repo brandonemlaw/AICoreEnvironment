@@ -1,6 +1,6 @@
 #include "State.h"
 
-/*void State::generateAllMoves()
+void State::generateAllMoves()
 {
 	allMoves.reserve(35);
 
@@ -57,7 +57,7 @@
 					{
 						//if the move is out of bounds
 						if ((col + target - 1) < 0 || (col + target - 1) > 7)
-						{ 
+						{ /*do nothing; move is out of bounds*/
 						}
 
 						//if the move is directly ahead but not into an opponent or my piece,
@@ -87,7 +87,7 @@
 		}
 	}
 }
-*/
+
 State::State()
 {
 }

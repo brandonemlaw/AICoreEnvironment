@@ -57,9 +57,9 @@ void ThreadPruner::pruneAllAbove(Node* root, Node* nodeToSave)
 			{
 
 				//add all the children to the queue
-				for (int i = 0; i < node->childCount; i++)
+				for (int i = 0; i < node->children.size(); i++)
 				{
-					nodes.push(node->child[i]);
+					nodes.push(node->children[i]);
 				}
 
 				//actually delete the node - but let the lock go out of scope first
