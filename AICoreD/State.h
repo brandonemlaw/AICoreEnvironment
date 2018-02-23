@@ -8,10 +8,11 @@ class State
 {
 public:
 	Board board;
-	bool isWhitesTurn;  //White will move from this state
-	int visits;
-	double wins;
+	short visits;
+	short wins;
 	Move sourceMove;
+	bool isWhitesTurn;  //White will move from this state
+
 
 	//std::vector<Move> allMoves;
 	

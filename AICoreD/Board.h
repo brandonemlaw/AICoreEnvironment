@@ -6,9 +6,8 @@
 class Board
 {
 public:
-	int blackCount = 16;
-	int whiteCount = 16;
-	bool gameOver = false;
+	short blackCount = 16;
+	short whiteCount = 16;
 
 	unsigned long long black;
 	unsigned long long white;
@@ -17,7 +16,7 @@ public:
 	//unsigned int blackRows[8];
 	//unsigned int whiteRows[8];
 	//const unsigned int COLUMNS[8] = { 2, 3, 5, 7, 11, 13, 17, 19 };	//A-H
-	const unsigned int COLUMNS[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };	//A-H
+	//const unsigned int COLUMNS[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };	//A-H
 
 
 
@@ -28,8 +27,9 @@ public:
 	bool makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int column);
 
 	bool isGameOver();
-	char getPieceAt(int row, int column);
+	//char getPieceAt(int row, int column);
 
+	bool gameOver = false;
 };
 
 bool operator== (const Board &b1, const Board &b2);

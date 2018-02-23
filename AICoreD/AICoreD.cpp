@@ -6,6 +6,7 @@
 //	https://en.wikipedia.org/wiki/Monte_Carlo_tree_search
 //	http://www.baeldung.com/java-monte-carlo-tree-search
 //	https://www.theatlantic.com/technology/archive/2017/07/marion-tinsley-checkers/534111/
+// https://webdocs.cs.ualberta.ca/~mmueller/ps/enzenberger-mueller-acg12.pdf
 
 //For tree deletion: https://www.geeksforgeeks.org/non-recursive-program-to-delete-an-entire-binary-tree/
 
@@ -44,8 +45,6 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc5(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc6(runMonteCarloAlgorithm, root, board, isWhitesTurn);
 
 
 	//Join all the threads
@@ -53,8 +52,6 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	mc2.join();
 	mc3.join();
 	mc4.join();
-	mc5.join();
-	mc6.join();
 
 
 	//Find the first level child with the max value as the result
@@ -247,7 +244,7 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 					do
 					{
 						//if there's at least something in the col
-						if (!( (rowValue & board.COLUMNS[col]) == 0) )
+						if (!( (rowValue & COLUMNS[col]) == 0) )
 						{
 							//check if we found a valid solution
 							if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
@@ -364,7 +361,7 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 					do
 					{
 						//if there's at least something in the col
-						if (!(rowValue & board.COLUMNS[col]) == 0)
+						if (!(rowValue & COLUMNS[col]) == 0)
 						{
 							//check if we found a valid solution
 							if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)

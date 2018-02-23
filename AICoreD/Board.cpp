@@ -154,7 +154,7 @@ bool Board::isGameOver()
 	}
 }
 
-char Board::getPieceAt(int row, int column)
+/*char Board::getPieceAt(int row, int column)
 {
 	if (white & SQUARES[row][column])
 	{
@@ -169,7 +169,7 @@ char Board::getPieceAt(int row, int column)
 		return 'S';
 	}
 
-}
+}*/
 
 
 
