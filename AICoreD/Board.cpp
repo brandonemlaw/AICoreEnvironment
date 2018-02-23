@@ -2,36 +2,23 @@
 #include "Board.h"
 
 
+
+
 Board::Board()
 {
-
-	for (int i = 0; i < 8; i++)
-	{
-		whiteRows[i] = 1;
-		blackRows[i] = 1;
-	}
-	for (int i = 0; i < 8; i++)
-	{
-		whiteRows[0] += COLUMNS[i];
-		whiteRows[1] += COLUMNS[i];
-		blackRows[6] += COLUMNS[i];
-		blackRows[7] += COLUMNS[i];
-	}
+	//Initialize parameters
+	white = 0;
+	black = 0;
 }
 
 
-Board::Board(int newBlackCount, int newWhiteCount, unsigned int newBlackRows[], unsigned int newWhiteRows[])
+Board::Board(int newBlackCount, int newWhiteCount, unsigned long long newBlack, unsigned long long newWhite)
 {
 	//load the new info
 	blackCount = newBlackCount;
 	whiteCount = newWhiteCount;
-
-	//load the pieces info
-	for (int i = 0; i < 8; i++)
-	{
-		whiteRows[i] = newWhiteRows[i];
-		blackRows[i] = newBlackRows[i];
-	}
+	black = newBlack;
+	white = newWhite;
 
 }
 
@@ -40,28 +27,19 @@ void Board::fromBoard(Board & oldBoard)
 	//load the new info
 	blackCount = oldBoard.blackCount;
 	whiteCount = oldBoard.whiteCount;
-
-	//load the pieces info
-	for (int i = 0; i < 8; i++)
-	{
-		whiteRows[i] = oldBoard.whiteRows[i];
-		blackRows[i] = oldBoard.blackRows[i];
-	}
+	black = oldBoard.black;
+	white = oldBoard.white;
 
 }
 
-void Board::setParameters(int newBlackCount, int newWhiteCount, unsigned int newBlackRows[], unsigned int newWhiteRows[])
+void Board::setParameters(int newBlackCount, int newWhiteCount, unsigned long long newBlack, unsigned long long newWhite)
 {
 	//load the new info
 	blackCount = newBlackCount;
 	whiteCount = newWhiteCount;
+	black = newBlack;
+	white = newWhite;
 
-	//load the pieces info
-	for (int i = 0; i < 8; i++)
-	{
-		whiteRows[i] = newWhiteRows[i];
-		blackRows[i] = newBlackRows[i];
-	}
 
 }
 
@@ -98,19 +76,19 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			return false;
 		}*/
 
-		if ((whiteRows[row] & COLUMNS[column]) != 0)
+		if ((white & SQUARES[row][column]))
 		{
 			return false;
 		}
 
-		if (column == oldColumn && (blackRows[row] & COLUMNS[column]) != 0)
+		if (column == oldColumn && (black & SQUARES[row][column]))
 		{
 			return false;
 		}
 
-		if ((blackRows[row] & COLUMNS[column]) != 0)
+		if (black & SQUARES[row][column])
 		{
-			blackRows[row] -= COLUMNS[column];
+			black -= SQUARES[row][column];
 			blackCount--;
 		}
 
@@ -119,8 +97,8 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 				gameOver = true;
 		}
 
-		whiteRows[oldRow] -= COLUMNS[oldColumn];
-		whiteRows[row] += COLUMNS[column];
+		white -= SQUARES[oldRow][oldColumn];
+		white += SQUARES[row][column];
 	}
 
 	if (!playerWhite)
@@ -131,7 +109,7 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			return false;
 		}*/
 		//is there a black piece already at new position
-		if ((blackRows[row] & COLUMNS[column]) != 0)
+		if ((black & SQUARES[row][column]))
 		{
 			return false;
 		}
@@ -141,14 +119,14 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			return false;
 		}*/
 		//prevent piece from moving forward if white piece is in way
-		if (column == oldColumn && (whiteRows[row] & COLUMNS[column]) != 0)
+		if (column == oldColumn && (white & SQUARES[row][column]))
 		{
 			return false;
 		}
 		//if piece of white was taken
-		if (whiteRows[row] | COLUMNS[column] == 0)
+		if (white & SQUARES[row][column])
 		{
-			whiteRows[row] -= COLUMNS[column];
+			white -= SQUARES[row][column];
 			whiteCount--;
 		}
 
@@ -157,8 +135,8 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			gameOver = true;
 		}
 
-		blackRows[oldRow] -= COLUMNS[oldColumn]; //remove piece at old position
-		blackRows[row] += COLUMNS[column]; //add piece at new position
+		black -= SQUARES[oldRow][oldColumn]; //remove piece at old position
+		black += SQUARES[row][column]; //add piece at new position
 	}
 
 	return true;
@@ -178,11 +156,11 @@ bool Board::isGameOver()
 
 char Board::getPieceAt(int row, int column)
 {
-	if ((whiteRows[row] & COLUMNS[column]) != 0)
+	if (white & SQUARES[row][column])
 	{
 		return 'W';
 	}
-	else if ((blackRows[row] & COLUMNS[column]) != 0)
+	else if (black & SQUARES[row][column])
 	{
 		return 'B';
 	}
@@ -198,24 +176,10 @@ char Board::getPieceAt(int row, int column)
 bool operator== (const Board &b1, const Board &b2)
 {
 	return (
-		/*b1.blackCount == b2.blackCount &&
-		b1.whiteCount == b2.whiteCount &&*/
-		b1.blackRows[0] == b2.blackRows[0] &&
-		b1.blackRows[1] == b2.blackRows[1] &&
-		b1.blackRows[2] == b2.blackRows[2] &&
-		b1.blackRows[3] == b2.blackRows[3] &&
-		b1.blackRows[4] == b2.blackRows[4] &&
-		b1.blackRows[5] == b2.blackRows[5] &&
-		b1.blackRows[6] == b2.blackRows[6] &&
-		b1.blackRows[7] == b2.blackRows[7] &&
-		b1.whiteRows[0] == b2.whiteRows[0] &&
-		b1.whiteRows[1] == b2.whiteRows[1] &&
-		b1.whiteRows[2] == b2.whiteRows[2] &&
-		b1.whiteRows[3] == b2.whiteRows[3] &&
-		b1.whiteRows[4] == b2.whiteRows[4] &&
-		b1.whiteRows[5] == b2.whiteRows[5] &&
-		b1.whiteRows[6] == b2.whiteRows[6] &&
-		b1.whiteRows[7] == b2.whiteRows[7] &&
+		b1.blackCount == b2.blackCount &&
+		b1.whiteCount == b2.whiteCount &&
+		b1.black == b2.black && 
+		b1.white == b2.white && 
 		b1.gameOver == b2.gameOver
 		);
 }

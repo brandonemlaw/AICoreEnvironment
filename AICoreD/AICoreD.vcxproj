@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="AICoreD.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="CriticalSectionLock.h" />
     <ClInclude Include="Evaluator.h" />
     <ClInclude Include="Move.h" />

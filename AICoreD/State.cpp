@@ -1,6 +1,6 @@
 #include "State.h"
 
-void State::generateAllMoves()
+/*void State::generateAllMoves()
 {
 	allMoves.reserve(35);
 
@@ -8,8 +8,8 @@ void State::generateAllMoves()
 	//Define the parameters, assuming it is black's turn
 	bool rowUp = false;
 	unsigned int row = 7;
-	unsigned int* currentPieces = board.blackRows;
-	unsigned int* otherPieces = board.whiteRows;
+	unsigned long currentPieces = board.black;
+	unsigned long otherPieces = board.white;
 	int pieceCount = board.blackCount;
 
 	//Redefine the parameters if it's whites turn
@@ -17,8 +17,8 @@ void State::generateAllMoves()
 	{
 		rowUp = true;
 		row = 0;
-		currentPieces = board.whiteRows;
-		otherPieces = board.blackRows;
+		currentPieces = board.white;
+		otherPieces = board.black;
 		pieceCount = board.whiteCount;
 	}
 
@@ -57,7 +57,7 @@ void State::generateAllMoves()
 					{
 						//if the move is out of bounds
 						if ((col + target - 1) < 0 || (col + target - 1) > 7)
-						{ /*do nothing; move is out of bounds*/
+						{ 
 						}
 
 						//if the move is directly ahead but not into an opponent or my piece,
@@ -86,7 +86,7 @@ void State::generateAllMoves()
 				row--;
 		}
 	}
-}
+}*/
 
 State::State()
 {

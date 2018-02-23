@@ -13,9 +13,9 @@ public:
 	double wins;
 	Move sourceMove;
 
-	std::vector<Move> allMoves;
+	//std::vector<Move> allMoves;
 	
-	void generateAllMoves();
+	//void generateAllMoves();
 	State::State();
 
 	int aiPieceCount(bool AIIsWhite);
