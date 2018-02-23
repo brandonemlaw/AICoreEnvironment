@@ -20,6 +20,7 @@ extern "C" __declspec(dllexport) void __stdcall  EmptyMemory()
 	std::thread pruner(ThreadPruner::pruneAllAbove, root, *test);
 	pruner.join();
 	delete test;
+	root = NULL;
 }
 
 extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned int blackRows[], unsigned int whiteRows[], bool isWhitesTurn, unsigned int mode)
