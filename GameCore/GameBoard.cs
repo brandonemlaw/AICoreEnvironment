@@ -31,6 +31,55 @@ namespace GameCore
             printGameBoard();
         }
 
+        public string gameBoardString()
+        {
+            String result = "";
+
+            //Set the second player attribute to have
+            //the opposite identity of the first player
+            identity secondPlayer = identity.O;
+            if (firstPlayer == identity.O)
+            {
+                secondPlayer = identity.X;
+            }
+
+            //Display each row (loops backwards for right way up)
+            for (int i = ROW - 1; i >= 0; i--)
+            {
+                //Write the row number
+                result += " " + (i + 1);
+                result += " ";
+
+                //Display each piece
+                for (int j = 0; j < COL; j++)
+                {
+                    char peice = board.getPieceAt(i, j);
+                    if (peice == 'W')
+                    {
+                        result += firstPlayer;
+                    }
+                    else if (peice == 'B')
+                    {
+                        result += secondPlayer;
+                    }
+                    else
+                    {
+                        result += " ";
+                    }
+
+
+                    result += " ";// Temporary to see what is going on
+                }
+                result += "\n"; // Temporary to see what is going on
+
+            }
+
+            //Display the column ids
+            result += "  A B C D E F G H\n";
+
+            return result;
+        }
+
         public void printGameBoard()
         {
             //Set the second player attribute to have

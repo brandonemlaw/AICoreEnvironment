@@ -4,7 +4,7 @@
 double Evaluator::evaluate(Node* move, Board boardBeforeMove, bool playingForWhite)
 {
 	//Start with the win score from the tree search process
-	double score = (move->state.wins / move->state.visits) * MASTER_WEIGHT;
+	double score = ((double)move->state.wins / (double)move->state.visits) * MASTER_WEIGHT;
 
 	//***SETUP PARAMETER***///
 
@@ -100,25 +100,21 @@ double Evaluator::evaluate(Node* move, Board boardBeforeMove, bool playingForWhi
 	bool block = blocked(move->state.board, endRow, endCol, playingForWhite);
 
 
-	//Only increase for backup when determining whether to make an offsensive move
-	if (areTakingAPiece || waysToTakeUs > 0)
+	//If double backed-up...
+	if (bLeft && bRight)
 	{
-		//If double backed-up...
-		if (bLeft && bRight)
-		{
-			score *= DOUBLE_BACKUP_WEIGHT;
-		}
-		//If single backed-up
-		else if (bLeft || bRight)
-		{
-			score *= BACKUP_WEIGHT;
-		}
+		score *= DOUBLE_BACKUP_WEIGHT;
+	}
+	//If single backed-up
+	else if (bLeft || bRight)
+	{
+		score *= BACKUP_WEIGHT;
+	}
 
-		//If on the left or right side of the board
-		if (onLeft || onRight)
-		{
-			score *= SIDE_WEIGHT;
-		}
+	//If on the left or right side of the board
+	if (onLeft || onRight)
+	{
+		score *= SIDE_WEIGHT;
 	}
 
 

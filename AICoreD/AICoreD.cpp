@@ -31,6 +31,7 @@ extern "C" __declspec(dllexport) void __stdcall  EmptyMemory()
 
 extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned long long black, unsigned long long white, bool isWhitesTurn, unsigned int mode)
 {
+
 	//Init the random number generator
 	srand(time(NULL));
 
@@ -58,6 +59,7 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	mc3.join();
 	mc4.join();
 
+	//std::this_thread::sleep_for(std::chrono::seconds(5));
 
 	//Find the first level child with the max value as the result
 	double maxValue = -1;
@@ -69,6 +71,7 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	{
 		//give it a value from the evaluate function
 		double value = Evaluator::evaluate(temp, board, isWhitesTurn);
+		//double value = (double)temp->state.wins / (double)temp->state.visits;
 
 		//If the value is the best value, then choose it
 		if (value > maxValue)
@@ -169,16 +172,29 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
 	//While we are not out of time
 	for (int b = 1; !stop; b++)
 	{
+		try
+		{
 
-		//Select a promising node
-		Node* node = selectPromisingNode(root);
+			//Select a promising node
+			Node* node = selectPromisingNode(root);
 
-		expandNode(node);
+			expandNode(node);
 
-		int i = rand() % getNodeChildren(node);
-		node = getChildNode(node, i);
+			int i = rand() % getNodeChildren(node);
+			node = getChildNode(node, i);
 
-		processNode(node, isWhitesTurn);
+			//temporary fix!!!
+			if (node != NULL)
+			{
+				processNode(node, isWhitesTurn);
+			}
+		}
+		catch (...)
+		{
+			//write error to the log file
+			std::ofstream log_file("AILog.txt", std::ios_base::out | std::ios_base::app);
+			log_file << "ERROR OCCURED and was CAUGHT\n";
+		}
 
 		//Update the current time+
 		if (b % 1000 == 0)
@@ -197,7 +213,6 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
 
 void processNode(Node* node, bool isWhitesTurn)
 {
-	CriticalSectionLock lock(node->cs);
 	bool whiteDidWin = executeRandomGame(node->state.board, node->state.isWhitesTurn);
 	backTrackValues(node, whiteDidWin == isWhitesTurn);
 }
@@ -229,16 +244,20 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 	//Make a copy of the board
 	Board board = Board(rawBoard);
 
-	while (!board.gameOver)
+	while (! (board.gameOver || board.black & ROWS[0] || board.white & ROWS[7]))
 	{
 		if (isWhitesTurn)
 		{
+
+
 			//constants
 			const int ROW_CHANGE = 1;
 
 			//variables
 			unsigned int row;
 			unsigned int col;
+			unsigned int target;
+
 			unsigned long long rowValue = 0;
 			unsigned long long myNextRowValue = 0;
 			unsigned long long theirNextRowValue = 0;
@@ -246,103 +265,150 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 
 			int validFound = 0;
 
-			//choose a row randomly  
-			row = rand() % 8;
+			//take a piece if we can
+			unsigned long long whitePieces = board.white;
+			unsigned long long blackPieces = board.black;
+			int count = 0;
 
-			//loop until a valid row (with a valid piece to move) is found
-			while (!validFound)
+			bool foundFirstGo = false;
+
+			while (whitePieces && !foundFirstGo)
 			{
-
-				//if we we found a row with a piece, check for the valid column
-				if (board.white & ROWS[row])
+				if (whitePieces & 1)
 				{
-					//set the parameters for quick checking of each column
-					rowValue = board.white >> row * 8;
-					myNextRowValue = board.white >> (row + ROW_CHANGE) * 8;
-					theirNextRowValue = board.black >> (row + ROW_CHANGE) * 8;
-
-					//choose a col randomly (guarenteed to find one) and then loop until a valid row (with a piece to move) is found
-					col = rand() % 8;
-
-					//copy the initial column so we know when we've finished the row
-					unsigned int initialCol = col;
-
-
-					//check every column until we've looped around or found one
-					do
+					//checks ahead a row, one to left and one to right
+					if (blackPieces & 640)
 					{
-						//if there's at least something in the col
-						colRep = COLUMNS[col];
-						if (!( (rowValue & colRep) == 0) )
+						row = count / 8;
+						col = count % 8;
+						if (blackPieces & 512)
 						{
-							//check if we found a valid solution
-							if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
-								validFound += 1;
-							if (/*centerClear*/ (myNextRowValue & colRep) == 0 && (theirNextRowValue & colRep) == 0)
-								validFound += 2;
-							if (/*rightClear*/ (myNextRowValue & (colRep >> 1)) == 0)
-								validFound += 4;
-						}
-
-						//advance to the next col if not found yet
-						if (!validFound)
-						{
-							if (col >= 7)
+							if (col < 7)
 							{
-								col = 0;
+								target = 2;
+								foundFirstGo = true;
 							}
-							else
+						}
+						//TODO: need to randomize between these two!!
+						else if (blackPieces & 128)
+						{
+							if (col > 0)
 							{
-								col++;
+								target = 0;
+								foundFirstGo = true;
 							}
 						}
 
-					} while (!validFound && col != initialCol);
-
-				}
-
-
-				//advance to the next row if not found yet
-				if (!validFound)
-				{
-					if (row >= 7)
-					{
-						row = 0;
-					}
-					else
-					{
-						row++;
 					}
 				}
+
+				//advance the spot we're looking at
+				whitePieces >>= 1;
+				blackPieces >>= 1;
+				count++;
 			}
 
-			//now that we have a valid solution, execute it
-			unsigned int target;
-			switch (validFound)
+			if (!foundFirstGo)
 			{
-			case 1:	// l--
-				target = 0;
-				break;
-			case 2:	// -c-
-				target = 1;
-				break;
-			case 3: // lc-
-				target = rand() % 2;
-				break;
-			case 4: // --r
-				target = 2;
-				break;
-			case 5: // l-r
-				target = rand() % 2;
-				if (target == 1)
-					target++;
-				break;
-			case 6: // -cr
-				target = rand() % 2 + 1;
-				break;
-			case 7: // lcr
-				target = rand() % 3;
-				break;
+
+				//choose a row randomly  
+				row = rand() % 8;
+
+
+				//loop until a valid row (with a valid piece to move) is found
+				while (!validFound)
+				{
+
+					//if we we found a row with a piece, check for the valid column
+					if (board.white & ROWS[row])
+					{
+						//set the parameters for quick checking of each column
+						rowValue = board.white >> row * 8;
+						myNextRowValue = board.white >> (row + ROW_CHANGE) * 8;
+						theirNextRowValue = board.black >> (row + ROW_CHANGE) * 8;
+
+						//choose a col randomly (guarenteed to find one) and then loop until a valid row (with a piece to move) is found
+						col = rand() % 8;
+
+						//copy the initial column so we know when we've finished the row
+						unsigned int initialCol = col;
+
+
+						//check every column until we've looped around or found one
+						do
+						{
+							//if there's at least something in the col
+							colRep = COLUMNS[col];
+							if (!((rowValue & colRep) == 0))
+							{
+								//check if we found a valid solution
+								if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
+									validFound += 1;
+								if (/*centerClear*/ (myNextRowValue & colRep) == 0 && (theirNextRowValue & colRep) == 0)
+									validFound += 2;
+								if (/*rightClear*/ (myNextRowValue & (colRep >> 1)) == 0)
+									validFound += 4;
+							}
+
+							//advance to the next col if not found yet
+							if (!validFound)
+							{
+								if (col >= 7)
+								{
+									col = 0;
+								}
+								else
+								{
+									col++;
+								}
+							}
+
+						} while (!validFound && col != initialCol);
+
+					}
+
+
+					//advance to the next row if not found yet
+					if (!validFound)
+					{
+						if (row >= 7)
+						{
+							row = 0;
+						}
+						else
+						{
+							row++;
+						}
+					}
+				}
+
+				//now that we have a valid solution, execute it
+				switch (validFound)
+				{
+				case 1:	// l--
+					target = 0;
+					break;
+				case 2:	// -c-
+					target = 1;
+					break;
+				case 3: // lc-
+					target = rand() % 2;
+					break;
+				case 4: // --r
+					target = 2;
+					break;
+				case 5: // l-r
+					target = rand() % 2;
+					if (target == 1)
+						target++;
+					break;
+				case 6: // -cr
+					target = rand() % 2 + 1;
+					break;
+				case 7: // lcr
+					target = rand() % 3;
+					break;
+				}
 			}
 
 			if (board.makeMove(isWhitesTurn, row, col, row + ROW_CHANGE, col + target - 1))
@@ -357,112 +423,170 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn)
 			//variables
 			unsigned int row;
 			unsigned int col;
+			unsigned int target;
+
 			unsigned long long rowValue = 0;
 			unsigned long long myNextRowValue = 0;
 			unsigned long long theirNextRowValue = 0;
 			unsigned int colRep = 0;
 
+
 			int validFound = 0;
 
-			//choose a row randomly  
-			row = rand() % 8;
 
-			//loop until a valid row (with a valid piece to move) is found
-			while (!validFound)
+
+			//take a piece if we can
+			unsigned long long whitePieces = board.white;
+			unsigned long long blackPieces = board.black;
+			int count = 0;
+
+			bool foundFirstGo = false;
+
+			while (whitePieces && !foundFirstGo)
 			{
-
-				//if we we found a row with a piece, check for the valid column
-				if (board.black & ROWS[row])
+				if (whitePieces & 1)
 				{
-					//set the parameters for quick checking of each column
-					rowValue = board.black >> row * 8;
-					myNextRowValue = board.black >> (row + ROW_CHANGE) * 8;
-					theirNextRowValue = board.white >> (row + ROW_CHANGE) * 8;
-
-					//choose a col randomly (guarenteed to find one) and then loop until a valid row (with a piece to move) is found
-					col = rand() % 8;
-
-					//copy the initial column so we know when we've finished the row
-					unsigned int initialCol = col;
-
-
-					//check every column until we've looped around or found one
-					do
+					//checks ahead a row, one to left and one to right
+					if (blackPieces & 640)
 					{
-						//if there's at least something in the col
-						colRep = COLUMNS[col];
-						if (!(rowValue & colRep) == 0)
+						if (blackPieces & 512)
 						{
-							//check if we found a valid solution
-							if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
-								validFound += 1;
-							if (/*centerClear*/ (myNextRowValue & colRep) == 0 && (theirNextRowValue & colRep) == 0)
-								validFound += 2;
-							if (/*rightClear*/ (myNextRowValue & (colRep >> 1)) == 0)
-								validFound += 4;
-						}
+							int c =  count + 9;
+							row = c / 8;
+							col = c % 8;
+							target = 0;
 
-						//advance to the next col if not found yet
-						if (!validFound)
-						{
-							if (col >= 7)
+							if (col > 0)
 							{
-								col = 0;
+								foundFirstGo = true;
 							}
-							else
+						}
+						else if (blackPieces & 128)
+						{
+							int c = count + 7;
+							row = c / 8;
+							col = c % 8;
+							target = 2;
+
+							if (col < 7)
 							{
-								col++;
+								foundFirstGo = true;
 							}
 						}
 
-					} while (!validFound && col != initialCol);
-
-				}
-
-
-				//advance to the next row if not found yet
-				if (!validFound)
-				{
-					if (row >= 7)
-					{
-						row = 0;
-					}
-					else
-					{
-						row++;
 					}
 				}
+
+				//advance the spot we're looking at
+				whitePieces >>= 1;
+				blackPieces >>= 1;
+				count++;
 			}
-
-			//now that we have a valid solution, execute it
-			unsigned int target;
-			switch (validFound)
+			if (!foundFirstGo)
 			{
-			case 1:	// l--
-				target = 0;
-				break;
-			case 2:	// -c-
-				target = 1;
-				break;
-			case 3: // lc-
-				target = rand() % 2;
-				break;
-			case 4: // --r
-				target = 2;
-				break;
-			case 5: // l-r
-				target = rand() % 2;
-				if (target == 1)
-					target++;
-				break;
-			case 6: // -cr
-				target = rand() % 2 + 1;
-				break;
-			case 7: // lcr
-				target = rand() % 3;
-				break;
-			}
 
+				//choose a row randomly  
+				row = rand() % 8;
+
+				//loop until a valid row (with a valid piece to move) is found
+				while (!validFound)
+				{
+
+					//if we we found a row with a piece, check for the valid column
+					if (board.black & ROWS[row])
+					{
+						//set the parameters for quick checking of each column
+						rowValue = board.black >> row * 8;
+						myNextRowValue = board.black >> (row + ROW_CHANGE) * 8;
+						theirNextRowValue = board.white >> (row + ROW_CHANGE) * 8;
+
+						//choose a col randomly (guarenteed to find one) and then loop until a valid row (with a piece to move) is found
+						col = rand() % 8;
+
+						//copy the initial column so we know when we've finished the row
+						unsigned int initialCol = col;
+
+
+						//check every column until we've looped around or found one
+						do
+						{
+							//if there's at least something in the col
+							colRep = COLUMNS[col];
+							if (!(rowValue & colRep) == 0)
+							{
+								//check if we found a valid solution
+								if (/* leftClear*/ (myNextRowValue & (colRep << 1)) == 0)
+									validFound += 1;
+								if (/*centerClear*/ (myNextRowValue & colRep) == 0 && (theirNextRowValue & colRep) == 0)
+									validFound += 2;
+								if (/*rightClear*/ (myNextRowValue & (colRep >> 1)) == 0)
+									validFound += 4;
+							}
+
+							//advance to the next col if not found yet
+							if (!validFound)
+							{
+								if (col >= 7)
+								{
+									col = 0;
+								}
+								else
+								{
+									col++;
+								}
+							}
+
+						} while (!validFound && col != initialCol);
+
+					}
+
+
+					//advance to the next row if not found yet
+					if (!validFound)
+					{
+						if (row >= 7)
+						{
+							row = 0;
+						}
+						else
+						{
+							row++;
+						}
+					}
+				}
+
+				//now that we have a valid solution, execute it
+				switch (validFound)
+				{
+				case 1:	// l--
+					target = 0;
+					break;
+				case 2:	// -c-
+					target = 1;
+					break;
+				case 3: // lc-
+					target = rand() % 2;
+					break;
+				case 4: // --r
+					target = 2;
+					break;
+				case 5: // l-r
+					target = rand() % 2;
+					if (target == 1)
+						target++;
+					break;
+				case 6: // -cr
+					target = rand() % 2 + 1;
+					break;
+				case 7: // lcr
+					target = rand() % 3;
+					break;
+				}
+			}
+			if (row == 1 && (col + target - 1) == 0 && board.blackCount == 1 && board.white == 4503766193143808)
+			{
+				int b = 1;
+			}
 			if (board.makeMove(isWhitesTurn, row, col, row + ROW_CHANGE, col + target - 1))
 				isWhitesTurn = !isWhitesTurn;
 
@@ -560,6 +684,11 @@ Node* selectPromisingNode(Node* root)
 
 
 		} while (node->childCount > 0);
+	}
+
+	if (node == NULL)
+	{
+		int b = 0;
 	}
 
 	return node;
@@ -689,14 +818,13 @@ void expandNode(Node* node)
 
 }
 
-void backTrackValues(Node* node, bool whiteDidWin)
+void backTrackValues(Node* node, bool didWeWin)
 {
 
 	//Did we, the AI, win?
-	//If whitewillwin and whitejustmoved (!isWhitesTurn)
-	//or !whitewillwin and blackjustmove (isWhitesturn)
-	if (whiteDidWin != node->state.isWhitesTurn)
+	if (didWeWin)
 	{
+		CriticalSectionLock lock(node->cs);
 		//Increase visits and wins by 1 all the way to the top of the tree
 		while (node != NULL)
 		{
@@ -710,6 +838,7 @@ void backTrackValues(Node* node, bool whiteDidWin)
 	}
 	else
 	{
+		CriticalSectionLock lock(node->cs);
 		//Increase visits ONLY (not wins) by 1 all the way to the top of the tree
 		while (node != NULL)
 		{
@@ -730,6 +859,10 @@ double getUCTRating(Node* node, bool isWhitesTurnMaster)
 	{
 		return DBL_MIN;
 	}
+	if (node->parent == NULL)
+	{
+		return 0;
+	}
 
 	CriticalSectionLock lock(node->cs);
 
@@ -740,6 +873,7 @@ double getUCTRating(Node* node, bool isWhitesTurnMaster)
 
 	//NEED TO INVERT STATE WINS? NO. A win is a win for us.
 	double wins = node->state.wins;
+	
 
 	//See formula on Wikipedia and other sources
 	return (wins / (double)node->state.visits)

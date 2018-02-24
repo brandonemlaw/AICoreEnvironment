@@ -47,7 +47,7 @@ int getNodeChildren(Node* node);
 
 void incrementTarget(int& target, bool validMoveExists);
 bool compareMove(const Move& a, const Move& b);
-void backTrackValues(Node* node, bool whiteDidWin);
+void backTrackValues(Node* node, bool didWeWin);
 
 void expandNode(Node* node);
 Node* selectPromisingNode(Node* root);

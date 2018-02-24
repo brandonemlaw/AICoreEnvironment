@@ -1,0 +1,8 @@
+C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Release\GameCore.exe.config
+C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Release\GameCore.exe
+C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\bin\Release\GameCore.pdb
+C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\obj\Release\GameCore.exe
+C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\obj\Release\GameCore.pdb
+C:\Users\bemlaw\Desktop\AICoreEnvironment\Release\GameCore.exe.config
+C:\Users\bemlaw\Desktop\AICoreEnvironment\Release\GameCore.exe
+C:\Users\bemlaw\Desktop\AICoreEnvironment\Release\GameCore.pdb

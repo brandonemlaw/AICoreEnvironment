@@ -34,6 +34,8 @@ ThreadPruner::~ThreadPruner()
 
 void ThreadPruner::pruneAllAbove(Node* root, Node* nodeToSave)
 {
+	//std::this_thread::sleep_for(std::chrono::seconds(2));
+
 	if (root != NULL)
 	{
 		//create a queue of nodes to delete, starting with the root

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AI;
 using System.Collections;
+using System.IO;
 
 namespace GameCore
 {
@@ -67,6 +68,9 @@ namespace GameCore
         private static void beginGame(identity firstID, ref Player xPlayer, ref Player oPlayer, ref GameBoard Game,
                                       ref Move move)
         {
+            Console.Write("Enter Game Name: ");
+            string gameName = Console.ReadLine();
+
             Player currentPlayer = xPlayer;
             if (firstID == identity.X)
             {
@@ -224,8 +228,40 @@ namespace GameCore
                 {
                     moved = Game.movePiece(currentPlayer.getIdentity(), move);
                 }
+
+                //Print the new game state to the screen
                 Console.Clear();
+                char moveBegin = (char)(move.Begin.Y + 97);
+                char moveEnd = (char)(move.End.Y + 97);
+                string moveString = moveBegin + "" + (move.Begin.X + 1) + "" + moveEnd + "" + (move.End.X + 1);
+                Console.Out.Write(moveString + "\n");
                 Game.printGameBoard();
+
+                //Log the ouput
+                if (currentPlayer.getIdentity() == identity.O)
+                {
+                    File.AppendAllText(gameName + ".txt", moveString + Environment.NewLine);
+                }
+                else
+                {
+                    File.AppendAllText(gameName + ".txt", moveString + "\t");
+
+                }
+
+                //Log the ouput readable
+                if (currentPlayer.getIdentity() == identity.O)
+                {
+                    File.AppendAllText(gameName + ".read.txt", moveString + Environment.NewLine);
+                    File.AppendAllText(gameName + ".read.txt", game.gameBoardString() + Environment.NewLine);
+                    File.AppendAllText(gameName + ".read.txt", Environment.NewLine);
+                }
+                else
+                {
+                    File.AppendAllText(gameName + ".read.txt", moveString + Environment.NewLine);
+                    File.AppendAllText(gameName + ".read.txt", game.gameBoardString() + Environment.NewLine);
+                    File.AppendAllText(gameName + ".read.txt", Environment.NewLine);
+                }
+
 
                 if (moved)
                 {
