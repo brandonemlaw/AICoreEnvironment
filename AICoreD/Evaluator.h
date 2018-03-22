@@ -5,16 +5,16 @@
 
 //Weights
 const double MASTER_WEIGHT = 1;
-const double TAKE_PIECE_WEIGHT = 1.05; //1.05
-const double LOSE_PIECE_WEIGHT = 0.8;
+const double TAKE_PIECE_WEIGHT = 1; //1.05
+const double LOSE_PIECE_WEIGHT = 1; //0.8
 
-const double DOUBLE_BACKUP_WEIGHT = 1.07;
-const double BACKUP_WEIGHT = 1.05;
+const double DOUBLE_BACKUP_WEIGHT = 1; //1.07
+const double BACKUP_WEIGHT = 1; //1.05
 
 const double SIDE_WEIGHT = 1;
 
-const double DOUBLE_DEFENDED_WEIGHT = 0.9;
-const double DEFENDED_WEIGHT = 0.8;
+const double DOUBLE_DEFENDED_WEIGHT = 1; //0.9
+const double DEFENDED_WEIGHT = 1; //0.8
 const double BLOCKED_WEIGHT = 1;
 
 

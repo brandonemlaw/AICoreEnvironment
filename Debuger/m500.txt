@@ -1,0 +1,4 @@
+h2g3	a7a6
+f2f3	a6a5
+c2c3	a5a4
+g1f2	a4a3

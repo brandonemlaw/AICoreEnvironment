@@ -38,3 +38,13 @@ C:\Users\bemlaw\Desktop\AICoreEnvironment\Debuger\GameCore.exe.config
 C:\Users\bemlaw\Desktop\AICoreEnvironment\Debuger\GameCore.exe
 C:\Users\bemlaw\Desktop\AICoreEnvironment\Debuger\GameCore.pdb
 C:\Users\bemlaw\Desktop\AICoreEnvironment\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\Debuger\GameCore.exe.config
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\Debuger\GameCore.exe
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\Debuger\GameCore.pdb
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Debug\GameCore.csprojResolveAssemblyReference.cache
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Debug\GameCore.csproj.CoreCompileInputs.cache
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Debug\GameCore.exe
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Debug\GameCore.pdb
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\AICoreD\Debug\GameCore.exe.config
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\AICoreD\Debug\GameCore.exe
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\AICoreD\Debug\GameCore.pdb

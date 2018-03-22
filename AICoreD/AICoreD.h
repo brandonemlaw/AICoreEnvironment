@@ -8,6 +8,9 @@
 #include <thread>
 #include <fstream>
 #include <iomanip>
+#include <vector>
+#include <tuple>
+#include <algorithm>
 
 #include "Node.h"
 #include "CriticalSectionLock.h"
@@ -37,6 +40,12 @@ extern "C" __declspec(dllexport) void __stdcall  EmptyMemory();
 extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned long long black, unsigned long long white, bool isWhitesTurn, unsigned int mode);
 
 bool executeRandomGame(Board& rawBoard, bool isWhitesTurn);
+
+
+Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn);
+int alphaBeta(Node* node, int depth, int alpha, int beta, bool maximizingPlayer);
+bool compareABPairs(std::tuple<Node*, int>& first, std::tuple<Node*, int>& second);
+int abEval(Node* node);
 
 
 void setRoot(Node*& r, Board board, bool isWhitesTurn);

@@ -1,6 +1,18 @@
 #include "Node.h"
 
 
+Node::Node(Node& source)
+{
+	//Init the critical section for multithread locking
+	InitializeCriticalSection(&cs);
+
+	//copy all of the parameters
+	state = source.state;
+	parent = source.parent;
+	childCount = source.childCount;
+	next = source.next;
+	child = source.child;
+}
 
 Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
 {

@@ -14,7 +14,7 @@ public:
 	Node* child;
 	int childCount;
 
-
+	Node::Node(Node& source);
 	Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn);
 	~Node();
 

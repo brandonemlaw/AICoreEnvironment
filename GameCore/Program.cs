@@ -131,6 +131,7 @@ namespace GameCore
                         else
                         {
                             move = null;
+                            playerAlwaysMove = false;
                         }
 
 
@@ -231,10 +232,14 @@ namespace GameCore
 
                 //Print the new game state to the screen
                 Console.Clear();
-                char moveBegin = (char)(move.Begin.Y + 97);
-                char moveEnd = (char)(move.End.Y + 97);
-                string moveString = moveBegin + "" + (move.Begin.X + 1) + "" + moveEnd + "" + (move.End.X + 1);
-                Console.Out.Write(moveString + "\n");
+                string moveString = "";
+                if (move != null)
+                {
+                    char moveBegin = (char)(move.Begin.Y + 97);
+                    char moveEnd = (char)(move.End.Y + 97);
+                    moveString = moveBegin + "" + (move.Begin.X + 1) + "" + moveEnd + "" + (move.End.X + 1);
+                    Console.Out.Write(moveString + "\n");
+                }
                 Game.printGameBoard();
 
                 //Log the ouput

@@ -1,0 +1,1776 @@
+g2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+e2e3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3         X   X   
+ 2 X X X X   X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a6a5
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5 O               
+ 4                 
+ 3         X   X   
+ 2 X X X X   X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h1g2
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5 O               
+ 4                 
+ 3         X   X   
+ 2 X X X X   X X X 
+ 1 X X X X X X X   
+  A B C D E F G H
+
+
+a5a4
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5                 
+ 4 O               
+ 3         X   X   
+ 2 X X X X   X X X 
+ 1 X X X X X X X   
+  A B C D E F G H
+
+
+g2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+e2e3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3         X   X   
+ 2 X X X X   X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a6a5
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5 O               
+ 4                 
+ 3         X   X   
+ 2 X X X X   X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+e1e2
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5 O               
+ 4                 
+ 3         X   X   
+ 2 X X X X X X   X 
+ 1 X X X X   X X X 
+  A B C D E F G H
+
+
+a5a4
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5                 
+ 4 O               
+ 3         X   X   
+ 2 X X X X X X   X 
+ 1 X X X X   X X X 
+  A B C D E F G H
+
+
+g2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g2f3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3           X     
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3           X     
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g2h3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3               X 
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3               X 
+ 2 X X X X X X   X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7a6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g2h3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3             X X 
+ 2 X X X X X X     
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a6a5
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5 O               
+ 4                 
+ 3             X X 
+ 2 X X X X X X     
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g1g2
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5 O               
+ 4                 
+ 3             X X 
+ 2 X X X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+a5a4
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5                 
+ 4 O               
+ 3             X X 
+ 2 X X X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+b2a3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5                 
+ 4 O               
+ 3 X           X X 
+ 2 X   X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+a4b3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X O         X X 
+ 2 X   X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X X         X X 
+ 2     X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+b6b5
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X X         X X 
+ 2     X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+b7b6
+ 8 O O O O O O O O 
+ 7     O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3 X X         X X 
+ 2     X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+d2c3
+ 8 O O O O O O O O 
+ 7     O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3 X X X       X X 
+ 2     X   X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+h7g6
+ 8 O O O O O O O O 
+ 7     O O O O O   
+ 6   O         O   
+ 5                 
+ 4                 
+ 3 X X X       X X 
+ 2     X   X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+e2f3
+ 8 O O O O O O O O 
+ 7     O O O O O   
+ 6   O         O   
+ 5                 
+ 4                 
+ 3 X X X     X X X 
+ 2     X     X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+d7d6
+ 8 O O O O O O O O 
+ 7     O   O O O   
+ 6   O   O     O   
+ 5                 
+ 4                 
+ 3 X X X     X X X 
+ 2     X     X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+c2d3
+ 8 O O O O O O O O 
+ 7     O   O O O   
+ 6   O   O     O   
+ 5                 
+ 4                 
+ 3 X X X X   X X X 
+ 2           X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+a8b6
+ 8 O O O O O O O O 
+ 7     O   O O O   
+ 6   O   O     O   
+ 5                 
+ 4                 
+ 3 X X X X   X X X 
+ 2           X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+a1a1
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3                 
+ 2 X X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a1a1
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3                 
+ 2 X X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3                 
+ 2 X X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+b2a3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3 X               
+ 2 X   X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a1a1
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3                 
+ 2 X X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3                 
+ 2 X X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7b6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3             X   
+ 2 X X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g2h3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3             X X 
+ 2 X X X X X X     
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h7g6
+ 8 O O O O O O O O 
+ 7   O O O O O O   
+ 6   O         O   
+ 5                 
+ 4                 
+ 3             X X 
+ 2 X X X X X X     
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g1g2
+ 8 O O O O O O O O 
+ 7   O O O O O O   
+ 6   O         O   
+ 5                 
+ 4                 
+ 3             X X 
+ 2 X X X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+b7c6
+ 8 O O O O O O O O 
+ 7     O O O O O   
+ 6   O O       O   
+ 5                 
+ 4                 
+ 3             X X 
+ 2 X X X X X X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+e2e3
+ 8 O O O O O O O O 
+ 7     O O O O O   
+ 6   O O       O   
+ 5                 
+ 4                 
+ 3         X   X X 
+ 2 X X X X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+a8b7
+ 8   O O O O O O O 
+ 7   O O O O O O   
+ 6   O O       O   
+ 5                 
+ 4                 
+ 3         X   X X 
+ 2 X X X X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+a2a3
+ 8   O O O O O O O 
+ 7   O O O O O O   
+ 6   O O       O   
+ 5                 
+ 4                 
+ 3 X       X   X X 
+ 2   X X X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+g7f6
+ 8   O O O O O O O 
+ 7   O O O O O     
+ 6   O O     O O   
+ 5                 
+ 4                 
+ 3 X       X   X X 
+ 2   X X X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+c2b3
+ 8   O O O O O O O 
+ 7   O O O O O     
+ 6   O O     O O   
+ 5                 
+ 4                 
+ 3 X X     X   X X 
+ 2   X   X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+h8h7
+ 8   O O O O O O   
+ 7   O O O O O   O 
+ 6   O O     O O   
+ 5                 
+ 4                 
+ 3 X X     X   X X 
+ 2   X   X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+b2c3
+ 8   O O O O O O   
+ 7   O O O O O   O 
+ 6   O O     O O   
+ 5                 
+ 4                 
+ 3 X X X   X   X X 
+ 2       X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+h7g6
+ 8   O O O O O O   
+ 7   O O O O O   O 
+ 6   O O     O O   
+ 5                 
+ 4                 
+ 3 X X X   X   X X 
+ 2       X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+h7h6
+ 8   O O O O O O   
+ 7   O O O O O     
+ 6   O O     O O O 
+ 5                 
+ 4                 
+ 3 X X X   X   X X 
+ 2       X   X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+d2d3
+ 8   O O O O O O   
+ 7   O O O O O     
+ 6   O O     O O O 
+ 5                 
+ 4                 
+ 3 X X X X X   X X 
+ 2           X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+g6g5
+ 8   O O O O O O   
+ 7   O O O O O     
+ 6   O O     O   O 
+ 5             O   
+ 4                 
+ 3 X X X X X   X X 
+ 2           X X   
+ 1 X X X X X X   X 
+  A B C D E F G H
+
+
+b1a2
+ 8   O O O O O O   
+ 7   O O O O O     
+ 6   O O     O   O 
+ 5             O   
+ 4                 
+ 3 X X X X X   X X 
+ 2 X         X X   
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+c6b5
+ 8   O O O O O O   
+ 7   O O O O O     
+ 6   O       O   O 
+ 5   O         O   
+ 4                 
+ 3 X X X X X   X X 
+ 2 X         X X   
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+h3g4
+ 8   O O O O O O   
+ 7   O O O O O     
+ 6   O       O   O 
+ 5   O         O   
+ 4             X   
+ 3 X X X X X   X   
+ 2 X         X X   
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+b7c6
+ 8   O O O O O O   
+ 7     O O O O     
+ 6   O O     O   O 
+ 5   O         O   
+ 4             X   
+ 3 X X X X X   X   
+ 2 X         X X   
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+a3b4
+ 8   O O O O O O   
+ 7     O O O O     
+ 6   O O     O   O 
+ 5   O         O   
+ 4   X         X   
+ 3   X X X X   X   
+ 2 X         X X   
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+c7d6
+ 8   O O O O O O   
+ 7       O O O     
+ 6   O O O   O   O 
+ 5   O         O   
+ 4   X         X   
+ 3   X X X X   X   
+ 2 X         X X   
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+g2f3
+ 8   O O O O O O   
+ 7       O O O     
+ 6   O O O   O   O 
+ 5   O         O   
+ 4   X         X   
+ 3   X X X X X X   
+ 2 X         X     
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+b6c5
+ 8   O O O O O O   
+ 7       O O O     
+ 6     O O   O   O 
+ 5   O O       O   
+ 4   X         X   
+ 3   X X X X X X   
+ 2 X         X     
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+b4c5
+ 8   O O O O O O   
+ 7       O O O     
+ 6     O O   O   O 
+ 5   O X       O   
+ 4             X   
+ 3   X X X X X X   
+ 2 X         X     
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+d6c5
+ 8   O O O O O O   
+ 7       O O O     
+ 6     O     O   O 
+ 5   O O       O   
+ 4             X   
+ 3   X X X X X X   
+ 2 X         X     
+ 1 X   X X X X   X 
+  A B C D E F G H
+
+
+h1g2
+ 8   O O O O O O   
+ 7       O O O     
+ 6     O     O   O 
+ 5   O O       O   
+ 4             X   
+ 3   X X X X X X   
+ 2 X         X X   
+ 1 X   X X X X     
+  A B C D E F G H
+
+
+c5c4
+ 8   O O O O O O   
+ 7       O O O     
+ 6     O     O   O 
+ 5   O         O   
+ 4     O       X   
+ 3   X X X X X X   
+ 2 X         X X   
+ 1 X   X X X X     
+  A B C D E F G H
+
+
+d3c4
+ 8   O O O O O O   
+ 7       O O O     
+ 6     O     O   O 
+ 5   O         O   
+ 4     X       X   
+ 3   X X   X X X   
+ 2 X         X X   
+ 1 X   X X X X     
+  A B C D E F G H
+
+
+b5c4
+ 8   O O O O O O   
+ 7       O O O     
+ 6     O     O   O 
+ 5             O   
+ 4     O       X   
+ 3   X X   X X X   
+ 2 X         X X   
+ 1 X   X X X X     
+  A B C D E F G H
+
+
+b3c4
+ 8   O O O O O O   
+ 7       O O O     
+ 6     O     O   O 
+ 5             O   
+ 4     X       X   
+ 3     X   X X X   
+ 2 X         X X   
+ 1 X   X X X X     
+  A B C D E F G H
+
+
+e7e6
+ 8   O O O O O O   
+ 7       O   O     
+ 6     O   O O   O 
+ 5             O   
+ 4     X       X   
+ 3     X   X X X   
+ 2 X         X X   
+ 1 X   X X X X     
+  A B C D E F G H
+
+
+a1b2
+ 8   O O O O O O   
+ 7       O   O     
+ 6     O   O O   O 
+ 5             O   
+ 4     X       X   
+ 3     X   X X X   
+ 2 X X       X X   
+ 1     X X X X     
+  A B C D E F G H
+
+
+e6e5
+ 8   O O O O O O   
+ 7       O   O     
+ 6     O     O   O 
+ 5         O   O   
+ 4     X       X   
+ 3     X   X X X   
+ 2 X X       X X   
+ 1     X X X X     
+  A B C D E F G H
+
+
+a2b3
+ 8   O O O O O O   
+ 7       O   O     
+ 6     O     O   O 
+ 5         O   O   
+ 4     X       X   
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X X     
+  A B C D E F G H
+
+
+g5f4
+ 8   O O O O O O   
+ 7       O   O     
+ 6     O     O   O 
+ 5         O       
+ 4     X     O X   
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X X     
+  A B C D E F G H
+
+
+g3f4
+ 8   O O O O O O   
+ 7       O   O     
+ 6     O     O   O 
+ 5         O       
+ 4     X     X X   
+ 3   X X   X X     
+ 2   X       X X   
+ 1     X X X X     
+  A B C D E F G H
+
+
+d7d6
+ 8   O O O O O O   
+ 7           O     
+ 6     O O   O   O 
+ 5         O       
+ 4     X     X X   
+ 3   X X   X X     
+ 2   X       X X   
+ 1     X X X X     
+  A B C D E F G H
+
+
+f4e5
+ 8   O O O O O O   
+ 7           O     
+ 6     O O   O   O 
+ 5         X       
+ 4     X       X   
+ 3   X X   X X     
+ 2   X       X X   
+ 1     X X X X     
+  A B C D E F G H
+
+
+d6e5
+ 8   O O O O O O   
+ 7           O     
+ 6     O     O   O 
+ 5         O       
+ 4     X       X   
+ 3   X X   X X     
+ 2   X       X X   
+ 1     X X X X     
+  A B C D E F G H
+
+
+g2g3
+ 8   O O O O O O   
+ 7           O     
+ 6     O     O   O 
+ 5         O       
+ 4     X       X   
+ 3   X X   X X X   
+ 2   X       X     
+ 1     X X X X     
+  A B C D E F G H
+
+
+f6f5
+ 8   O O O O O O   
+ 7           O     
+ 6     O         O 
+ 5         O O     
+ 4     X       X   
+ 3   X X   X X X   
+ 2   X       X     
+ 1     X X X X     
+  A B C D E F G H
+
+
+g4f5
+ 8   O O O O O O   
+ 7           O     
+ 6     O         O 
+ 5         O X     
+ 4     X           
+ 3   X X   X X X   
+ 2   X       X     
+ 1     X X X X     
+  A B C D E F G H
+
+
+d8e7
+ 8   O O   O O O   
+ 7         O O     
+ 6     O         O 
+ 5         O X     
+ 4     X           
+ 3   X X   X X X   
+ 2   X       X     
+ 1     X X X X     
+  A B C D E F G H
+
+
+f1g2
+ 8   O O   O O O   
+ 7         O O     
+ 6     O         O 
+ 5         O X     
+ 4     X           
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+e7e6
+ 8   O O   O O O   
+ 7           O     
+ 6     O   O     O 
+ 5         O X     
+ 4     X           
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+f5e6
+ 8   O O   O O O   
+ 7           O     
+ 6     O   X     O 
+ 5         O       
+ 4     X           
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+f7e6
+ 8   O O   O O O   
+ 7                 
+ 6     O   O     O 
+ 5         O       
+ 4     X           
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+c4c5
+ 8   O O   O O O   
+ 7                 
+ 6     O   O     O 
+ 5     X   O       
+ 4                 
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+h6g4
+ 8   O O   O O O   
+ 7                 
+ 6     O   O     O 
+ 5     X   O       
+ 4                 
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+h6g5
+ 8   O O   O O O   
+ 7                 
+ 6     O   O       
+ 5     X   O   O   
+ 4                 
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+c5b6
+ 8   O O   O O O   
+ 7                 
+ 6   X O   O       
+ 5         O   O   
+ 4                 
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+e6g5
+ 8   O O   O O O   
+ 7                 
+ 6   X O   O       
+ 5         O   O   
+ 4                 
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+e6f5
+ 8   O O   O O O   
+ 7                 
+ 6   X O           
+ 5         O O O   
+ 4                 
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+b6c7
+ 8   O O   O O O   
+ 7     X           
+ 6     O           
+ 5         O O O   
+ 4                 
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+b8c7
+ 8     O   O O O   
+ 7     O           
+ 6     O           
+ 5         O O O   
+ 4                 
+ 3   X X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+b3c4
+ 8     O   O O O   
+ 7     O           
+ 6     O           
+ 5         O O O   
+ 4     X           
+ 3     X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+f5f4
+ 8     O   O O O   
+ 7     O           
+ 6     O           
+ 5         O   O   
+ 4     X     O     
+ 3     X   X X X   
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+g3f4
+ 8     O   O O O   
+ 7     O           
+ 6     O           
+ 5         O   O   
+ 4     X     X     
+ 3     X   X X     
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+e5f4
+ 8     O   O O O   
+ 7     O           
+ 6     O           
+ 5             O   
+ 4     X     O     
+ 3     X   X X     
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+e3f4
+ 8     O   O O O   
+ 7     O           
+ 6     O           
+ 5             O   
+ 4     X     X     
+ 3     X     X     
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+g5f4
+ 8     O   O O O   
+ 7     O           
+ 6     O           
+ 5                 
+ 4     X     O     
+ 3     X     X     
+ 2   X       X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+b2b3
+ 8     O   O O O   
+ 7     O           
+ 6     O           
+ 5                 
+ 4     X     O     
+ 3   X X     X     
+ 2           X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+g8g7
+ 8     O   O O     
+ 7     O       O   
+ 6     O           
+ 5                 
+ 4     X     O     
+ 3   X X     X     
+ 2           X X   
+ 1     X X X       
+  A B C D E F G H
+
+
+g2g3
+ 8     O   O O     
+ 7     O       O   
+ 6     O           
+ 5                 
+ 4     X     O     
+ 3   X X     X X   
+ 2           X     
+ 1     X X X       
+  A B C D E F G H
+
+
+f4g3
+ 8     O   O O     
+ 7     O       O   
+ 6     O           
+ 5                 
+ 4     X           
+ 3   X X     X O   
+ 2           X     
+ 1     X X X       
+  A B C D E F G H
+
+
+f2g3
+ 8     O   O O     
+ 7     O       O   
+ 6     O           
+ 5                 
+ 4     X           
+ 3   X X     X X   
+ 2                 
+ 1     X X X       
+  A B C D E F G H
+
+
+g7g6
+ 8     O   O O     
+ 7     O           
+ 6     O       O   
+ 5                 
+ 4     X           
+ 3   X X     X X   
+ 2                 
+ 1     X X X       
+  A B C D E F G H
+
+
+c1d2
+ 8     O   O O     
+ 7     O           
+ 6     O       O   
+ 5                 
+ 4     X           
+ 3   X X     X X   
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+g6g5
+ 8     O   O O     
+ 7     O           
+ 6     O           
+ 5             O   
+ 4     X           
+ 3   X X     X X   
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+c4c5
+ 8     O   O O     
+ 7     O           
+ 6     O           
+ 5     X       O   
+ 4                 
+ 3   X X     X X   
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+g5h4
+ 8     O   O O     
+ 7     O           
+ 6     O           
+ 5     X           
+ 4               O 
+ 3   X X     X X   
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+g3h4
+ 8     O   O O     
+ 7     O           
+ 6     O           
+ 5     X           
+ 4               X 
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+f8f7
+ 8     O   O       
+ 7     O     O     
+ 6     O           
+ 5     X           
+ 4               X 
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+c5d6
+ 8     O   O       
+ 7     O     O     
+ 6     O X         
+ 5                 
+ 4               X 
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+c7d6
+ 8     O   O       
+ 7           O     
+ 6     O O         
+ 5                 
+ 4               X 
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+h4g5
+ 8     O   O       
+ 7           O     
+ 6     O O         
+ 5             X   
+ 4                 
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+c6d5
+ 8     O   O       
+ 7           O     
+ 6       O         
+ 5       O     X   
+ 4                 
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+g5f6
+ 8     O   O       
+ 7           O     
+ 6       O   X     
+ 5       O         
+ 4                 
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+d5e4
+ 8     O   O       
+ 7           O     
+ 6       O   X     
+ 5                 
+ 4         O       
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+f6g7
+ 8     O   O       
+ 7           O X   
+ 6       O         
+ 5                 
+ 4         O       
+ 3   X X     X     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+e4f3
+ 8     O   O       
+ 7           O X   
+ 6       O         
+ 5                 
+ 4                 
+ 3   X X     O     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+
+g7f8
+ 8     O   O X     
+ 7           O     
+ 6       O         
+ 5                 
+ 4                 
+ 3   X X     O     
+ 2       X         
+ 1       X X       
+  A B C D E F G H
+
+

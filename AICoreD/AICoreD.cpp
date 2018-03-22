@@ -6,7 +6,9 @@
 //	https://en.wikipedia.org/wiki/Monte_Carlo_tree_search
 //	http://www.baeldung.com/java-monte-carlo-tree-search
 //	https://www.theatlantic.com/technology/archive/2017/07/marion-tinsley-checkers/534111/
-// https://webdocs.cs.ualberta.ca/~mmueller/ps/enzenberger-mueller-acg12.pdf
+//  https://webdocs.cs.ualberta.ca/~mmueller/ps/enzenberger-mueller-acg12.pdf
+//	https://end.wikipedia.org/wiki/Alpha-beta_pruning
+//	www.hongliangjie.com/2011/10/10/sortin-tuples-in-c/
 
 //For tree deletion: https://www.geeksforgeeks.org/non-recursive-program-to-delete-an-entire-binary-tree/
 
@@ -31,6 +33,8 @@ extern "C" __declspec(dllexport) void __stdcall  EmptyMemory()
 
 extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned long long black, unsigned long long white, bool isWhitesTurn, unsigned int mode)
 {
+	//IsWhitesTurn is true if the AI is moving for white
+
 
 	//Init the random number generator
 	srand(time(NULL));
@@ -45,6 +49,8 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	//Setup the roots
 	setRoot(root, board, isWhitesTurn);
 
+	//Run AB seeding on the tree
+	seedWithAlphaBeta(root, isWhitesTurn);
 
 	//Start four monte carlo evaluation threads
 	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn);
@@ -59,7 +65,7 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	mc3.join();
 	mc4.join();
 
-	//std::this_thread::sleep_for(std::chrono::seconds(5));
+
 
 	//Find the first level child with the max value as the result
 	double maxValue = -1;
@@ -111,6 +117,217 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	return result->state.sourceMove.toSubmitMove();
 }
 
+//Operates the alpha beta seeding
+Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
+{ 
+	int inverter = 1;
+	if (!isWhitesTurn)
+	{
+		inverter = -1;
+	}
+
+	//int vals[50] = { 0 };
+	
+	std::vector<std::tuple <Node*,int>> values;
+	std::vector<Node*> results;
+	int maxVal = INT_MIN;
+
+	//if there are children
+	if (root->childCount > 0)
+	{
+		//For each child
+		int i = 0;
+		Node* node = root->child;
+		while (node != NULL)
+		{
+			//run an alpha beta evaluation
+			//pass in isWhitesTurn for maximizing player, since white is maxed and black is min-ed in this algorithm
+			//save the index and value into the values
+			std::tuple<Node*, int> pair =
+				std::tuple<Node*, int>(node, alphaBeta(node, 4, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
+			values.push_back(pair);
+
+			//Advance to the next child
+			i++;
+			node = node->next;
+		}
+
+		//sort the values 
+		std::sort(values.begin(), values.end(), compareABPairs);
+
+		//pick the best 5 into the results
+		const int BEST_TO_KEEP = 2;
+		int found = 0;
+		int lastValueChecked = INT_MIN * inverter;
+		int valueCheck = -1000000;
+		while ((found < BEST_TO_KEEP || valueCheck == lastValueChecked) && !values.empty())
+		{
+			//add the result pointer to the list
+			std::tuple<Node*, int> val = values.back();
+			results.emplace_back(std::get<0>(val));
+			values.pop_back();
+
+			//increment the found
+			found++;
+
+			//update the value checkeds
+			lastValueChecked = valueCheck;
+			valueCheck = std::get<1>(val);
+
+		}
+
+		//rebuild the tree with the new results
+		if (results.size() > 0)
+		{
+			//init the result tree
+			Node* result = new Node(*root);
+
+			//add the first child
+			result->childCount = 1;
+			result->child = new Node(*results.back());
+			result->child->parent = result;
+
+			results.pop_back();
+
+			//add every child
+			Node* node = result->child;
+			while (!results.empty())
+			{
+				//recreate the node from the last in the results list
+				Node* next = new Node(*results.back());
+				next->parent = result;
+				results.pop_back();
+
+				//save the node as the next one and increment the count
+				node->next = next;
+				result->childCount++;
+
+				//advance to the next one
+				node = next;
+			}
+
+			//all nodes have been added. Clear the next node for the last in the chain.
+			node->next = NULL;
+
+			//return the resulting tree
+			return result;
+		}
+		else
+		{
+			//if we have no selected notes, return the existing root
+			return root;
+		}
+	}
+	else
+	{
+		//if there is nothing to evaluate, return the existing root
+		return root;
+	}
+
+}
+
+//Compare ab result pairs
+bool compareABPairs(std::tuple<Node*, int>& first, std::tuple<Node*, int>& second)
+{
+	return std::get<1>(first) < std::get<1>(second);
+}
+
+//Execute the alpha beta evaluation
+int alphaBeta(Node* node, int depth, int alpha, int beta, bool maximizingPlayer)
+{
+	if ((depth == 0) || (node->childCount == 0))
+	{
+		return abEval(node);
+	}
+	else
+	{
+		//If we're maximizing
+		if (maximizingPlayer)
+		{
+			//set the value to the minimum possible
+			int v = INT_MIN;
+
+			//For each child node
+			node = node->child;
+			while (node != NULL)
+			{
+				v = max(v, alphaBeta(node, depth - 1, alpha, beta, FALSE));
+				if (depth == 3)
+				{
+					bool b = true;
+				}
+
+				alpha = max(alpha, v);
+				if (beta <= alpha)
+				{
+					//escape the loop and kill the kids
+					node = NULL;
+				}
+
+				//If we're not already exiting, advance to the next child
+				if (node != NULL)
+				{
+					node = node->next;
+				}
+			}
+
+
+			return v;
+
+
+		}
+		//If we're minimizing
+		else
+		{
+			//set the value to the minimum possible
+			int v = INT_MAX;
+
+			//For each child node
+			node = node->child;
+			while (node != NULL)
+			{
+				v = min(v, alphaBeta(node, depth - 1, alpha, beta, FALSE));
+				beta = min(beta, v);
+				if (beta <= alpha)
+				{
+					//escape the loop and kill the kids
+					node = NULL;
+				}
+
+				//If we're not already exiting, advance to the next child
+				if (node != NULL)
+				{
+					node = node->next;
+				}
+			}
+			return v;
+		}
+	}
+}
+
+//Returns the AB value of a node
+//ASSUMES MAX IS FOR WHITE
+int abEval(Node* node)
+{
+	if (node->state.board.gameOver)
+	{
+		if (node->state.board.black & ROWS[0])
+		{
+			return -2000;
+		}
+		else
+		{
+			return 2001;
+		}
+	}
+
+	int result =  (node->state.board.whiteCount - node->state.board.blackCount);
+	if (result < 0)
+	{
+		bool b = true;
+	}
+	return result;
+}
 
 void setRoot(Node*& r, Board board, bool isWhitesTurn)
 {
@@ -693,8 +910,6 @@ Node* selectPromisingNode(Node* root)
 
 	return node;
 }
-
-
 
 
 
