@@ -35,15 +35,30 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 {
 	//IsWhitesTurn is true if the AI is moving for white
 
+	//Reverse the board and turn indicator of moving for black
+	bool reversed = false;
+	if (!isWhitesTurn)
+	{
+		unsigned long long int temp = reverse(black);
+		black = reverse(white);
+		white = temp;
+		isWhitesTurn = true;
+		reversed = true;
+	}
 
 	//Init the random number generator
 	srand(time(NULL));
+
+	//Init the clock and end time with the current parameters
+	std::time_t current = std::time(0);
+	std::time_t end = current + SECONDS_TO_WORK;
+
 
 	//Init the current board from the parameters
 	Board board;
 	board.setParameters(blackCount, whiteCount, black, white);
 
-	//Save the original root for pruning
+	//Save the original and secondary root for pruning
 	Node* originalRoot = root;
 
 	//Setup the roots
@@ -53,10 +68,10 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	seedWithAlphaBeta(root, isWhitesTurn);
 
 	//Start four monte carlo evaluation threads
-	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn);
-	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn);
+	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn, end);
+	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn, end);
+	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn, end);
+	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn, end);
 
 
 	//Join all the threads
@@ -114,8 +129,42 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	
 
 	//return the sourceMove from the result
-	return result->state.sourceMove.toSubmitMove();
+	SubmitMove resultMove = result->state.sourceMove.toSubmitMove();
+	//invert the resultMove if neccessary
+	if (reversed)
+	{
+		resultMove.col = 7 - resultMove.col;
+		resultMove.row = 7 - resultMove.row;
+		resultMove.target = 2 - resultMove.target;
+	}
+	return resultMove;
 }
+
+//Bitwise everses integers
+//Code sourced from https://aticleworld.com/5-way-to-reverse-bits-of-an-integer/ 
+unsigned long long int reverse(unsigned long long int num)
+{
+	unsigned int count = (64 - 1);
+	unsigned long long int tmp = num;         //  Assign num to the tmp 
+
+	num >>= 1; // shift num because LSB already assigned to tmp
+
+	while (num)
+	{
+		tmp <<= 1;  //shift the tmp because alread have the LSB of num  
+
+		tmp |= num & 1; // putting the set bits of num
+
+		num >>= 1;
+
+		count--;
+	}
+
+	tmp <<= count; //when num become zero shift tmp from the remaining counts
+
+	return tmp;
+}
+
 
 //Operates the alpha beta seeding
 Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
@@ -144,7 +193,7 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 			//pass in isWhitesTurn for maximizing player, since white is maxed and black is min-ed in this algorithm
 			//save the index and value into the values
 			std::tuple<Node*, int> pair =
-				std::tuple<Node*, int>(node, alphaBeta(node, 4, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
+				std::tuple<Node*, int>(node, alphaBeta(node, ALPHA_BETA_DEPTH, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
 			values.push_back(pair);
 
 			//Advance to the next child
@@ -156,11 +205,11 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 		std::sort(values.begin(), values.end(), compareABPairs);
 
 		//pick the best 5 into the results
-		const int BEST_TO_KEEP = 2;
+		const int BEST_TO_KEEP = 1;
 		int found = 0;
-		int lastValueChecked = INT_MIN * inverter;
-		int valueCheck = -1000000;
-		while ((found < BEST_TO_KEEP || valueCheck == lastValueChecked) && !values.empty())
+		int valueCheck = std::get<1>(values.back()); //the comparison variable begins with the first value, 
+		//to ensure one accepted value
+		while (!values.empty() && (found < BEST_TO_KEEP || std::get<1>(values.back()) == valueCheck))
 		{
 			//add the result pointer to the list
 			std::tuple<Node*, int> val = values.back();
@@ -171,7 +220,6 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 			found++;
 
 			//update the value checkeds
-			lastValueChecked = valueCheck;
 			valueCheck = std::get<1>(val);
 
 		}
@@ -180,12 +228,13 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 		if (results.size() > 0)
 		{
 			//init the result tree
-			Node* result = new Node(*root);
+			//Node* result = new Node(*root);
+			Node* result = root;
 
 			//add the first child
 			result->childCount = 1;
-			result->child = new Node(*results.back());
-			result->child->parent = result;
+			result->child = results.back();
+			//result->child->parent = result;
 
 			results.pop_back();
 
@@ -193,8 +242,8 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 			Node* node = result->child;
 			while (!results.empty())
 			{
-				//recreate the node from the last in the results list
-				Node* next = new Node(*results.back());
+				//grab the node from the last in the results list
+				Node* next = results.back();
 				next->parent = result;
 				results.pop_back();
 
@@ -206,8 +255,36 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 				node = next;
 			}
 
+			//****  delete original root   ****/
+			//until we have emptied the unusued values array
+			while (!values.empty())
+			{
+				//get the first node from the queue
+				Node* node = std::get<0>(values.back());
+				values.pop_back();
+
+				//For each of the  children 
+				Node* temp = node->child;
+				while (temp != NULL)
+				{
+					//add to the queue
+					values.push_back(std::tuple<Node*, int>(temp, 0));
+
+					//advance to the next child
+					temp = temp->next;
+				}
+
+
+				//actually delete the node
+				delete node;
+					
+			}
+
 			//all nodes have been added. Clear the next node for the last in the chain.
 			node->next = NULL;
+
+			//set the result's successor to be null, so it isn't deleted twice
+			result->next = NULL;
 
 			//return the resulting tree
 			return result;
@@ -376,13 +453,9 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 
 
 
-void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
+void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn, std::time_t endTime)
 {
-	//Set the current and end times
-	std::time_t current = std::time(0);
-	std::time_t end = current + SECONDS_TO_WORK;
 	bool stop = false;
-
 
 	int previousVisits = 0;
 
@@ -397,10 +470,14 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
 
 			expandNode(node);
 
-			int i = rand() % getNodeChildren(node);
-			node = getChildNode(node, i);
+			//If the node has children, select a random child
+			if (node->childCount > 0)
+			{
+				int i = rand() % getNodeChildren(node);
+				node = getChildNode(node, i);
+			}
 
-			//temporary fix!!!
+			//If the node is not NULL, process the node
 			if (node != NULL)
 			{
 				processNode(node, isWhitesTurn);
@@ -416,8 +493,7 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn)
 		//Update the current time+
 		if (b % 1000 == 0)
 		{
-			current = std::time(0);
-			if (current > end)
+			if (std::time(0) > endTime)
 			{
 				stop = true;
 			}
@@ -917,119 +993,124 @@ void expandNode(Node* node)
 {	
 	CriticalSectionLock lock(node->cs);
 
-
-	//set the terms
-	unsigned long long myPieces = node->state.board.black;
-	unsigned long long theirPieces = node->state.board.white;
-	int rowChange = -1;
-	if (node->state.isWhitesTurn)
+	//Only expand the node if the game isn't over
+	if (!(node->state.board.gameOver))
 	{
-		rowChange = 1;
-		myPieces = node->state.board.white;
-		theirPieces = node->state.board.black;
-	}
 
-	//until we've looked at all the pieces
-	int row = 0;
-	int col = 0;
-	unsigned long long pieces = myPieces;
-	Node* temp = node;
-	while (pieces != 0)
-	{
-		//if we've found a piece
-		if (pieces & 1)
+		//set the terms
+		unsigned long long myPieces = node->state.board.black;
+		unsigned long long theirPieces = node->state.board.white;
+		int rowChange = -1;
+		if (node->state.isWhitesTurn)
 		{
-			CriticalSectionLock lock(temp->cs);
-			//check what is moves are and add a node for each
+			rowChange = 1;
+			myPieces = node->state.board.white;
+			theirPieces = node->state.board.black;
+		}
 
-			////*check for target = 0*/////
-			if (col > 0)
-			{
-
-				//if there is not one of our pieces there
-				if (!((myPieces >> ((row + rowChange) * 8 + col - 1)) & 1))
-				{
-					//add the node
-					if (node->childCount == 0)
-					{
-						//if there are no children, add it as the first child
-						node->child = new Node(node, node->state.board, Move(row, col, 0), node->state.isWhitesTurn);
-						temp = node->child;
-					}
-					else
-					{
-						temp->next = new Node(node, node->state.board, Move(row, col, 0), node->state.isWhitesTurn);
-						temp = temp->next;
-					}
-					node->childCount++;
-				}
-			}
-
-			////*check for target = 1*/////
-			if (col < 7)
+		//until we've looked at all the pieces
+		int row = 0;
+		int col = 0;
+		unsigned long long pieces = myPieces;
+		Node* temp = node;
+		while (pieces != 0)
+		{
+			//if we've found a piece
+			if (pieces & 1)
 			{
 				CriticalSectionLock lock(temp->cs);
+				//check what is moves are and add a node for each
 
-
-				//if there is not one of our pieces there
-				if (!((myPieces >> ((row + rowChange) * 8 + col)) & 1))
+				////*check for target = 0*/////
+				if (col > 0)
 				{
-					//and there is not one of their pieces there
-					if (!((theirPieces >> ((row + rowChange) * 8 + col)) & 1))
+
+					//if there is not one of our pieces there
+					if (!((myPieces >> ((row + rowChange) * 8 + col - 1)) & 1))
 					{
 						//add the node
 						if (node->childCount == 0)
 						{
 							//if there are no children, add it as the first child
-							node->child = new Node(node, node->state.board, Move(row, col, 1), node->state.isWhitesTurn);
+							node->child = new Node(node, node->state.board, Move(row, col, 0), node->state.isWhitesTurn);
 							temp = node->child;
-
 						}
 						else
 						{
-							temp->next = new Node(node, node->state.board, Move(row, col, 1), node->state.isWhitesTurn);
+							temp->next = new Node(node, node->state.board, Move(row, col, 0), node->state.isWhitesTurn);
 							temp = temp->next;
 						}
 						node->childCount++;
 					}
 				}
-			}
 
-			////*check for target = 2*/////
-			if (col < 7)
-			{
-				CriticalSectionLock lock(temp->cs);
-
-				//if there is not one of our pieces there
-				if (!((myPieces >> ((row + rowChange) * 8 + col + 1)) & 1))
+				////*check for target = 1*/////
+				if (col < 7)
 				{
-					//add the node
-					if (node->childCount == 0)
+					CriticalSectionLock lock(temp->cs);
+
+
+					//if there is not one of our pieces there
+					if (!((myPieces >> ((row + rowChange) * 8 + col)) & 1))
 					{
-						//if there are no children, add it as the first child
-						node->child = new Node(node, node->state.board, Move(row, col, 2), node->state.isWhitesTurn);
-						temp = node->child;
+						//and there is not one of their pieces there
+						if (!((theirPieces >> ((row + rowChange) * 8 + col)) & 1))
+						{
+							//add the node
+							if (node->childCount == 0)
+							{
+								//if there are no children, add it as the first child
+								node->child = new Node(node, node->state.board, Move(row, col, 1), node->state.isWhitesTurn);
+								temp = node->child;
+
+							}
+							else
+							{
+								temp->next = new Node(node, node->state.board, Move(row, col, 1), node->state.isWhitesTurn);
+								temp = temp->next;
+							}
+							node->childCount++;
+						}
 					}
-					else
-					{
-						temp->next = new Node(node, node->state.board, Move(row, col, 2), node->state.isWhitesTurn);
-						temp = temp->next;
-					}
-					node->childCount++;
 				}
+
+				////*check for target = 2*/////
+				if (col < 7)
+				{
+					CriticalSectionLock lock(temp->cs);
+
+					//if there is not one of our pieces there
+					if (!((myPieces >> ((row + rowChange) * 8 + col + 1)) & 1))
+					{
+						//add the node
+						if (node->childCount == 0)
+						{
+							//if there are no children, add it as the first child
+							node->child = new Node(node, node->state.board, Move(row, col, 2), node->state.isWhitesTurn);
+							temp = node->child;
+						}
+						else
+						{
+							temp->next = new Node(node, node->state.board, Move(row, col, 2), node->state.isWhitesTurn);
+							temp = temp->next;
+						}
+						node->childCount++;
+					}
+				}
+
 			}
 
-		}
-
-		//advance the bits by 1
-		pieces >>= 1;
-		col++;
-		if (col > 7)
-		{
-			row++;
-			col = 0;
+			//advance the bits by 1
+			pieces >>= 1;
+			col++;
+			if (col > 7)
+			{
+				row++;
+				col = 0;
+			}
 		}
 	}
+
 
 }
 

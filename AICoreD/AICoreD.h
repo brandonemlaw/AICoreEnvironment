@@ -20,17 +20,6 @@
 
 //TODO
 // -abort if memory pressure
-// -counteract their L formation when advancing
-// -look into dumping potential moves with faster algorithm directly into new nodes
-
-
-
-//Constants
-//const unsigned int COLUMNS[8] = { 2, 3, 5, 7, 11, 13, 17, 19 };	//A-H
-const unsigned int COLUMNS[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };	//A-H
-const double SECONDS_TO_WORK = 4.5;
-
-
 
 
 Node* root = NULL;
@@ -41,6 +30,7 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 
 bool executeRandomGame(Board& rawBoard, bool isWhitesTurn);
 
+unsigned long long int reverse(unsigned long long int num);
 
 Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn);
 int alphaBeta(Node* node, int depth, int alpha, int beta, bool maximizingPlayer);
@@ -49,7 +39,7 @@ int abEval(Node* node);
 
 
 void setRoot(Node*& r, Board board, bool isWhitesTurn);
-void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn);
+void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn, std::time_t endTime);
 void processNode(Node* node, bool isWhitesTurn);
 Node* getChildNode(Node* node, int i);
 int getNodeChildren(Node* node);

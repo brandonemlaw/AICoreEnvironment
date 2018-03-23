@@ -1,7 +1,12 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(377,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   AICoreD.cpp
-c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(40): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(98): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Board.cpp
+  Evaluator.cpp
+  Node.cpp
+  State.cpp
+  ThreadPruner.cpp
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(50): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(54): warning C4244: 'initializing': conversion from 'double' to 'time_t', possible loss of data
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(113): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\time.h(505): note: see declaration of 'localtime'
-c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(383): warning C4244: 'initializing': conversion from 'double' to 'time_t', possible loss of data
   AICoreD.vcxproj -> C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\AICoreD\..\Debuger\AICoreD.dll

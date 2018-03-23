@@ -49,10 +49,6 @@ void ThreadPruner::pruneAllAbove(Node* root, Node* nodeToSave)
 			Node* node = nodes.front();
 			nodes.pop();
 
-			if (nodes.size() == 0)
-			{
-				int b = 1;
-			}
 
 			//delete only if node if not the avoid node
 			if (node != nodeToSave /*&& node != NULL*/)
