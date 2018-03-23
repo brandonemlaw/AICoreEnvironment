@@ -56,8 +56,8 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 	/*if (oldRow < 0 || oldRow > 7 || oldColumn < 0 || oldColumn > 7)
 	{
 		return false;
-	}*/
-
+	}
+	*/
 	if (row < 0 || row > 7 || column < 0 || column > 7)
 	{
 		return false;
@@ -145,6 +145,7 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 		black -= SQUARES[oldRow][oldColumn]; //remove piece at old position
 		black += targetSquareCheckFilter; //add piece at new position
 	}
+
 
 	return true;
 }

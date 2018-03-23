@@ -35,23 +35,42 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 {
 	//IsWhitesTurn is true if the AI is moving for white
 
+
 	//Reverse the board and turn indicator of moving for black
 	bool reversed = false;
 	if (!isWhitesTurn)
 	{
+		//flip the board
 		unsigned long long int temp = reverse(black);
 		black = reverse(white);
 		white = temp;
+
+		//flip the count
+		int temp2 = blackCount;
+		blackCount = whiteCount;
+		whiteCount = temp2;
+
+		//flip the turn indicator
 		isWhitesTurn = true;
+
+		//set the reversed flag
 		reversed = true;
 	}
 
-	//Init the random number generator
-	srand(time(NULL));
 
 	//Init the clock and end time with the current parameters
 	std::time_t current = std::time(0);
-	std::time_t end = current + SECONDS_TO_WORK;
+
+	//Set the endtime based on the mode
+	std::time_t endTime = current + SECONDS_TO_WORK;
+	if (mode != 0)
+	{
+		endTime = current + SECONDS_TO_WORK_EASY;
+	}
+
+
+	//Init the random number generator
+	srand(time(NULL));
 
 
 	//Init the current board from the parameters
@@ -64,14 +83,23 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	//Setup the roots
 	setRoot(root, board, isWhitesTurn);
 
-	//Run AB seeding on the tree
-	seedWithAlphaBeta(root, isWhitesTurn);
+	//If we're in easy mode, give it a chance of making a rash move
+	if (mode == 2 && (rand() % RASH_MOVE_CHANCE == 0))
+	{
+	}
+	else
+	{
+		//In nearly every case:
+		//Run AB seeding on the tree
+		seedWithAlphaBeta(root, isWhitesTurn);
+	}
 
 	//Start four monte carlo evaluation threads
-	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn, end);
-	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn, end);
-	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn, end);
-	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn, end);
+	runMonteCarloAlgorithm(root, board, isWhitesTurn, endTime);
+	std::thread mc(runMonteCarloAlgorithm, root, board, isWhitesTurn, endTime);
+	std::thread mc2(runMonteCarloAlgorithm, root, board, isWhitesTurn, endTime);
+	std::thread mc3(runMonteCarloAlgorithm, root, board, isWhitesTurn, endTime);
+	std::thread mc4(runMonteCarloAlgorithm, root, board, isWhitesTurn, endTime);
 
 
 	//Join all the threads
@@ -92,6 +120,15 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	{
 		//give it a value from the evaluate function
 		double value = Evaluator::evaluate(temp, board, isWhitesTurn);
+
+		//if mode is easy, randomize the value
+		if (mode == 2)
+		{
+			//Reference: http://www.cplusplus.com/forum/beginner/26963/
+			double change = (double)rand() / (RAND_MAX + 1) * RANDOM_ADDITION;
+			value = value + change;
+		}
+
 		//double value = (double)temp->state.wins / (double)temp->state.visits;
 
 		//If the value is the best value, then choose it
@@ -107,6 +144,7 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 		//advance to the next child
 		temp = temp->next;
 	}
+
 
 	//write to the log file
 	auto t = std::time(nullptr);
@@ -456,6 +494,7 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn, std::time_t endTime)
 {
 	bool stop = false;
+	bool flag = false;
 
 	int previousVisits = 0;
 
@@ -476,6 +515,10 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn, std::ti
 				int i = rand() % getNodeChildren(node);
 				node = getChildNode(node, i);
 			}
+			else
+			{
+				flag = true;
+			}
 
 			//If the node is not NULL, process the node
 			if (node != NULL)
@@ -491,7 +534,7 @@ void runMonteCarloAlgorithm(Node* root, Board mboard, bool isWhitesTurn, std::ti
 		}
 
 		//Update the current time+
-		if (b % 1000 == 0)
+		if (b % 1000 == 0 || flag)
 		{
 			if (std::time(0) > endTime)
 			{

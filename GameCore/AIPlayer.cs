@@ -66,7 +66,7 @@ namespace GameCore
 
 
             //Get the move from the AI DLL
-            AIMove nextMove = AIGetMove(board.blackCount, board.whiteCount, black, white, isWhitesTurn, 0);
+            AIMove nextMove = AIGetMove(board.blackCount, board.whiteCount, black, white, isWhitesTurn, 2);
 
             //Convert the AIMove to a Move class
             result.Begin.X = checked((int)nextMove.row);
