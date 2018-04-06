@@ -116,11 +116,11 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 
 
 	//Try choosing with deep search
-	Node* deepResult = chooseWithDeepSearch(root, DEEP_SEARCH_DEPTH);
-	if (deepResult == NULL)
-	{
+	//Node* deepResult = chooseWithDeepSearch(root, DEEP_SEARCH_DEPTH);
+	//if (deepResult == NULL)
+	//{
 
-		//Choose purely on monte carlo
+		//Choose with monte carlo
 		//For each of the first level children (every move we could choose)....
 		Node* temp = root->child;
 		while (temp != NULL)
@@ -151,12 +151,12 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 			//advance to the next child
 			temp = temp->next;
 		}
-	}
+	/*}
 	else
 	{
 		//Choose the result of the deep search
 		result = deepResult;
-	}
+	}*/
 
 
 	//write to the log file
@@ -238,7 +238,7 @@ Node* chooseWithDeepSearch(Node* root, int depth)
 int deepSearch(Node* root, int depth)
 {
 	//if we haven't reached our target depth or the end of the tree
-	if ((depth == 0) || (root->childCount == 0)) 
+	if ((depth > 0) && (root->childCount > 0)) 
 	{
 		//Loop through each child - each o
 		int maximum = INT_MIN; 
@@ -411,12 +411,54 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 		Node* node = root->child;
 		while (node != NULL)
 		{
-			//run an alpha beta evaluation
-			//pass in isWhitesTurn for maximizing player, since white is maxed and black is min-ed in this algorithm
-			//save the index and value into the values
-			std::tuple<Node*, int> pair =
-				std::tuple<Node*, int>(node, alphaBeta(node, ALPHA_BETA_DEPTH, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
-			values.push_back(pair);
+			//If the node is with a piece in conflict, run DEEP SEARCH on it
+			if (node->flag)
+			{
+				//loop each possible opponent move
+				Node* temp2 = node->child;
+				int minimum = INT_MAX;
+				while (temp2 != NULL)
+				{
+					//run deep search on each node
+					minimum = min(minimum, deepSearch(temp2, DEEP_SEARCH_DEPTH));
+
+					//advance to the next child
+					temp2 = temp2->next;
+				}
+
+				//This line differs from deepSearch
+				//If we found the new max, set the Node* choice
+				if (minimum > maxVal)
+				{
+					maxVal = minimum;
+
+				}
+
+				//add the item to the list of values
+				std::tuple<Node*, int> pair =
+					std::tuple<Node*, int>(node, minimum);
+				values.push_back(pair);
+
+			}
+		
+			//If the node does not involve a piece in conflict, do minimal Alpha Beta searching
+			
+			else
+			{
+
+				//run an alpha beta evaluation
+				//pass in isWhitesTurn for maximizing player, since white is maxed and black is min-ed in this algorithm
+				//save the index and value into the values
+
+				//TODO - alpha beta DISABLED
+				/*std::tuple<Node*, int> pair =
+					std::tuple<Node*, int>(node, alphaBeta(node, ALPHA_BETA_DEPTH, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
+				*/
+				std::tuple<Node*, int> pair =
+				std::tuple<Node*, int>(node, abEval(node));
+				
+				values.push_back(pair);
+			}
 
 			//Advance to the next child
 			i++;
@@ -446,7 +488,7 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 
 		}
 
-		//NOTE
+		/*//NOTE
 		//preserve any values that are in conflict
 		for (int i = 0; i < values.size(); i++)
 		{
@@ -470,7 +512,7 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 				found++;
 
 			}
-		}
+		}*/
 
 		//rebuild the tree with the new results
 		if (results.size() > 0)
@@ -1437,4 +1479,3 @@ Board myBoard = Board();
 myBoard.makeMove(true, 1, 6, 2, 4, false);
 AIGetMove(myBoard.blackCount, myBoard.whiteCount, myBoard.blackRows, myBoard.whiteRows, false);
 }*/
-

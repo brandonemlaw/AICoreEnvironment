@@ -48,3 +48,6 @@ C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Debug\GameCore.
 C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\AICoreD\Debug\GameCore.exe.config
 C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\AICoreD\Debug\GameCore.exe
 C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\AICoreD\Debug\GameCore.pdb
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Debug\GameCore.exe.config
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Debug\GameCore.exe
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Debug\GameCore.pdb
