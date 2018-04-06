@@ -14,6 +14,9 @@ public:
 	Node* child;
 	int childCount;
 
+	bool flag;
+
+
 	Node::Node(Node& source);
 	Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn);
 	~Node();
@@ -25,4 +28,5 @@ public:
 
 private:
 	Node();
+	bool isInConflict();
 };

@@ -12,6 +12,7 @@ Node::Node(Node& source)
 	childCount = source.childCount;
 	next = source.next;
 	child = source.child;
+	flag = source.flag;
 }
 
 Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
@@ -48,6 +49,10 @@ Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
 
 	//set the source move 
 	state.sourceMove = myMove;
+
+	//set the flag
+	flag = isInConflict();
+
 }
 
 Node::~Node()
@@ -64,6 +69,9 @@ Node::Node()
 	childCount = 0;
 	child = NULL;
 	next = NULL;
+	
+	//set the flag
+	flag = true;
 }
 
 
@@ -77,6 +85,38 @@ Node* Node::rootNode(Board newBoard, bool isWhitesTurn)
 	result->state.visits = 0;
 	result->state.wins = 0;
 	result->childCount = 0;
+	result->flag = true;
 
 	return result;
+}
+
+bool Node::isInConflict()
+{
+	//If we have no parent, default to being in conflict
+	if (this->parent == NULL)
+	{
+		return true;
+	}
+
+	//TODO row 6?
+	//If it is near winning (at or beyond row 6), it is "in conflict"
+	if (this->state.sourceMove.row > 6)
+	{
+		return true;
+	}
+
+	//If there is an enemy piece one or two rows ahead, it is in conflcit
+
+	//move to the target piece in question by dividing the board by the value of the square of origin
+	unsigned long long pieces = this->parent->state.board.black;
+	pieces /= SQUARES[this->state.sourceMove.row][this->state.sourceMove.col];
+
+	//If there is a merge with the squares ahead
+	if (pieces & SPACES_AHEAD)
+	{
+		return true;
+	}
+
+	//If we haven't detected a conflict, then return false.
+	return false;
 }

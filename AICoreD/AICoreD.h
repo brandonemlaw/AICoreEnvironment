@@ -32,6 +32,10 @@ bool executeRandomGame(Board& rawBoard, bool isWhitesTurn);
 
 unsigned long long int reverse(unsigned long long int num);
 
+//Deep alpha beta
+Node* chooseWithDeepSearch(Node* root, int depth);
+int deepSearch(Node* root, int depth);
+
 Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn);
 int alphaBeta(Node* node, int depth, int alpha, int beta, bool maximizingPlayer);
 bool compareABPairs(std::tuple<Node*, int>& first, std::tuple<Node*, int>& second);

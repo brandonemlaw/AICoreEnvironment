@@ -114,35 +114,48 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	double maxValue = -1;
 	Node* result = NULL;
 
-	//For each of the first level children (every move we could choose)....
-	Node* temp = root->child;
-	while (temp != NULL)
+
+	//Try choosing with deep search
+	Node* deepResult = chooseWithDeepSearch(root, DEEP_SEARCH_DEPTH);
+	if (deepResult == NULL)
 	{
-		//give it a value from the evaluate function
-		double value = Evaluator::evaluate(temp, board, isWhitesTurn);
 
-		//if mode is easy, randomize the value
-		if (mode == 2)
+		//Choose purely on monte carlo
+		//For each of the first level children (every move we could choose)....
+		Node* temp = root->child;
+		while (temp != NULL)
 		{
-			//Reference: http://www.cplusplus.com/forum/beginner/26963/
-			double change = (double)rand() / (RAND_MAX + 1) * RANDOM_ADDITION;
-			value = value + change;
+			//give it a value from the evaluate function
+			double value = Evaluator::evaluate(temp, board, isWhitesTurn);
+
+			//if mode is easy, randomize the value
+			if (mode == 2)
+			{
+				//Reference: http://www.cplusplus.com/forum/beginner/26963/
+				double change = (double)rand() / (RAND_MAX + 1) * RANDOM_ADDITION;
+				value = value + change;
+			}
+
+			//double value = (double)temp->state.wins / (double)temp->state.visits;
+
+			//If the value is the best value, then choose it
+			if (value > maxValue)
+			{
+				//To choose the move, save the new value and set the move Node as the result
+				maxValue = value;
+				result = temp;
+
+				//this will be overriden if a new best move is found later
+			}
+
+			//advance to the next child
+			temp = temp->next;
 		}
-
-		//double value = (double)temp->state.wins / (double)temp->state.visits;
-
-		//If the value is the best value, then choose it
-		if (value > maxValue)
-		{
-			//To choose the move, save the new value and set the move Node as the result
-			maxValue = value;
-			result = temp;
-
-			//this will be overriden if a new best move is found later
-		}
-
-		//advance to the next child
-		temp = temp->next;
+	}
+	else
+	{
+		//Choose the result of the deep search
+		result = deepResult;
 	}
 
 
@@ -177,6 +190,177 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	}
 	return resultMove;
 }
+
+
+//Run choose with deep search - recieves a 
+Node* chooseWithDeepSearch(Node* root, int depth)
+{
+	//Loop through each child - each o
+	int maximum = 0; //INT_MIN; //set the maximum value to be beat to override MC
+	Node* temp = root->child;
+
+	//This line differs from deepSearch
+	Node* choice = NULL;
+	while (temp != NULL)
+	{
+		//only consider if the node is in conflict
+		if (temp->flag)
+		{
+			//loop each possible opponent move
+			Node* temp2 = temp->child;
+			int minimum = INT_MAX;
+			while (temp2 != NULL)
+			{
+				//run deep search on each node
+				minimum = min(minimum, deepSearch(temp2, depth - 1));
+
+				//advance to the next child
+				temp2 = temp2->next;
+			}
+
+			//This line differs from deepSearch
+			//If we found the new max, set the Node* choice
+			if (minimum > maximum)
+			{
+				maximum = minimum;
+				choice = temp;
+			}
+
+		}
+
+		//advance to the next child
+		temp = temp->next;
+	}
+
+	return choice;
+}
+
+int deepSearch(Node* root, int depth)
+{
+	//if we haven't reached our target depth or the end of the tree
+	if ((depth == 0) || (root->childCount == 0)) 
+	{
+		//Loop through each child - each o
+		int maximum = INT_MIN; 
+		Node* temp = root->child;
+		while (temp != NULL)
+		{
+			//only consider if the node is in conflict
+			if (temp->flag)
+			{
+				//loop each possible opponent move
+				Node* temp2 = temp->child;
+				int minimum = INT_MAX;
+				while (temp2 != NULL)
+				{
+					//run deep search on each node
+					minimum = min(minimum, deepSearch(temp2, depth - 2));
+
+					//advance to the next child
+					temp2 = temp2->next;
+				}
+				maximum = max(maximum, minimum);
+			}
+
+			//advance to the next child
+			temp = temp->next;
+		}
+
+		return maximum;
+	}
+	else
+	{
+		//Evaluate
+		return abEval(root);
+	}
+}
+
+/*Node* deepSearchForConflicts(Node* root)
+{
+	//The game always plays for white now
+	bool isWhitesTurn = true;
+
+	//Start at the base level - keep moving down until a piece is found to help the situation
+	bool stop = false;
+	while (!stop)
+	{
+		//Select primary targets - at regions of conflict
+		std::vector<Node*> primaryTargets;
+		//check each move and add it to the vector if it is in conflict
+		Node* node = root->child;
+		while (node != NULL)
+		{
+			if (isInConflict(node))
+			{
+				primaryTargets.emplace_back(node);
+			}
+			node = node->next;
+		}
+
+		//Run alpha beta on each piece that is in conflict
+		int bestValue = INT_MIN;
+		Node* bestResult = NULL;
+		for (int i = 0; i < primaryTargets.size(); i++)
+		{
+			Node* node = NULL;
+			//pull the node from the list
+			node = primaryTargets[i];
+
+			//evaluate the node with alpha beta
+			//int value = alphaBeta(node, 10, INT_MIN, INT_MAX, !isWhitesTurn);
+
+			if (value > bestValue)
+			{
+				bestValue = value;
+				bestResult = node;
+			}
+		}
+
+		//If conflict has a positive result
+		if (bestValue > 0)
+		{
+
+		}
+
+		//If conflict has a negative result, look to bring in more nodes by continuing the loop
+		//Stop the loop if we can't find any
+
+	}
+
+}
+
+
+
+//Returns true if a node involves a piece that is in conflict
+bool isInConflict(Node* node)
+{
+	//TODO row 6?
+	//If it is near winning (at or beyond row 6), it is "in conflict"
+	if (node->state.sourceMove.row > 6)
+	{
+		return true;
+	}
+	
+	//If there is an enemy piece one or two rows ahead, it is in conflcit
+
+	//move to the target piece in question by dividing the board by the value of the square of origin
+	unsigned long long pieces = node->state.board.black;
+	pieces /= SQUARES[node->state.sourceMove.row][node->state.sourceMove.row];
+
+	//If there is a merge with the squares ahead
+	if (pieces & SPACES_AHEAD)
+	{
+		return true;
+	}
+
+	//If we haven't detected a conflict, then return false.
+	return false;
+}
+
+
+
+*/
+
 
 //Bitwise everses integers
 //Code sourced from https://aticleworld.com/5-way-to-reverse-bits-of-an-integer/ 
@@ -260,6 +444,32 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 			//update the value checkeds
 			valueCheck = std::get<1>(val);
 
+		}
+
+		//NOTE
+		//preserve any values that are in conflict
+		for (int i = 0; i < values.size(); i++)
+		{
+			//get the result value
+			std::tuple<Node*, int> val = values[i];
+
+			//if the value is flagged, preserve it to the results
+			if (std::get<0>(val)->flag)
+			{
+				//add it to the results
+				results.emplace_back(std::get<0>(val));
+
+				//swap it to the back of the values and remove it
+				std::swap(values[i], values.back());
+				values.pop_back();
+
+				//decrement the counter so the search continues correctly
+				i--;
+
+				//increment the number found
+				found++;
+
+			}
 		}
 
 		//rebuild the tree with the new results

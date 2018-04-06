@@ -21,3 +21,11 @@ const double SECONDS_TO_WORK = 5.5;
 const double SECONDS_TO_WORK_EASY = 2.5;
 const double RANDOM_ADDITION = 0.4;
 const int RASH_MOVE_CHANCE = 7;
+
+const unsigned long long SPACES_AHEAD = 
+	//first row ahead
+	128 + 256 + 512 +
+	//second row ahead
+	16384 + 65536 + 32768 + 131072 + 262144;
+
+const int DEEP_SEARCH_DEPTH = 8;

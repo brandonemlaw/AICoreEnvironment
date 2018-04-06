@@ -3,6 +3,7 @@
 c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(65): warning C4244: 'initializing': conversion from 'double' to 'time_t', possible loss of data
 c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(68): warning C4244: '=': conversion from 'double' to 'time_t', possible loss of data
 c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(73): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(151): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(164): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\time.h(505): note: see declaration of 'localtime'
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(451): warning C4018: '<': signed/unsigned mismatch
   AICoreD.vcxproj -> C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\AICoreD\..\Debuger\AICoreD.dll
