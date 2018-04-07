@@ -4,4 +4,10 @@ c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(103): wa
 c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(106): warning C4244: '=': conversion from 'double' to 'time_t', possible loss of data
 c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(206): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\time.h(505): note: see declaration of 'localtime'
+  Board.cpp
+  Evaluator.cpp
+  Node.cpp
+  State.cpp
+  ThreadPruner.cpp
+  Generating Code...
   AICoreD.vcxproj -> C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Debug\AICoreD.dll

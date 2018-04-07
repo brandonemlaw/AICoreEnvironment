@@ -19,10 +19,10 @@ const double TREE_BALANCE_CONSTANT = 1;
 
 const int ALPHA_BETA_DEPTH = 4;
 
-const double SECONDS_TO_WORK = 5.5;
+const double SECONDS_TO_WORK = 5.7;
 const double SECONDS_TO_WORK_EASY = 2.5;
-const double RANDOM_ADDITION = 0.4;
-const int RASH_MOVE_CHANCE = 7;
+const double RANDOM_ADDITION = 0.7;
+const int RASH_MOVE_CHANCE = 5;
 
 const unsigned long long SPACES_AHEAD = 
 	//first row ahead

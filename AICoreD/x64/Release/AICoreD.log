@@ -1,18 +1,18 @@
 ﻿  AICoreD.cpp
-c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(65): warning C4244: 'initializing': conversion from 'double' to 'time_t', possible loss of data
-c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(68): warning C4244: '=': conversion from 'double' to 'time_t', possible loss of data
-c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(73): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(164): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(97): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(103): warning C4244: 'initializing': conversion from 'double' to 'time_t', possible loss of data
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(106): warning C4244: '=': conversion from 'double' to 'time_t', possible loss of data
+c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(206): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\time.h(505): note: see declaration of 'localtime'
   Board.cpp
   Evaluator.cpp
   Node.cpp
   State.cpp
-  stdafx.cpp
   ThreadPruner.cpp
-  dllmain.cpp
      Creating library C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Release\AICoreD.lib and object C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Release\AICoreD.exp
   Generating code
-  All 569 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  55 of 563 functions ( 9.8%) were compiled, the rest were copied from previous compilation.
+    43 functions were new in current compilation
+    23 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   AICoreD.vcxproj -> C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Release\AICoreD.dll
