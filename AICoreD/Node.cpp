@@ -13,6 +13,8 @@ Node::Node(Node& source)
 	next = source.next;
 	child = source.child;
 	flag = source.flag;
+
+	origin = "Copied";
 }
 
 Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
@@ -53,6 +55,8 @@ Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
 	//set the flag
 	flag = isInConflict();
 
+	origin = "From parameters";
+
 }
 
 Node::~Node()
@@ -72,6 +76,8 @@ Node::Node()
 	
 	//set the flag
 	flag = true;
+
+	origin = "from original";
 }
 
 
@@ -86,6 +92,8 @@ Node* Node::rootNode(Board newBoard, bool isWhitesTurn)
 	result->state.wins = 0;
 	result->childCount = 0;
 	result->flag = true;
+
+	result->origin += " as initial root";
 
 	return result;
 }

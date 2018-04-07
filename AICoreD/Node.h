@@ -5,6 +5,9 @@
 #include <math.h>
 #include <Windows.h>
 
+//DEBUG
+#include <string>
+
 class Node
 {
 public:
@@ -15,6 +18,9 @@ public:
 	int childCount;
 
 	bool flag;
+
+	//DEBUG
+	std::string origin;
 
 
 	Node::Node(Node& source);

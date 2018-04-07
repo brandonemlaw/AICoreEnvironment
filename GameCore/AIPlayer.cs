@@ -23,6 +23,9 @@ namespace GameCore
         [DllImport(@"AICoreD.dll")]
         private static extern AIMove AIGetMove(int blackCount, int whiteCount, ulong black, ulong white, bool isWhitesTurn, uint mode);
 
+        [DllImport(@"AICoreD.dll")]
+        public static extern void EmptyMemory();
+
 
         public static  Move getAMove(bool isWhitesTurn)
         {

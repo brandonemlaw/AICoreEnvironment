@@ -238,10 +238,10 @@ Node* chooseWithDeepSearch(Node* root, int depth)
 int deepSearch(Node* root, int depth)
 {
 	//if we haven't reached our target depth or the end of the tree
-	if ((depth > 0) && (root->childCount > 0)) 
+	if ((depth > 0) && (root->childCount > 0))
 	{
 		//Loop through each child - each o
-		int maximum = INT_MIN; 
+		int maximum = INT_MIN;
 		Node* temp = root->child;
 		while (temp != NULL)
 		{
@@ -274,92 +274,6 @@ int deepSearch(Node* root, int depth)
 		return abEval(root);
 	}
 }
-
-/*Node* deepSearchForConflicts(Node* root)
-{
-	//The game always plays for white now
-	bool isWhitesTurn = true;
-
-	//Start at the base level - keep moving down until a piece is found to help the situation
-	bool stop = false;
-	while (!stop)
-	{
-		//Select primary targets - at regions of conflict
-		std::vector<Node*> primaryTargets;
-		//check each move and add it to the vector if it is in conflict
-		Node* node = root->child;
-		while (node != NULL)
-		{
-			if (isInConflict(node))
-			{
-				primaryTargets.emplace_back(node);
-			}
-			node = node->next;
-		}
-
-		//Run alpha beta on each piece that is in conflict
-		int bestValue = INT_MIN;
-		Node* bestResult = NULL;
-		for (int i = 0; i < primaryTargets.size(); i++)
-		{
-			Node* node = NULL;
-			//pull the node from the list
-			node = primaryTargets[i];
-
-			//evaluate the node with alpha beta
-			//int value = alphaBeta(node, 10, INT_MIN, INT_MAX, !isWhitesTurn);
-
-			if (value > bestValue)
-			{
-				bestValue = value;
-				bestResult = node;
-			}
-		}
-
-		//If conflict has a positive result
-		if (bestValue > 0)
-		{
-
-		}
-
-		//If conflict has a negative result, look to bring in more nodes by continuing the loop
-		//Stop the loop if we can't find any
-
-	}
-
-}
-
-
-
-//Returns true if a node involves a piece that is in conflict
-bool isInConflict(Node* node)
-{
-	//TODO row 6?
-	//If it is near winning (at or beyond row 6), it is "in conflict"
-	if (node->state.sourceMove.row > 6)
-	{
-		return true;
-	}
-	
-	//If there is an enemy piece one or two rows ahead, it is in conflcit
-
-	//move to the target piece in question by dividing the board by the value of the square of origin
-	unsigned long long pieces = node->state.board.black;
-	pieces /= SQUARES[node->state.sourceMove.row][node->state.sourceMove.row];
-
-	//If there is a merge with the squares ahead
-	if (pieces & SPACES_AHEAD)
-	{
-		return true;
-	}
-
-	//If we haven't detected a conflict, then return false.
-	return false;
-}
-
-
-
-*/
 
 
 //Bitwise everses integers
@@ -545,6 +459,10 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 				node = next;
 			}
 
+			//set the last next pointer to null
+			node->next = NULL;
+
+
 			//****  delete original root   ****/
 			//until we have emptied the unusued values array
 			while (!values.empty())
@@ -570,8 +488,6 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 					
 			}
 
-			//all nodes have been added. Clear the next node for the last in the chain.
-			node->next = NULL;
 
 			//set the result's successor to be null, so it isn't deleted twice
 			result->next = NULL;
@@ -676,23 +592,32 @@ int alphaBeta(Node* node, int depth, int alpha, int beta, bool maximizingPlayer)
 //ASSUMES MAX IS FOR WHITE
 int abEval(Node* node)
 {
+	//If the game is totally over, return +/- 2000
 	if (node->state.board.gameOver)
 	{
-		if (node->state.board.black & ROWS[0])
+		if (node->state.isWhitesTurn)
 		{
 			return -2000;
 		}
 		else
 		{
-			return 2001;
+			return 2000;
 		}
 	}
+	//If the game has reached a victory location, +/- return 1000
+	/*else if (node->state.board.victoryLocation > 0)
+	{
+		if (node->state.board.victoryLocation = 2) //black
+		{
+			return -1000;
+		}
+		else
+		{
+			return 1001;
+		}
+	}*/
 
 	int result =  (node->state.board.whiteCount - node->state.board.blackCount);
-	if (result < 0)
-	{
-		bool b = true;
-	}
 	return result;
 }
 
@@ -732,10 +657,13 @@ void setRoot(Node*& r, Board board, bool isWhitesTurn)
 
 			
 
-		//if we didn't find one, set the root over again to empty
+		//if we didn't find one, clear the memory set the root over again to empty
 		if (!foundNewRoot)
 		{
+			//dump the tree
+			//Note: this will cause a memory leak; therefore, it is a LAST RESTORT!
 			r = Node::rootNode(board, isWhitesTurn);
+
 		}
 	}
 }
@@ -1404,6 +1332,7 @@ void expandNode(Node* node)
 				col = 0;
 			}
 		}
+
 	}
 
 

@@ -12,6 +12,9 @@ public:
 	unsigned long long black;
 	unsigned long long white;
 
+	unsigned long long blackWinConditions;
+	unsigned long long whiteWinConditions;
+
 
 	//unsigned int blackRows[8];
 	//unsigned int whiteRows[8];
@@ -30,6 +33,7 @@ public:
 	//char getPieceAt(int row, int column);
 
 	bool gameOver = false;
+	int victoryLocation = 0; // 0 = none; 1 = white; 2 = black
 };
 
 bool operator== (const Board &b1, const Board &b2);

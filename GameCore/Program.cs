@@ -104,7 +104,7 @@ namespace GameCore
                         keyCode = 'm';
                     }
                     Console.Write("m = make move\t a = call AI\t n = always make move for human\t q = toggle auto call AI\nt = change AI (from " + AIIdentity + 
-                        ")\ti = swap turns\t l = load board\t s = save board\t u = undo\t f = quit\t \n");
+                        ")\ti = swap turns\t l = load board\t s = save board\t u = undo\t f = dump memory\t \n");
                     while (keyCode != 'm' && keyCode != 'a' && keyCode != 's' && keyCode != 'l' && keyCode != 'q' &&  keyCode != 'f' && keyCode != 'i' && keyCode != 'n' && keyCode != 't' && keyCode != 'u')
                     {
                         Console.Write((char)currentPlayer.getIdentity() + ":");
@@ -138,7 +138,7 @@ namespace GameCore
                     }
                     else if (keyCode == 'f')
                     {
-
+                        AIPlayer.EmptyMemory();
                     }
                     else if (keyCode == 't')
                     {

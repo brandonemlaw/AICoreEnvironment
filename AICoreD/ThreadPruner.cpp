@@ -28,8 +28,8 @@ ThreadPruner::ThreadPruner(Node* save, Node* newRoot)
 
 ThreadPruner::~ThreadPruner()
 {
-	std::thread pruner(&ThreadPruner::pruneAllAbove, root, nodeToSave);
-	pruner.detach();
+	//std::thread pruner(&ThreadPruner::pruneAllAbove, root, nodeToSave);
+	//pruner.detach();
 }
 
 void ThreadPruner::pruneAllAbove(Node* root, Node* nodeToSave)
@@ -62,11 +62,17 @@ void ThreadPruner::pruneAllAbove(Node* root, Node* nodeToSave)
 
 					//advance to the next child
 					temp = temp->next;
+
 				}
 
 
 				//actually delete the node - but let the lock go out of scope first
 				delete node;
+			}
+			else
+			{
+				//set the saved nodes next pointer to NULL
+				node->next = NULL;
 			}
 		}
 	}

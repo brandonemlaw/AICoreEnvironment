@@ -12,3 +12,4 @@ C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\Release\GameCore.pdb
 C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Release\GameCore.csproj.CoreCompileInputs.cache
 C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Release\GameCore.exe
 C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Release\GameCore.pdb
+C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\GameCore\obj\Release\GameCore.csprojResolveAssemblyReference.cache
