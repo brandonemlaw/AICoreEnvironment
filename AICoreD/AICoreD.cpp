@@ -704,7 +704,7 @@ int abEval(Node* node)
 
 
 //************************
-//Monte Carlo Components Components
+//Monte Carlo Components
 //************************
 
 /*

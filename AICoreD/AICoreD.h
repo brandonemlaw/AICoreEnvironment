@@ -18,39 +18,41 @@
 #include "Evaluator.h"
 
 
-//TODO
-// -abort if memory pressure
 
 
 Node* root = NULL;
 
-
+//Externals
 extern "C" __declspec(dllexport) void __stdcall  EmptyMemory();
 extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount, int whiteCount, unsigned long long black, unsigned long long white, bool isWhitesTurn, unsigned int mode);
 
-bool executeRandomGame(Board& rawBoard, bool isWhitesTurn);
-
-unsigned long long int reverse(unsigned long long int num);
-
-//Deep alpha beta
-Node* chooseWithDeepSearch(Node* root, int depth);
-int deepSearch(Node* root, int depth);
-
+//Primary Subroutines
+void runMonteCarloAlgorithm(Node* root, bool isWhitesTurn, std::time_t endTime);
 void seedWithAlphaBeta(Node* root, bool isWhitesTurn);
+
+//Deep Search Components
+int deepSearch(Node* root, int depth);
 int alphaBeta(Node* node, int depth, int alpha, int beta, bool maximizingPlayer);
 bool compareABPairs(std::tuple<Node*, int>& first, std::tuple<Node*, int>& second);
 int abEval(Node* node);
 
+//Monte Carlo Components
+Node* selectPromisingNode(Node* root);
+void expandNode(Node* node);
+void processNode(Node* node, bool isWhitesTurn);
+bool executeRandomGame(Board& rawBoard, bool isWhitesTurn);
+void backTrackValues(Node* node, bool didWeWin);
+double getUCTRating(Node* node, bool isWhitesTurnMaster);
+
+//Other/Utility Components
+int getNodeChildren(Node* node);
+Node* getChildNode(Node* node, int i);
 
 void setRoot(Node*& r, Board board, bool isWhitesTurn);
-void runMonteCarloAlgorithm(Node* root, bool isWhitesTurn, std::time_t endTime);
-void processNode(Node* node, bool isWhitesTurn);
-Node* getChildNode(Node* node, int i);
-int getNodeChildren(Node* node);
-
 bool compareMove(const Move& a, const Move& b);
-void backTrackValues(Node* node, bool didWeWin);
 
-void expandNode(Node* node);
-Node* selectPromisingNode(Node* root);
-double getUCTRating(Node* node, bool isWhitesTurnMaster);
+unsigned long long int reverse(unsigned long long int num);
+
+
+
+
