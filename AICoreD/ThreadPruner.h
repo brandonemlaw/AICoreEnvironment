@@ -12,10 +12,11 @@ public:
 	~ThreadPruner();
 	static void pruneAllAbove(Node* root, Node* nodeToSave);
 
+
 private:
-	Node* nodeToSave;
-	Node* root;
+
 	
 	Node* getRoot(Node* node);
+
 
 };

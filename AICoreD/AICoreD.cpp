@@ -18,6 +18,7 @@
 //	-track number of pieces on the 2nd to last row, for example, avoid the scenario leading to it
 //  -summary: prune by evalution
 
+#pragma once
 #include "AICoreD.h"
 
 
@@ -115,11 +116,6 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	Node* result = NULL;
 
 
-	//Try choosing with deep search
-	//Node* deepResult = chooseWithDeepSearch(root, DEEP_SEARCH_DEPTH);
-	//if (deepResult == NULL)
-	//{
-
 		//Choose with monte carlo
 		//For each of the first level children (every move we could choose)....
 		Node* temp = root->child;
@@ -151,12 +147,6 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 			//advance to the next child
 			temp = temp->next;
 		}
-	/*}
-	else
-	{
-		//Choose the result of the deep search
-		result = deepResult;
-	}*/
 
 
 	//write to the log file
@@ -167,12 +157,12 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 
 	//Prune above the root
 	std::thread pruner(ThreadPruner::pruneAllAbove, originalRoot, root);
-	pruner.detach();
+	pruner.join();
 
 	//Prune above the result
 	result->parent = NULL;
 	std::thread pruner2(ThreadPruner::pruneAllAbove, root, result);
-	pruner2.detach();
+	pruner2.join();
 
 
 	//set the result as the new root
@@ -438,8 +428,6 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 			//add the first child
 			result->childCount = 1;
 			result->child = results.back();
-			//result->child->parent = result;
-
 			results.pop_back();
 
 			//add every child
@@ -448,7 +436,6 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 			{
 				//grab the node from the last in the results list
 				Node* next = results.back();
-				next->parent = result;
 				results.pop_back();
 
 				//save the node as the next one and increment the count
@@ -483,13 +470,11 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 
 				//actually delete the node
 				delete node;
+
 					
 			}
 
 
-
-			//set the result's successor to be null, so it isn't deleted twice
-			result->next = NULL;
 
 			//return the resulting tree
 			return result;

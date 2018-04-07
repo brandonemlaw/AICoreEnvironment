@@ -13,6 +13,8 @@ const unsigned long long SQUARES[8][8] = { { 1, 2, 4, 8, 16, 32, 64, 128 },
 const unsigned long long ROWS[8] = { 255, 65280, 16711680, 4278190080, 1095216660480, 280375465082880, 71776119061217280, 18374686479671623680 };
 const unsigned int COLUMNS[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };	//A-H
 
+const int NODE_COUNT = 10000000; //ten million
+
 const double TREE_BALANCE_CONSTANT = 1;
 
 const int ALPHA_BETA_DEPTH = 4;

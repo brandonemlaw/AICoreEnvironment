@@ -20,10 +20,10 @@ Node* ThreadPruner::getRoot(Node* node)
 ThreadPruner::ThreadPruner(Node* save, Node* newRoot)
 {
 	//set the node to save
-	nodeToSave = save;
+	//nodeToSave = save;
 
 	//find the root node
-	root = newRoot;
+	//root = newRoot;
 }
 
 ThreadPruner::~ThreadPruner()

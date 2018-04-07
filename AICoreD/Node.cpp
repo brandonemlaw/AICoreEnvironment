@@ -1,6 +1,9 @@
+#pragma once
 #include "Node.h"
 
-
+/*
+Creates a copy of a node, receiving a node by reference
+*/
 Node::Node(Node& source)
 {
 	//Init the critical section for multithread locking
@@ -15,8 +18,13 @@ Node::Node(Node& source)
 	flag = source.flag;
 }
 
+/*
+Creates a new node using the parameters typically required for a correct node.
+Called typically from the Expand function in the monte carlo cycle.
+*/
 Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
 {
+
 	//Init the critical section for multithread locking
 	InitializeCriticalSection(&cs);
 
@@ -54,11 +62,13 @@ Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn)
 	flag = isInConflict();
 }
 
+/*Deletes a node*/
 Node::~Node()
 {
 	DeleteCriticalSection(&cs);
 }
 
+/*Creates an empty node*/
 Node::Node()
 {
 	//Init the critical section for multithread locking
@@ -74,7 +84,12 @@ Node::Node()
 }
 
 
-//Used only for creating the root node
+/*
+rootNode
+-the board to be used for the root note
+-whether white is moving first
+-returns: a pointer to the new root node
+*/
 Node* Node::rootNode(Board newBoard, bool isWhitesTurn)
 {
 	Node* result = new Node();
@@ -86,11 +101,13 @@ Node* Node::rootNode(Board newBoard, bool isWhitesTurn)
 	result->childCount = 0;
 	result->flag = true;
 
-	result->origin += " as initial root";
-
 	return result;
 }
 
+/*
+isInConflict
+-returns whether the node is in conflict with enemy pieces 
+*/
 bool Node::isInConflict()
 {
 	//If we have no parent, default to being in conflict

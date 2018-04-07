@@ -6,6 +6,7 @@
 #include <Windows.h>
 
 
+
 class Node
 {
 public:
@@ -27,6 +28,8 @@ public:
 	CRITICAL_SECTION cs;
 
 private:
+
 	Node();
 	bool isInConflict();
 };
+
