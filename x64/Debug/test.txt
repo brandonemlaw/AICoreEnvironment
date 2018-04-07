@@ -254,4 +254,6 @@ a2b3	c7b6
 h2g3	b7a6
 a2b3	h7h6
 h2g3	a7b6
-a7b6	
+a7b6	a2b3	a2b3	g7h6
+h2g3	a7b6
+g3g4	e7f6
