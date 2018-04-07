@@ -4894,3 +4894,375 @@ h1g2
   A B C D E F G H
 
 
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+b7b6
+ 8 O O O O O O O O 
+ 7 O   O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7 O   O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a8b7
+ 8   O O O O O O O 
+ 7 O O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+b3b4
+ 8   O O O O O O O 
+ 7 O O O O O O O O 
+ 6   O             
+ 5                 
+ 4   X             
+ 3             X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+f7e6
+ 8   O O O O O O O 
+ 7 O O O O O   O O 
+ 6   O     O       
+ 5                 
+ 4   X             
+ 3             X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+f2f3
+ 8   O O O O O O O 
+ 7 O O O O O   O O 
+ 6   O     O       
+ 5                 
+ 4   X             
+ 3           X X   
+ 2   X X X X   X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+b6a5
+ 8   O O O O O O O 
+ 7 O O O O O   O O 
+ 6         O       
+ 5 O               
+ 4   X             
+ 3           X X   
+ 2   X X X X   X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+b7b6
+ 8 O O O O O O O O 
+ 7 O   O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7 O   O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a8b7
+ 8   O O O O O O O 
+ 7 O O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7b6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h7h6
+ 8 O O O O O O O O 
+ 7   O O O O O O   
+ 6   O           O 
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+g7h6
+ 8 O O O O O O O O 
+ 7 O O O O O O   O 
+ 6               O 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7 O O O O O O   O 
+ 6               O 
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+b7a6
+ 8 O O O O O O O O 
+ 7 O   O O O O   O 
+ 6 O             O 
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+c2c3
+ 8 O O O O O O O O 
+ 7 O   O O O O   O 
+ 6 O             O 
+ 5                 
+ 4                 
+ 3   X X       X   
+ 2   X   X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+b7a6
+ 8 O O O O O O O O 
+ 7 O   O O O O O O 
+ 6 O               
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+b7b6
+ 8 O O O O O O O O 
+ 7 O   O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7 O   O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+d7c6
+ 8 O O O O O O O O 
+ 7 O   O   O O O O 
+ 6   O O           
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7b6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+

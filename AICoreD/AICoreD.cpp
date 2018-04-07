@@ -462,8 +462,6 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 			//set the last next pointer to null
 			node->next = NULL;
 
-
-			//****  delete original root   ****/
 			//until we have emptied the unusued values array
 			while (!values.empty())
 			{
@@ -487,6 +485,7 @@ Node* seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 				delete node;
 					
 			}
+
 
 
 			//set the result's successor to be null, so it isn't deleted twice

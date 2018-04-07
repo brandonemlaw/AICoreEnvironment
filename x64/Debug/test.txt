@@ -192,4 +192,17 @@ g2h3	a2b3	c7b6
 h2g3	g7g6
 g2h3	a2b3	c7d6
 c7d6	g2f3	d6d5
-h1g2	
+h1g2	a2b3	b7b6
+h2g3	a8b7
+b3b4	f7e6
+f2f3	b6a5
+a2b3	a2b3	b7b6
+h2g3	a8b7
+a2b3	a7b6
+h2g3	h7h6
+a2b3	g7h6
+h2g3	b7a6
+c2c3	a2b3	b7a6
+a2b3	a2b3	b7b6
+h2g3	d7c6
+a2b3	a7b6

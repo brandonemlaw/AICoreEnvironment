@@ -66,7 +66,7 @@ void ThreadPruner::pruneAllAbove(Node* root, Node* nodeToSave)
 				}
 
 
-				//actually delete the node - but let the lock go out of scope first
+				//actually delete the node
 				delete node;
 			}
 			else
@@ -74,6 +74,7 @@ void ThreadPruner::pruneAllAbove(Node* root, Node* nodeToSave)
 				//set the saved nodes next pointer to NULL
 				node->next = NULL;
 			}
+
 		}
 	}
 

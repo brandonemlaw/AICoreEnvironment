@@ -5,8 +5,6 @@
 #include <math.h>
 #include <Windows.h>
 
-//DEBUG
-#include <string>
 
 class Node
 {
@@ -18,10 +16,6 @@ public:
 	int childCount;
 
 	bool flag;
-
-	//DEBUG
-	std::string origin;
-
 
 	Node::Node(Node& source);
 	Node::Node(Node* myParent, Board myBoard, Move myMove, bool myIsWhitesTurn);
