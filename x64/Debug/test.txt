@@ -420,4 +420,5 @@ b5c4	d1c2	c4b3
 	
 	a4a5	a4a5
 b5c4
-d1c2	
+d1c2	a2b3	a7b6
+h2g3	

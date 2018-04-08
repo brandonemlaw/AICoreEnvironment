@@ -10810,3 +10810,39 @@ d1c2
   A B C D E F G H
 
 
+a2b3
+ 8 O O O O O O O O 
+ 7 O O O O O O O O 
+ 6                 
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+a7b6
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X             
+ 2   X X X X X X X 
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+
+h2g3
+ 8 O O O O O O O O 
+ 7   O O O O O O O 
+ 6   O             
+ 5                 
+ 4                 
+ 3   X         X   
+ 2   X X X X X X   
+ 1 X X X X X X X X 
+  A B C D E F G H
+
+

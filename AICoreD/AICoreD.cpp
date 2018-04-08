@@ -336,53 +336,66 @@ void seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 		Node* node = root->child;
 		while (node != NULL)
 		{
-			//If the node is with a piece in conflict, run DEEP SEARCH on it
-			if (node->flag)
+			//if the node has children, run an appropriate search on it
+			if (node->childCount > 0)
 			{
-				//loop each possible opponent move
-				Node* temp2 = node->child;
-				int minimum = INT_MAX;
-				while (temp2 != NULL)
+				//If the node is with a piece in conflict, run DEEP SEARCH on it
+				if (node->flag)
 				{
-					//run deep search on each node
-					minimum = min(minimum, deepSearch(temp2, DEEP_SEARCH_DEPTH));
+					//loop each possible opponent move
+					Node* temp2 = node->child;
+					int minimum = INT_MAX;
+					while (temp2 != NULL)
+					{
+						//run deep search on each node
+						minimum = min(minimum, deepSearch(temp2, DEEP_SEARCH_DEPTH));
 
-					//advance to the next child
-					temp2 = temp2->next;
+						//advance to the next child
+						temp2 = temp2->next;
+					}
+
+					//This line differs from deepSearch
+					//If we found the new max, set the Node* choice
+					if (minimum > maxVal)
+					{
+						maxVal = minimum;
+
+					}
+
+					//add the item to the list of values
+					std::tuple<Node*, int> pair =
+						std::tuple<Node*, int>(node, minimum);
+					values.push_back(pair);
+
 				}
 
-				//This line differs from deepSearch
-				//If we found the new max, set the Node* choice
-				if (minimum > maxVal)
+				//If the node does not involve a piece in conflict, do minimal Alpha Beta searching
+
+				else
 				{
-					maxVal = minimum;
 
+					//run an alpha beta evaluation
+					//pass in isWhitesTurn for maximizing player, since white is maxed and black is min-ed in this algorithm
+					//save the index and value into the values
+
+					//TODO - alpha beta ENABLED
+					std::tuple<Node*, int> pair =
+						std::tuple<Node*, int>(node, alphaBeta(node, ALPHA_BETA_DEPTH, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
+
+					/*std::tuple<Node*, int> pair =
+						std::tuple<Node*, int>(node, abEval(node));*/
+
+					values.push_back(pair);
 				}
-
-				//add the item to the list of values
-				std::tuple<Node*, int> pair =
-					std::tuple<Node*, int>(node, minimum);
-				values.push_back(pair);
-
 			}
-
-			//If the node does not involve a piece in conflict, do minimal Alpha Beta searching
-
 			else
 			{
-
-				//run an alpha beta evaluation
-				//pass in isWhitesTurn for maximizing player, since white is maxed and black is min-ed in this algorithm
-				//save the index and value into the values
-
-				//TODO - alpha beta ENABLED
+				//if the node does not have children, run eval and advance
+				//add the item to the list of values
 				std::tuple<Node*, int> pair =
-				std::tuple<Node*, int>(node, alphaBeta(node, ALPHA_BETA_DEPTH, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
-				
-				/*std::tuple<Node*, int> pair =
-					std::tuple<Node*, int>(node, abEval(node));*/
-
+					std::tuple<Node*, int>(node, abEval(node));
 				values.push_back(pair);
+
 			}
 
 			//Advance to the next child
@@ -541,29 +554,35 @@ int deepSearch(Node* root, int depth)
 		Node* temp = root->child;
 		while (temp != NULL)
 		{
-			//only consider if the node is in conflict
-			if (temp->flag)
+			//if the node has children, run appropriate search on it
+			if (temp->childCount > 0)
 			{
-				//loop each possible opponent move
-				Node* temp2 = temp->child;
-				int minimum = INT_MAX;
-				while (temp2 != NULL)
+				//only continue deep search if the node is (still) in conflict
+				if (temp->flag)
 				{
-					//run deep search on each node
-					minimum = min(minimum, deepSearch(temp2, depth - 2));
+					//loop each possible opponent move
+					Node* temp2 = temp->child;
+					int minimum = INT_MAX;
+					while (temp2 != NULL)
+					{
+						//run deep search on each node
+						minimum = min(minimum, deepSearch(temp2, depth - 2));
 
-					//advance to the next child
-					temp2 = temp2->next;
+						//advance to the next child
+						temp2 = temp2->next;
+					}
+					maximum = max(maximum, minimum);
 				}
-				maximum = max(maximum, minimum);
-			}
-			//if the node is no longer in conflict, run an alpha beta on it
-			else
-			{
-				if (temp->childCount > 0)
+				//if the node is no longer in conflict, run an alpha beta on it
+				else
 				{
 					maximum = max(maximum, alphaBeta(temp, ALPHA_BETA_ESCAPE_DEPTH, INT_MIN, INT_MAX, FALSE));
 				}
+			}
+			else
+			{
+				//if the node has no children, evalute it
+				maximum = max(maximum, abEval(temp));
 			}
 
 			//advance to the next child
