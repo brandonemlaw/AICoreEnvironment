@@ -205,7 +205,7 @@ extern "C" __declspec(dllexport) SubmitMove __stdcall  AIGetMove(int blackCount,
 	auto t = std::time(nullptr);
 	auto tm = *std::localtime(&t);
 	std::ofstream log_file("AILog.txt", std::ios_base::out | std::ios_base::app);
-	log_file << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << "\t" << root->state.visits << "\t" << maxValue << "\t" << originalRoot << std::endl;
+	log_file << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << "\t" << root->state.visits << "\t" << maxValue << "\t" << root->childCount << std::endl;
 
 	//**************
 	//9. Prune (meaning delete) all the branches above what we have selected, using the ThreadPruner::pruneAllAbove
@@ -375,12 +375,12 @@ void seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 				//pass in isWhitesTurn for maximizing player, since white is maxed and black is min-ed in this algorithm
 				//save the index and value into the values
 
-				//TODO - alpha beta DISABLED
-				/*std::tuple<Node*, int> pair =
-				std::tuple<Node*, int>(node, alphaBeta(node, ALPHA_BETA_DEPTH, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
-				*/
+				//TODO - alpha beta ENABLED
 				std::tuple<Node*, int> pair =
-					std::tuple<Node*, int>(node, abEval(node));
+				std::tuple<Node*, int>(node, alphaBeta(node, ALPHA_BETA_DEPTH, INT_MIN, INT_MAX, !isWhitesTurn) * inverter);
+				
+				/*std::tuple<Node*, int> pair =
+					std::tuple<Node*, int>(node, abEval(node));*/
 
 				values.push_back(pair);
 			}
@@ -470,33 +470,12 @@ void seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 			//set the last next pointer to null
 			node->next = NULL;
 
-			//until we have emptied the unusued values array
-			while (!values.empty())
-			{
-				//get the first node from the queue
-				Node* node = std::get<0>(values.back());
-				values.pop_back();
-
-				//For each of the  children 
-				Node* temp = node->child;
-				while (temp != NULL)
-				{
-					//add to the queue
-					values.push_back(std::tuple<Node*, int>(temp, 0));
-
-					//advance to the next child
-					temp = temp->next;
-				}
-
-
-				//actually delete the node
-				delete node;
-
-
-			}
 		}
-	}
 
+		//Start the deletion on a separate thread
+		std::thread del(removeExtraNodes, values);
+		del.detach();
+	}
 
 }
 
@@ -504,6 +483,38 @@ void seedWithAlphaBeta(Node* root, bool isWhitesTurn)
 //************************
 //Deep Search Components
 //************************
+
+/*
+removeExtraNodes
+-values vector with node pointers to be delteted and their values
+
+Deletes every node and its children in the array.
+*/
+void removeExtraNodes(std::vector<std::tuple <Node*, int>> values)
+{
+	//until we have emptied the unusued values array
+	while (!values.empty())
+	{
+		//get the first node from the queue
+		Node* node = std::get<0>(values.back());
+		values.pop_back();
+
+		//For each of the  children 
+		Node* temp = node->child;
+		while (temp != NULL)
+		{
+			//add to the queue
+			values.push_back(std::tuple<Node*, int>(temp, 0));
+
+			//advance to the next child
+			temp = temp->next;
+		}
+
+
+		//actually delete the node
+		delete node;
+	}
+}
 
 /*
 deepSearch
@@ -545,6 +556,14 @@ int deepSearch(Node* root, int depth)
 					temp2 = temp2->next;
 				}
 				maximum = max(maximum, minimum);
+			}
+			//if the node is no longer in conflict, run an alpha beta on it
+			else
+			{
+				if (temp->childCount > 0)
+				{
+					maximum = max(maximum, alphaBeta(temp, ALPHA_BETA_ESCAPE_DEPTH, INT_MIN, INT_MAX, FALSE));
+				}
 			}
 
 			//advance to the next child
@@ -638,7 +657,8 @@ int alphaBeta(Node* node, int depth, int alpha, int beta, bool maximizingPlayer)
 			node = node->child;
 			while (node != NULL)
 			{
-				v = min(v, alphaBeta(node, depth - 1, alpha, beta, FALSE));
+				//v = min(v, alphaBeta(node, depth - 1, alpha, beta, FALSE));
+				v = min(v, alphaBeta(node, depth - 1, alpha, beta, TRUE));
 				beta = min(beta, v);
 				if (beta <= alpha)
 				{

@@ -11,8 +11,8 @@ c:\users\brandon\documents\github\aicoreenvironment\aicored\aicored.cpp(206): wa
   ThreadPruner.cpp
      Creating library C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Release\AICoreD.lib and object C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Release\AICoreD.exp
   Generating code
-  55 of 563 functions ( 9.8%) were compiled, the rest were copied from previous compilation.
-    43 functions were new in current compilation
-    23 functions had inline decision re-evaluated but remain unchanged
+  3 of 629 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   AICoreD.vcxproj -> C:\Users\Brandon\Documents\GitHub\AICoreEnvironment\x64\Release\AICoreD.dll

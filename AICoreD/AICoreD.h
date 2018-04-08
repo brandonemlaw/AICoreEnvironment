@@ -31,6 +31,7 @@ void runMonteCarloAlgorithm(Node* root, bool isWhitesTurn, std::time_t endTime);
 void seedWithAlphaBeta(Node* root, bool isWhitesTurn);
 
 //Deep Search Components
+void removeExtraNodes(std::vector<std::tuple <Node*, int>> values);
 int deepSearch(Node* root, int depth);
 int alphaBeta(Node* node, int depth, int alpha, int beta, bool maximizingPlayer);
 bool compareABPairs(std::tuple<Node*, int>& first, std::tuple<Node*, int>& second);
