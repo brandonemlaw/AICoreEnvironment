@@ -3,7 +3,11 @@
 
 
 
+/*
+Board
 
+Creates a default board.
+*/
 Board::Board()
 {
 	//Initialize parameters
@@ -13,7 +17,11 @@ Board::Board()
 	whiteWinConditions = ROWS[7];
 }
 
+/*
+Board
 
+Creates a board based on a set of initial game parameters.
+*/
 Board::Board(int newBlackCount, int newWhiteCount, unsigned long long newBlack, unsigned long long newWhite)
 {
 	//load the new info
@@ -28,6 +36,11 @@ Board::Board(int newBlackCount, int newWhiteCount, unsigned long long newBlack, 
 
 }
 
+/*
+fromBoard
+
+Creates a board with the parameters of another board. This is effectively a copy operation.
+*/
 void Board::fromBoard(Board & oldBoard)
 {
 	//load the new info
@@ -40,6 +53,11 @@ void Board::fromBoard(Board & oldBoard)
 	whiteWinConditions = oldBoard.whiteWinConditions;
 }
 
+/*
+setParameters
+
+Sets the parameters of the board to match those of another.
+*/
 void Board::setParameters(int newBlackCount, int newWhiteCount, unsigned long long newBlack, unsigned long long newWhite)
 {
 	//load the new info
@@ -53,12 +71,18 @@ void Board::setParameters(int newBlackCount, int newWhiteCount, unsigned long lo
 	whiteWinConditions = ROWS[7];
 }
 
+/*
+makeMove
+-is the move made by white?
+-the row (vertical on a regular board) the peice being moved starts at
+-the column (horizontal on a regular boarD) the peice being moved starts at
+-the row the peice is being moved to
+-the column the peice is being moved to
 
+Creates a board with the parameters of another board. This is effectively a copy operation.
+*/
 bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int column)
 {
-	//to do:the array values should be put into temp variable so they dont have to be accessed again
-
-
 	//load squares filter
 	unsigned long long targetSquareCheckFilter = SQUARES[row][column];
 
@@ -137,27 +161,52 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 			victoryLocation = 1;
 		}*/
 
-		//TODO !!!!!!
+		/***********************/
 		//Update the victory spots for black
 		//if we're moving out of a black victory position
 		if (SQUARES[oldRow][oldColumn] & blackWinConditions)
 		{
 			//check for new win conditions
-			//do this /*recursively*/ for each move where the win condition is added
+			int conditions = 0;
 
 			//1. check 2 to the right for pieces and 1s, if no piece and a 1 -> 
-				//if starting square is cleared
+			if (oldColumn + 2 < 7)
+			{
+				if (SQUARES[oldRow][oldColumn + 2] & blackWinConditions & (~white))
+				{
 					//put a 1 in 1down 1 to the right
+					if (oldRow + 1 > 0)
+					{
+						blackWinConditions += SQUARES[oldRow + 1][oldColumn + 1];
+					}
+				}
+			}
 							
 			//2. check 2 to the left for pieces and 1s, if no piece and a 1 ->
-				//if starting square is cleared
+			if (oldColumn - 2 > 0)
+			{
+				if (SQUARES[oldRow][oldColumn - 2] & blackWinConditions & (~white))
+				{
 					//put a 1down 1 to the left
+					if (oldRow + 1 > 0)
+					{
+						blackWinConditions += SQUARES[oldRow + 1][oldColumn - 1];
+					}
+				}
+			}
 
-			//3. if left and right are 1s, and there are no pieces to the left and right, then we'd put a 1 below
 
-			//if  1, 2, and 3 are 1s and clear of pieces, then add a 1 condition two below the root spot
-
+		//3. if left and right are 1s, and there are no pieces to the left and right
+			if ((SQUARES[oldRow][oldColumn] & blackWinConditions & (~white)) &&
+				(oldColumn + 1 > 7 || (SQUARES[oldRow][oldColumn + 1] & blackWinConditions & (~white)))
+				&& (oldColumn - 1 < 0 || (SQUARES[oldRow][oldColumn - 1] & blackWinConditions & (~white)))
+				)
+			{
+				//then we'd put a 1 below
+				blackWinConditions += SQUARES[oldRow + 1][oldColumn];
+			}
 		}
+		/***********************/
 
 		//If white is in a victory position
 		if (black & blackWinConditions || whiteCount <= 0)
@@ -208,6 +257,50 @@ bool Board::makeMove(bool playerWhite, int oldRow, int oldColumn, int row, int c
 
 		black -= SQUARES[oldRow][oldColumn]; //remove piece at old position
 		black += targetSquareCheckFilter; //add piece at new position
+
+		/***********************/
+		//Update the victory spots for white
+		//if we're moving out of a white victory position
+		if (SQUARES[oldRow][oldColumn] & whiteWinConditions)
+		{
+			//1. check 2 to the right for pieces and 1s, if no piece and a 1 -> 
+			if (oldColumn + 2 < 7)
+			{
+				if (SQUARES[oldRow][oldColumn + 2] & whiteWinConditions & (~black))
+				{
+					//put a 1 in 1down 1 to the right
+					if (oldRow + 1 > 0)
+					{
+						whiteWinConditions += SQUARES[oldRow - 1][oldColumn + 1];
+					}
+				}
+			}
+
+			//2. check 2 to the left for pieces and 1s, if no piece and a 1 ->
+			if (oldColumn - 2 > 0)
+			{
+				if (SQUARES[oldRow][oldColumn - 2] & whiteWinConditions & (~black))
+				{
+					//put a 1down 1 to the left
+					if (oldRow + 1 > 0)
+					{
+						whiteWinConditions += SQUARES[oldRow - 1][oldColumn - 1];
+					}
+				}
+			}
+
+
+			//3. if left and right are 1s, and there are no pieces to the left and right
+			if ((SQUARES[oldRow][oldColumn] & whiteWinConditions & (~black)) &&
+				(oldColumn + 1 > 7 || (SQUARES[oldRow][oldColumn + 1] & whiteWinConditions & (~black)))
+				&& (oldColumn - 1 < 0 || (SQUARES[oldRow][oldColumn - 1] & whiteWinConditions & (~black)))
+				)
+			{
+				//then we'd put a 1 below
+				whiteWinConditions += SQUARES[oldRow - 1][oldColumn];
+			}
+		}
+		/***********************/
 
 		//If black is in a victory position
 		if (black & blackWinConditions || whiteCount <= 0)

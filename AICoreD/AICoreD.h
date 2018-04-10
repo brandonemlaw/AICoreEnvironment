@@ -19,7 +19,7 @@
 
 
 
-
+//Persistent root node for the tree
 Node* root = NULL;
 
 //Externals
